@@ -21,7 +21,7 @@
 
 <body class="bg-gray-200 font-sans flex flex-col items-center px-4 py-24 md:py-32 min-h-screen">
     <header class="mb-6">
-        @if(request()->segment(1) === 'login')
+        @if(in_array(request()->segment(1), ['login', 'register', 'password/reset']))
                 <a href="/" class="text-2xl font-bold">Myapp's</a>
         @endif
     </header>
