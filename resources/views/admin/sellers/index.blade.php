@@ -16,7 +16,7 @@
         <div class="col-span-full lg:col-span-full">
             <x-card class="h-full rounded-xl">
                 <header class="flex justify-between items-center mb-4">
-                    <h1 class="text-lg font-bold">Registros</h1> 
+                    <h1 class="text-lg font-bold">Sellers</h1> 
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <x-button variant="light" size="sm" class="flex items-center space-x-2">

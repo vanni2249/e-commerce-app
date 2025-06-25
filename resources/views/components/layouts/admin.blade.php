@@ -85,7 +85,9 @@
                                         <x-dropdown-link href="{{ route('admin.refunds.index') }}">Refunds</x-dropdown-link>
                                         <x-dropdown-link href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link>
                                         {{-- <x-dropdown-link href="{{ route('admin.ratings.index') }}">Raitings</x-dropdown-link> --}}
-                                        <x-dropdown-link href="{{ route('admin.customers.index') }}">Customers</x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('admin.users.index') }}">Users</x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('admin.sellers.index') }}">Sellers</x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link>
                                         {{-- <x-dropdown-link href="{{ route('profile.index') }}">Profile</x-dropdown-link> --}}
                                     </x-slot:content>
                                 </x-dropdown>

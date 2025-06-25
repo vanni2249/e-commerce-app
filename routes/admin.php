@@ -149,13 +149,31 @@ Route::prefix('admin')->name('admin.')->group(function () {
             })->name('show');
         });
 
-        Route::prefix('/customers')->name('customers.')->group(function () {
+        Route::prefix('/users')->name('users.')->group(function () {
             Route::get('/', function () {
-                return view('admin.customers.index');
+                return view('admin.users.index');
             })->name('index');
 
-            Route::get('/{customer}', function ($customer) {
-                return view('admin.customers.show', ['customer' => $customer]);
+            Route::get('/{user}', function ($user) {
+                return view('admin.users.show', ['user' => $user]);
+            })->name('show');
+        });
+        Route::prefix('/sellers')->name('sellers.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.sellers.index');
+            })->name('index');
+
+            Route::get('/{seller}', function ($seller) {
+                return view('admin.sellers.show', ['seller' => $seller]);
+            })->name('show');
+        });
+        Route::prefix('/admins')->name('admins.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.admins.index');
+            })->name('index');
+
+            Route::get('/{admin}', function ($admin) {
+                return view('admin.admins.show', ['admin' => $admin]);
             })->name('show');
         });
     });
