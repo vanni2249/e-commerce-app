@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             AdminSeeder::class,
-            // UserSeeder::class, // Uncomment if you have a UserSeeder
+            SellerSeeder::class,
         ]);
     }
 }

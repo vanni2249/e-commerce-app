@@ -106,7 +106,7 @@
                                     </x-slot:trigger>
                                     <x-slot:content>
                                         <x-dropdown-link href="">Profile</x-dropdown-link>
-                                        <x-dropdown-link href="">Logout</x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('sellers.logout') }}">Logout</x-dropdown-link>
                                     </x-slot:content>
                                 </x-dropdown>
                             </a>

@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'seller' => [
+            'driver' => 'session',
+            'provider' => 'sellers',
+        ],
     ],
 
     /*
@@ -71,6 +75,10 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_ADMIN_MODEL', App\Models\Admin::class),
+        ],
+        'sellers' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_SELLER_MODEL', App\Models\Seller::class),
         ],
 
         // 'users' => [
@@ -108,6 +116,12 @@ return [
         'admins' => [
             'provider' => 'admins',
             'table' => env('AUTH_ADMIN_PASSWORD_RESET_TOKEN_TABLE', 'admin_password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'sellers' => [
+            'provider' => 'sellers',
+            'table' => env('AUTH_SELLER_PASSWORD_RESET_TOKEN_TABLE', 'seller_password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
         ],
