@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -8,10 +10,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.auth.login');
     })->name('login');
 
+
+    Route::get('/logout', function (Request $request) {
+        // Logic for logging out the user
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
+        
+    })->name('logout');
+
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
-    
+
     Route::prefix('/orders')->name('orders.')->group(function () {
         Route::get('/', function () {
             return view('admin.orders.index');
@@ -32,11 +45,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('show');
     });
 
-    Route::prefix('/products')->name('products.')->group(function(){
+    Route::prefix('/products')->name('products.')->group(function () {
         Route::get('/', function () {
             return view('admin.products.index');
         })->name('index');
-    
+
         Route::get('/{product}', function ($product) {
             return view('admin.products.show', ['product' => $product]);
         })->name('show');
@@ -58,71 +71,70 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 return view('admin.products.sales.index', ['product' => $product]);
             })->name('index');
         });
-
     });
-    
-    Route::prefix('/sales')->name('sales.')->group(function(){
+
+    Route::prefix('/sales')->name('sales.')->group(function () {
         Route::get('/', function () {
             return view('admin.sales.index');
         })->name('index');
-    
+
         Route::get('/{sale}', function ($sale) {
             return view('admin.sales.show', ['sale' => $sale]);
         })->name('show');
     });
 
-    Route::prefix('/refunds')->name('refunds.')->group(function(){
+    Route::prefix('/refunds')->name('refunds.')->group(function () {
         Route::get('/', function () {
             return view('admin.refunds.index');
         })->name('index');
-    
+
         Route::get('/{refund}', function ($refund) {
             return view('admin.refunds.show', ['refund' => $refund]);
         })->name('show');
     });
 
-    Route::prefix('/claims')->name('claims.')->group(function(){
+    Route::prefix('/claims')->name('claims.')->group(function () {
         Route::get('/', function () {
             return view('admin.claims.index');
         })->name('index');
-    
+
         Route::get('/{claim}', function ($claim) {
             return view('admin.claims.show', ['claim' => $claim]);
         })->name('show');
     });
-    Route::prefix('/returns')->name('returns.')->group(function(){
+    Route::prefix('/returns')->name('returns.')->group(function () {
         Route::get('/', function () {
             return view('admin.returns.index');
         })->name('index');
-    
+
         Route::get('/{return}', function ($return) {
             return view('admin.returns.show', ['return' => $return]);
         })->name('show');
     });
-    Route::prefix('/refunds')->name('refunds.')->group(function(){
+    Route::prefix('/refunds')->name('refunds.')->group(function () {
         Route::get('/', function () {
             return view('admin.refunds.index');
         })->name('index');
-    
+
         Route::get('/{refund}', function ($refund) {
             return view('admin.refunds.show', ['refund' => $refund]);
         })->name('show');
     });
-    Route::prefix('/replacements')->name('replacements.')->group(function(){
+    Route::prefix('/replacements')->name('replacements.')->group(function () {
         Route::get('/', function () {
             return view('admin.replacements.index');
         })->name('index');
-    
+
         Route::get('/{replacement}', function ($replacement) {
             return view('admin.replacements.show', ['replacement' => $replacement]);
         })->name('show');
     });
 
-    Route::prefix('/ratings')->name('ratings.')->group(function(){
+    Route::prefix('/ratings')->name('ratings.')->group(function () {
         Route::get('/', function () {
             return view('admin.ratings.index');
         })->name('index');
-    
+
         Route::get('/{rating}', function ($rating) {
             return view('admin.ratings.show', ['rating' => $rating]);
         })->name('show');
