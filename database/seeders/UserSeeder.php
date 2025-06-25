@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Seller;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
-class SellerSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,6 +25,6 @@ class SellerSeeder extends Seeder
           ]  
         ];
 
-        Seller::insert($items);
+        User::insert($items);
     }
 }
