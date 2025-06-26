@@ -22,7 +22,22 @@ class SellerSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-          ]  
+          ],
+          [
+            'name' => 'Angel M Colon',
+            'email' => 'colon.angel1@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+          ],
+          [
+            'name' => 'Angel F Colon',
+            'email' => 'fabian4126@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+          ],
+
         ];
 
         Seller::insert($items);
