@@ -4,11 +4,11 @@
     </div>
     <div class="p-2 lg:p-2">
         <p class="text-sm text-gray-600 line-clamp-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti debitis ipsam dolores?
+            {{ $item->title }}
         </p>
         <div class="flex justify-between items-center mt-2">
             <div>
-                <span class="text-blue-500 font-semibold text-lg">$19.99</span>
+                <span class="text-blue-600 font-semibold text-lg">$19.99</span>
                 <span class="text-gray-500 line-through ml-2 text-sm">$29.99</span>
             </div>
             {{-- @if (request()->segment(1) == 'favorites')

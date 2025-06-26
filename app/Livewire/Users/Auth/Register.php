@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Customers\Auth;
+namespace App\Livewire\Users\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -40,6 +40,6 @@ class Register extends Component
     }
     public function render()
     {
-        return view('livewire.customers.auth.register');
+        return view('livewire.users.auth.register');
     }
 }

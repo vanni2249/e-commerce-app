@@ -1,3 +1,3 @@
 <x-layouts.auth>
-    @livewire('customers.auth.register')
+    @livewire('users.auth.register')
 </x-layouts.auth>
