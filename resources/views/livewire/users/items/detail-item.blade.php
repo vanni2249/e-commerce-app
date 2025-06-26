@@ -91,8 +91,6 @@
                     <!-- Quantity Selector -->
                     <div>
                         <label for="quantity" class="text-gray-600 text-xs">Quantity:</label>
-
-
                         <div>
                             <select wire:model.live="quantity" class="bg-blue-100 rounded text-gray-600 px-4 py-2 text-xs">
                                 @for ($i = 1; $i <= $stock; $i++)
@@ -112,8 +110,18 @@
                                     d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                             </svg>
                         </button>
-                        <button class="grow bg-blue-600 font-bold text-blue-100 text-md p-2 px-4 rounded">Add to
-                            Cart</button>
+                        @livewire('users.carts.add-to-cart', 
+                            [
+                                'productId' => $productId,
+                                'stock' => $stock,
+                                'quantity' => $quantity,
+                                'price' => $price,
+                                'shippingCost' => $shippingCost
+                            ]
+                        )
+                        {{-- <button class="grow bg-blue-600 font-bold text-blue-100 text-md p-2 px-4 rounded">
+                            Add to Cart
+                        </button> --}}
                     </div>
                 </div>
             </div>
@@ -121,7 +129,7 @@
         <x-card class="col-span-full">
             <header>
                 <h3 class="text-lg font-semibold">Details</h3>
-                <ul class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 space-y-1 py-4">
+                <ul class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6  gap-6 py-4">
                     @for ($i = 0; $i < 12; $i++)
                         <li>
                             <span class="text-gray-600 text-xs">Brand</span>

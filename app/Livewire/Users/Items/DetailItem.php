@@ -9,6 +9,7 @@ class DetailItem extends Component
 {
     public $item;
     public $product;
+    public $productId;
     public $stock;
     public $quantity = 1;
     public $price;
@@ -18,6 +19,7 @@ class DetailItem extends Component
     {
         $this->item = Item::with('category', 'products')->find($item);
         $this->product = $this->item->products()->first();
+        $this->productId = $this->product->id;
         $this->stock = $this->product->stock() > 10 ? 10 : $this->product->stock();
         $this->price = $this->product->price;
         $this->shippingCost = $this->product->shipping_cost;
