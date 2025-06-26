@@ -19,4 +19,24 @@ class Product extends Model
     {
         return $this->hasMany(Inventory::class);
     }
+    
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function sumSales()
+    {
+        return $this->sales()->sum('quantity');
+    }
+
+    public function sumInventories()
+    {
+        return $this->inventories()->sum('quantity');
+    }
+
+    public function stock()
+    {
+        return $this->sumInventories() - $this->sumSales();
+    }
 }

@@ -17,6 +17,7 @@ class ProductSeeder extends Seeder
             $item->products()->create([
                 'item_id' => $item->id,
                 'price' => rand(100, 1000) / 10, // Random price between 10.0 and 100.0
+                'shipping_cost' => rand(0, 100) / 10, // Random shipping cost between 1.0 and 10.0
             ]);
         }
     }

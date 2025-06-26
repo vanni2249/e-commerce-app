@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->decimal('price', 10, 2)->default(0.00);
+            $table->decimal('shipping_cost', 10, 2)->default(0.00);
             $table->timestamps();
         });
     }
