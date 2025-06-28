@@ -82,7 +82,7 @@
 
                             </a>
                             <!-- Cart Icon -->
-                            @livewire('users.carts.count-items')
+                            @livewire('users.carts.counter-products')
                            
                         </div>
                     </div>

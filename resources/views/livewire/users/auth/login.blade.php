@@ -1,5 +1,5 @@
 <div>
-    <div class="bg-white w-full sm:w-sm rounded-xl p-4">
+    <div class="bg-white w-full md:w-sm rounded-xl p-4">
         <div class="">
             <h1 class="text-lg font-bold text-gray-900">Sign in</h1>
             <p class="mt-1 text-sm text-gray-600">

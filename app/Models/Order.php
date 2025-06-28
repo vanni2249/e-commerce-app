@@ -8,6 +8,8 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'transaction_id',
+        'cart_id',
     ];
 
     public function user()
@@ -15,7 +17,17 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-   public function sales()
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
+    
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
+
+    public function sales()
     {
         return $this->hasMany(Sale::class);
     }

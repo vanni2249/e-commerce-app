@@ -6,6 +6,7 @@ use App\Http\Middleware\AuthUser;
 use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\GuestSeller;
 use App\Http\Middleware\GuestUser;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,10 +27,7 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
         })->name('show');
     });
 
-    Route::get('/cart', function () {
-        return view('users.cart.index');
-    })->name('cart');
-
+    
     Route::middleware([GuestUser::class])->group(function () {
         Route::get('/login', function () {
             return view('users.auth.login');
@@ -50,21 +48,24 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
 
             return redirect('/');
         })->name('logout');
-
+        
+        Route::get('/cart', function () {
+            return view('users.cart.index');
+        })->name('cart');
 
         Route::get('/checkout', function () {
             return view('users.checkout.index');
         })->name('checkout');
 
-        Route::get('/completed', function () {
-            return view('users.completed.index');
+        Route::get('/completed/orders/{order}', function (Order $order) {
+            return view('users.completed.index', ['order' => $order]);
         })->name('completed');
 
         Route::prefix('/orders')->name('orders.')->group(function () {
             Route::get('/', function () {
                 return view('users.orders.index');
             })->name('index');
-            Route::get('/{order}', function ($order) {
+            Route::get('/{order}', function (Order $order) {
                 return view('users.orders.show', ['order' => $order]);
             })->name('show');
         });

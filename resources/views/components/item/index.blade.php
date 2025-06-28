@@ -4,7 +4,7 @@
     </div>
     <div class="p-2 lg:p-2">
         <p class="text-sm text-gray-600 line-clamp-2">
-            {{ $item->title }}
+            {{ $item->title??'' }}
         </p>
         <div class="flex justify-between items-center mt-2">
             <div>

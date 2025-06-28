@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             ProductSeeder::class,
             InventorySeeder::class,
-            OrderSeeder::class,
-            SaleSeeder::class,
+            // OrderSeeder::class,
+            // SaleSeeder::class,
         ]);
     }
 }

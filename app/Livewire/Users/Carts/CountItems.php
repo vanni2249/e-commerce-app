@@ -12,7 +12,7 @@ class CountItems extends Component
     #[On('cartUpdated')]
     public function mount()
     {
-        $this->count = count(session()->get('cart', [])) ?? 0;
+        $this->count = 4 ?? 0;
     }
 
     public function render()

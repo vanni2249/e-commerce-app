@@ -2,27 +2,48 @@
 
 namespace App\Livewire\Users\Carts;
 
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class ListItems extends Component
 {
-    public $items;
+    public $cart;
 
     public function mount()
     {
-        $this->items = Session::get('cart');
+        $this->cart = Cart::where('user_id', Auth::id())
+            ->with('products','products.item')
+            ->doesntHave('order')
+            ->first();
     }
 
-    public function remove()
+    public function removeCart()
     {
-        // remove all items from the cart
-        Session::forget('cart');
-        $this->items = [];
-        session()->flash('message', 'All items removed from cart successfully!');
-        $this->dispatch('cartUpdated');
-        $this->redirect(route('cart'));
+        // Remove the cart from the database
+        
+        $this->cart->delete();
 
+        $this->redirect('cart');
+
+    }
+
+    public function removeItem($productId)
+    {
+        // Remove the product from the cart
+        $this->cart->products()->detach($productId);
+
+        // Check if the cart is empty and remove it if necessary
+        if ($this->cart->products->isEmpty()) {
+            $this->removeCart();
+        } else {
+            // Refresh the cart data
+            $this->cart = Cart::where('user_id', Auth::id())
+                ->with('products', 'products.item')
+                ->doesntHave('order')
+                ->first();
+        }
     }
 
     public function render()
