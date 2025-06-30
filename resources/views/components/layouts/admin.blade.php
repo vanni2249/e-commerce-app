@@ -15,7 +15,7 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-100 font-sans antialiased flex flex-row min-h-screen">
+<body class="bg-gray-200 font-sans antialiased flex flex-row min-h-screen">
     {{-- <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
         <aside class="bg-blue-900 rounded-xl w-full h-full overflow-auto">
             <header class="h-16 border-b border-blue-800 flex items-center text-white px-6">
@@ -139,7 +139,6 @@
         </main>
         <footer class="mx-auto px-4 p-4 w-full ">
             <div class="bg-gray-300 rounded-xl">
-
                 <ul
                     class="px-4 py-4 text-sm text-gray-800 flex flex-col justify-center items-center md:flex-row md:justify-between md:items-center space-y-1">
                     <li class="font-bold">

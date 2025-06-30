@@ -19,4 +19,9 @@ class Seller extends Authenticatable
     ];
     /** @use HasFactory<\Database\Factories\SellerFactory> */
     use HasFactory;
+
+    public function items()
+    {
+        return $this->hasMany(Item::class, 'seller_id');
+    }
 }

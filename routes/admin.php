@@ -6,6 +6,7 @@ use App\Http\Middleware\GuestSeller;
 use App\Http\Middleware\GuestUser;
 use App\Http\Middleware\RedirectAuthUsers;
 use App\Http\Middleware\RedirectGuestUsers;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,9 +50,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 return view('admin.items.index');
             })->name('index');
 
-            Route::get('/{item}', function ($item) {
+            Route::get('/{item}', function (Item $item) {
                 return view('admin.items.show', ['item' => $item]);
             })->name('show');
+
+            Route::get('/create', function () {
+                return view('admin.items.create');
+            })->name('create');
+
+            Route::get('/{item}/edit', function (Item $item) {
+                return view('admin.items.edit', ['item' => $item]);
+            })->name('edit');
+
+            Route::prefix('{item}/categories')->name('categories.')->group(function () {
+                Route::get('/', function (Item $item) {
+                    return view('admin.items.categories.edit', ['item' => $item]);
+                })->name('edit');
+
+            });
         });
 
         Route::prefix('/products')->name('products.')->group(function () {

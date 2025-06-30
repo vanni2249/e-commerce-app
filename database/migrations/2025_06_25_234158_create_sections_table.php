@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seller_id');
-            $table->foreignId('section_id');
-            $table->longText('title');
-            $table->string('sku')->unique()->nullable();
-            $table->longText('description')->nullable();
+            $table->string('name')->unique();
+            $table->decimal('percentage', 5, 2)->default(0.00);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('sections');
     }
 };

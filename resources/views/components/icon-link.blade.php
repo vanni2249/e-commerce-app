@@ -2,7 +2,7 @@
 
 @php
 $bg = match ($bg) {
-'gray' => 'bg-gray-200 hover:bg-gray-300',
+'gray' => 'bg-gray-200 hover:bg-gray-300 text-blue-500',
 'red' => 'bg-red-200 hover:bg-red-300',
 'green' => 'bg-green-200 hover:bg-green-300',
 'blue' => 'bg-blue-200 hover:bg-blue-300',
