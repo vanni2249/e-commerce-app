@@ -85,7 +85,7 @@
                 </header>
                 <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
                     @forelse ($item->categories as $category)
-                        <li class="bg-blue-50 text-sm p-2 flex justify-between items-center rounded">
+                        <li class="bg-gray-100 text-sm p-4 flex justify-between items-center rounded-xl">
                             {{ $category->name }}
                         </li>
                     @empty

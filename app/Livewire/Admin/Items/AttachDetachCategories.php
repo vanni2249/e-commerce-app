@@ -22,10 +22,6 @@ class AttachDetachCategories extends Component
 
     public function sync()
     {
-        // $this->validate([
-        //     'selectedCategories' => 'array',
-        //     'selectedCategories.*' => 'exists:categories,id',
-        // ]);
 
         $this->item->categories()->sync($this->selectedCategories);
 

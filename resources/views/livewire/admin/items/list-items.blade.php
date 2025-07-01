@@ -40,7 +40,7 @@
             @foreach ($items as $item)
                 <tr class="border-t border-gray-200">
                     <td class="px-1 py-1">
-                        <a href="{{ route('admin.items.show', rand(1, 100)) }}">
+                        <a href="{{ route('admin.items.show', $item) }}">
                             <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                 class="max-w-[56px] h-auto rounded" alt="">
                         </a>

@@ -30,6 +30,11 @@ class Item extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class);
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);

@@ -68,6 +68,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 })->name('edit');
 
             });
+            Route::prefix('{item}/attributes')->name('attributes.')->group(function () {
+                Route::get('/', function (Item $item) {
+                    return view('admin.items.attributes.edit', ['item' => $item]);
+                })->name('edit');
+
+            });
         });
 
         Route::prefix('/products')->name('products.')->group(function () {

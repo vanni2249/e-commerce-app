@@ -21,7 +21,7 @@ class BuyBox extends Component
 
     public function mount($item)
     {
-        $this->item = Item::with('category', 'products')->find($item);
+        $this->item = Item::with('products')->find($item);
         $this->product = $this->item->products()->first();
         $this->productId = $this->product->id;
         $this->stock = $this->product->stock() > 10 ? 10 : $this->product->stock();

@@ -11,7 +11,7 @@ class NewItems extends Component
 
     public function mount()
     {
-        $this->items = Item::with(['category', 'products'])->take(12)->get();
+        $this->items = Item::with(['products'])->take(12)->get();
     }
 
     public function render()
