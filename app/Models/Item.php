@@ -9,7 +9,7 @@ class Item extends Model
 {
     public $fillable = [
         'seller_id',
-        'category_id',
+        'section_id',
         'title',
         'sku',
         'description',
@@ -33,6 +33,11 @@ class Item extends Model
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(Variant::class);
     }
 
     public function products()

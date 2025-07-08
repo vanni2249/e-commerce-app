@@ -1,4 +1,42 @@
 <div>
+    <header class="flex justify-between items-center mb-4">
+        <h1 class="text-lg font-bold">Items</h1>
+        <x-icon-button wire:click="handleCreateItemModal" icon="plus" />
+        <x-modal name="create-item-modal" title="Create item">
+            @if ($sellers)
+                <form wire:submit="store" class="space-y-4">
+                    <div>
+                        <x-label value="Seller" />
+                        <x-select wire:model="seller_id" class="w-full">
+                            <option value="">Select a seller</option>
+                            @foreach ($sellers as $seller)
+                                <option value="{{ $seller->id }}">{{ $seller->name }}</option>
+                            @endforeach
+
+                        </x-select>
+                        @error('seller_id')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <div>
+                        <x-label value="Section" />
+                        <x-select wire:model="section_id" class="w-full">
+                            <option value="">Select a section</option>
+                            @foreach ($sections as $section)
+                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                            @endforeach
+                        </x-select>
+                        @error('section_id')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <div>
+                        <x-button type="Submit" variant="light" size="sm" label="Create" />
+                    </div>
+                </form>
+            @endif
+        </x-modal>
+    </header>
     <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center mb-2">
         <div class="">
             <x-input placeholder="Buscar" class="w-full" />
@@ -53,7 +91,7 @@
                     </td>
                     <!-- Category or sections -->
                     <td class="px-4 py-1">
-                        <span class="text-sm">{{ $item->section->name}}</span>
+                        <span class="text-sm">{{ $item->section->name }}</span>
                     </td>
                     <!-- Variants -->
                     <td class="px-4 py-1">

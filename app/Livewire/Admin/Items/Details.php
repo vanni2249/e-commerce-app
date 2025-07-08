@@ -6,13 +6,13 @@ use App\Models\Section;
 use App\Models\Seller;
 use Livewire\Component;
 
-class UpdateItem extends Component
+class Details extends Component
 {
+    public $item;
+
     public $sections;
 
     public $sellers;
-
-    public $item;
 
     public $seller_id;
 
@@ -26,17 +26,18 @@ class UpdateItem extends Component
 
     public $specification;
 
-    public function mount($item)
+    public function handleEditItemModal()
     {
         $this->sections = Section::all();
         $this->sellers = Seller::all();
-        $this->item = $item;
-        $this->seller_id = $item->seller_id;
-        $this->section_id = $item->section_id;
-        $this->title = $item->title;
-        $this->sku = $item->sku;
-        $this->description = $item->description;
-        $this->specification = $item->specification;
+        $this->seller_id = $this->item->seller_id;
+        $this->section_id = $this->item->section_id;
+        $this->title = $this->item->title;
+        $this->sku = $this->item->sku;
+        $this->description = $this->item->description;
+        $this->specification = $this->item->specification;
+
+        $this->dispatch('open-modal', 'edit-item-modal');
     }
 
     public function update()
@@ -47,7 +48,7 @@ class UpdateItem extends Component
             'description' => 'required|string',
             'specification' => 'nullable|string',
             'seller_id' => 'required|exists:sellers,id',
-            'section_id' => 'required|exists:categories,id',
+            'section_id' => 'required|exists:sections,id',
         ]);
 
         $this->item->update([
@@ -59,13 +60,11 @@ class UpdateItem extends Component
             'section_id' => $this->section_id,
         ]);
 
-        session()->flash('message', 'Item updated successfully.');
-        
-        $this->redirect(route('admin.items.show', $this->item->id . '#detail'));
+        $this->dispatch('close-modal', 'edit-item-modal');
     }
 
     public function render()
     {
-        return view('livewire.admin.items.update-item');
+        return view('livewire.admin.items.details');
     }
 }

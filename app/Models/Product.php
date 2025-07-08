@@ -15,6 +15,11 @@ class Product extends Model
         return $this->belongsTo(Item::class);
     }
 
+    public function variants()
+    {
+        return $this->belongsToMany(Variant::class, 'variant_product', 'product_id', 'variant_id');
+    }
+
     public function inventories()
     {
         return $this->hasMany(Inventory::class);

@@ -64,12 +64,12 @@
 
         case 'light':
             $classes =
-                ' bg-blue-50 border border-blue-50 text-blue-500 hover:bg-blue-200 hover:border-blue-200 focus:bg-blue-200 active:bg-blue-200';
+                ' bg-gray-200 border border-gray-50 text-gray-500 hover:bg-gray-200 hover:border-gray-200 focus:bg-gray-200 active:bg-gray-200';
             break;
 
         case 'light-outline':
             $classes =
-                ' bg-transparent border border-blue-300 text-blue-500 hover:bg-blue-300 hover:text-blue-600 focus:bg-blue-300 active:bg-blue-200';
+                ' bg-transparent border border-gray-300 text-gray-500 hover:bg-gray-300 hover:text-gray-600 focus:bg-gray-300 active:bg-gray-200';
             break;
 
         case 'dark':

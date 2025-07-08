@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
+            $table->string('en_name')->nullable();
+            $table->string('es_name')->nullable();
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }
