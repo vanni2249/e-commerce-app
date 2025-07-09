@@ -71,11 +71,11 @@
                     <x-table>
                         <x-slot name="head">
                             <tr>
-                                <th class="p-4">Id</th>
-                                <th class="p-4">State</th>
-                                <th class="p-4">Name</th>
-                                <th class="p-4">Price</th>
-                                <th class="p-4">Actions</th>
+                                <th class="px-4 py-2">Id</th>
+                                <th class="px-4 py-2">State</th>
+                                <th class="px-4 py-2">Name</th>
+                                <th class="px-4 py-2">Price</th>
+                                <th class="px-4 py-2">Actions</th>
                             </tr>
                         </x-slot>
                         <x-slot name="body">
@@ -85,7 +85,7 @@
                                     <td class="p-4">California</td>
                                     <td class="p-4">Standard Shipping</td>
                                     <td class="p-4">$5.00</td>
-                                    <td class="p-4 w-14">
+                                    <td class="p-2 w-14">
                                         <x-icon-button icon="edit" class="text-blue-500 hover:text-blue-700"
                                             title="Edit" />
                                         <x-icon-button icon="eye" class="text-blue-500 hover:text-blue-700"
@@ -115,12 +115,12 @@
                     <x-table>
                         <x-slot name="head">
                             <tr>
-                                <th class="p-4">Category</th>
-                                <th class="p-4">Date<br>Time</th>
-                                <th class="p-4">Created by</th>
-                                <th class="p-4">Created at</th>
-                                <th class="p-4">Updated at</th>
-                                <th class="p-4">Actions</th>
+                                <th class="px-4 py-2">Category</th>
+                                <th class="px-4 py-2">Date<br>Time</th>
+                                <th class="px-4 py-2">Created by</th>
+                                <th class="px-4 py-2">Created at</th>
+                                <th class="px-4 py-2">Updated at</th>
+                                <th class="px-4 py-2">Actions</th>
                             </tr>
                         </x-slot>
                         <x-slot name="body">
@@ -130,7 +130,7 @@
                                 <td class="p-4">User 1</td>
                                 <td class="p-4">2023-01-01 12:00:00</td>
                                 <td class="p-4">2023-01-01 12:00:00</td>
-                                <td class="p-4 w-14">
+                                <td class="p-2 w-14">
                                     <x-icon-button icon="edit" class="text-blue-500 hover:text-blue-700"
                                         title="Edit" />
                                     <x-icon-button icon="eye" class="text-blue-500 hover:text-blue-700"

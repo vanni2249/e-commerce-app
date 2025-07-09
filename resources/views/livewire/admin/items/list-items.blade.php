@@ -71,7 +71,7 @@
                 <th class="p-4">Avg<br>price</th>
                 <th class="p-4">Gain net</th>
                 <th class="p-4">Seller</th>
-                <th class=" w-14">Action</th>
+                <th class="w-14">Action</th>
             </tr>
         </x-slot>
         <x-slot name="body">

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Items;
 
 use App\Models\Attribute;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Variants extends Component
@@ -96,6 +97,7 @@ class Variants extends Component
         $this->dispatch('close-modal', 'edit-variant-modal');
     }
 
+    #[On('product-created')]
     public function render()
     {
         return view('livewire.admin.items.variants',[
