@@ -32,7 +32,7 @@
     <!-- List attributes -->
     <ul class="space-y-2">
 
-        @forelse ($attributes as $attribute)
+        @forelse ($item->attributes as $attribute)
             <div class="bg-gray-100 rounded-xl">
                 <li class="bg-gray-100 text-sm rounded-xl flex justify-between items-center">
                     <div class=" flex justify-between items-center">

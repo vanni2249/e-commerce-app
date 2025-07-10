@@ -17,7 +17,7 @@
                             <x-error message="{{ $message }}" />
                             @enderror
                     </div>
-                    @forelse ($attributes as $i => $attribute)
+                    @forelse ($item->attributes as $i => $attribute)
                     <div>
                         <x-label value="{!! $attribute->name !!}" />
                         <br>

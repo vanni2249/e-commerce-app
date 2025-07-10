@@ -4,13 +4,10 @@ use App\Http\Middleware\AuthAdmin;
 use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\GuestSeller;
 use App\Http\Middleware\GuestUser;
-use App\Http\Middleware\RedirectAuthUsers;
-use App\Http\Middleware\RedirectGuestUsers;
-use App\Models\Attribute;
-use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -18,7 +15,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/login', function () {
             return view('admin.auth.login');
         })->name('login');
-    
     });
 
     Route::middleware([AuthAdmin::class])->group(function () {
@@ -50,10 +46,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', function () {
                 return view('admin.items.index');
             })->name('index');
-
-            Route::get('/{item}', function (Item $item) {
-                return view('admin.items.show', ['item' => $item]);
-            })->name('show');
+            Route::get('/{item}', [ItemController::class, 'show'])->name('show');
         });
 
         Route::prefix('/products')->name('products.')->group(function () {

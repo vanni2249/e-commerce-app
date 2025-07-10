@@ -101,9 +101,9 @@ class Variants extends Component
     public function render()
     {
         return view('livewire.admin.items.variants',[
-            'attributes' => $this->item->attributes()->with(['variants' => function ($query) {
-                $query->where('item_id', $this->item->id);
-            }])->get(),
+            // 'attributes' => $this->item->attributes()->with(['variants' => function ($query) {
+            //     $query->where('item_id', $this->item->id);
+            // }])->get(),
         ]);
     }
 }

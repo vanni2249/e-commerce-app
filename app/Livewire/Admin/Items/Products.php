@@ -22,10 +22,9 @@ class Products extends Component
 
     public function mount($item)
     {
-        $this->item = $item;
         $this->showCreateItemButton = $this->showCreateItemButton();
     }
-    
+
     public function showCreateItemButton()
     {
         if ($this->item->attributes->isNotEmpty()) {
@@ -51,10 +50,10 @@ class Products extends Component
     {
         $this->dispatch('open-modal', 'create-item-modal');
         $this->sku = '';
-        
+
         $this->setVariant();
     }
-    
+
     public function setVariant()
     {
         foreach ($this->item->attributes as $i => $attribute) {
@@ -64,6 +63,8 @@ class Products extends Component
 
     public function storeItem()
     {
+        // $selectedVariantIds = collect($this->variants)->pluck('name')->filter()->unique()->toArray();
+        // dd($selectedVariantIds);
         $rules = [
             'sku' => 'required',
         ];
@@ -91,7 +92,7 @@ class Products extends Component
             $product->variants()->attach($variant['name']);
         }
 
-         $this->showCreateItemButton = $this->showCreateItemButton();
+        $this->showCreateItemButton = $this->showCreateItemButton();
 
         $this->dispatch('close-modal', 'create-item-modal');
 
@@ -102,10 +103,12 @@ class Products extends Component
 
     protected function checkIfCombinationExists()
     {
-        $query = Product::query();
+        $query = $this->item->products();
 
-        if (!empty($this->attributes)) {
-            foreach ($this->attributes as $attributeName => $attribute) {
+        $collections = collect($this->variants)->pluck('name')->filter()->unique()->toArray();
+
+        if (!empty($this->item->attributes)) {
+            foreach ($collections as $i => $attribute) {
                 $query->whereHas('variants', function ($query) use ($attribute) {
                     $query->where('variant_id', $attribute);
                 });
@@ -113,18 +116,13 @@ class Products extends Component
         }
 
         if ($query->exists()) {
-        return $query->exists();
+            return true;
         }
         return false;
     }
 
     public function render()
     {
-        return view('livewire.admin.items.products', [
-             'attributes' => $this->item->attributes()->with(['variants' => function ($query) {
-                $query->where('item_id', $this->item->id);
-            }])->get(),
-            'products' => $this->item->products,
-        ]);
+        return view('livewire.admin.items.products');
     }
 }
