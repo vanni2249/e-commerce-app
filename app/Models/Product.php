@@ -8,6 +8,9 @@ class Product extends Model
 {
     protected $fillable = [
         'item_id',
+        'sku',
+        'price',
+        'shipping_cost',
     ];
 
     public function item()

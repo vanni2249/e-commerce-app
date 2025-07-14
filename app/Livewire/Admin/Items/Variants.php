@@ -100,10 +100,6 @@ class Variants extends Component
     #[On('product-created')]
     public function render()
     {
-        return view('livewire.admin.items.variants',[
-            // 'attributes' => $this->item->attributes()->with(['variants' => function ($query) {
-            //     $query->where('item_id', $this->item->id);
-            // }])->get(),
-        ]);
+        return view('livewire.admin.items.variants');
     }
 }

@@ -63,7 +63,7 @@
                                         </svg>
                                     </button>
                                     <!-- Delete button variant -->
-                                    @if ($item->products->count() < 0)
+                                    @if ($item->products->isEmpty())
                                         <button class="text-red-500 cursor-pointer hover:text-red-700"
                                             wire:click="deleteVariant({{ $variant->id }})">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"

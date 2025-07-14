@@ -5,6 +5,7 @@
             <x-icon-button icon="plus" wire:click="handleCreateItemModal" class="text-blue-500 hover:text-blue-700"
                 title="Create modal" />
         @endif
+        <!-- Create product -->
         <x-modal name="create-item-modal" title="Create item">
             <form wire:submit.prevent="storeItem">
                 <div class="space-y-4">
@@ -36,6 +37,26 @@
                     </div>
                     @empty
                     @endforelse
+                    <div class="flex items-center space-x-4">
+                        <div class="w-1/2">
+                            <x-label value="Price" />
+                            <br>
+                        <x-input type="number" wire:model="price" step="0.01"
+                            @class(['w-full', 'border-red-300'=> $errors->has('price')]) />
+                            @error('price')
+                            <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div class="w-1/2">
+                            <x-label value="Shipping" />
+                            <br>
+                            <x-input type="number" wire:model="shipping_cost" step="0.01"
+                                @class(['w-full', 'border-red-300'=> $errors->has('shipping')]) />
+                            @error('shipping_cost')
+                            <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                    </div>
                     @foreach ($errors->all() as $error)
                         <div class="text-red-500 text-sm">
                             {{ $error }}
@@ -49,6 +70,7 @@
             </form>
         </x-modal>
     </header>
+    <!-- Table products -->
     <div>
         <x-table>
             <x-slot name="head">
@@ -56,6 +78,8 @@
                     <th class="px-4 py-2">Id</th>
                     <th class="px-4 py-2">Sku</th>
                     <th class="px-4 py-2">Variants</th>
+                    <th class="px-4 py-2">Price</th>
+                    <th class="px-4 py-2">Shipping</th>
                     <th class="px-4 py-2">Inventories</th>
                     <th class="px-4 py-2">Sales</th>
                     <th class="px-4 py-2">Balance</th>
@@ -78,12 +102,15 @@
                         <span>...</span>
                         @endif
                     </td>
+                    <td class="p-4">{{ $product->price }}</td>
+                    <td class="p-4">{{ $product->shipping_cost }}</td>
                     <td class="p-4">{{ $product->inventories->sum('quantity') }}</td>
                     <td class="p-4">{{ $product->sales->sum('quantity') }}</td>
                     <td class="p-4">{{ $product->inventories->sum('quantity') + $product->sales->sum('quantity') }}</td>
-                    <td class="p-2 w-14">
-                        <x-icon-button icon="edit" class="text-blue-500 hover:text-blue-700" title="Edit" />
-                        <x-icon-button icon="eye" class="text-blue-500 hover:text-blue-700" title="View" />
+                    <td class="p-2 w-14 text-right">
+                        <x-icon-button type="button" class="text-blue-500 hover:text-blue-700" icon="edit" />
+                        <x-icon-button type="button" class="text-blue-500 hover:text-blue-700" icon="eye" />
+                        <x-icon-button type="button" class="text-red-500 hover:text-red-700" icon="delete" />
                     </td>
                 </tr>
                 @empty
@@ -94,4 +121,46 @@
             </x-slot>
         </x-table>
     </div>
+    <!-- Edit product modal -->
+    <x-modal name="edit-product-modal" title="Edit product" show="true">
+        <form wire:submit.prevent="updateProduct">
+            <div class="space-y-4">
+                <div>
+                    <x-label value="Sku" />
+                    <br>
+                    <x-input type="text" wire:model="sku" @class(['w-full', 'border-red-300'=> $errors->has('sku')]) />
+                    @error('sku')
+                    <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+                <div class="flex items-center space-x-4">
+                        <div class="w-1/2">
+                            <x-label value="Price" />
+                            <br>
+                        <x-input type="number" wire:model="price" step="0.01"
+                            @class(['w-full', 'border-red-300'=> $errors->has('price')]) />
+                            @error('price')
+                            <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div class="w-1/2">
+                            <x-label value="Shipping" />
+                            <br>
+                            <x-input type="number" wire:model="shipping_cost" step="0.01"
+                                @class(['w-full', 'border-red-300'=> $errors->has('shipping')]) />
+                            @error('shipping_cost')
+                            <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                    </div>
+                    @foreach ($errors->all() as $error)
+                        <div class="text-red-500 text-sm">
+                            {{ $error }}
+                        </div>
+
+                    @endforeach
+                    <div>
+                        <x-button type="submit" label="Save" />
+                    </div>
+    </x-modal>
 </div>

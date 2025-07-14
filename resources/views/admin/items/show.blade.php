@@ -32,7 +32,7 @@
         <div id="detail" class="pt-4">
             <x-card class="space-y-4">
                 @livewire('admin.items.details', ['item' => $item])
-                
+
             </x-card>
         </div>
 
@@ -40,7 +40,7 @@
         <div id="categories" class="pt-4">
             <x-card class="space-y-4">
                 @livewire('admin.items.categories', ['item' => $item])
-                
+
             </x-card>
         </div>
         <!-- Variants -->
@@ -54,7 +54,7 @@
         <div id="products" class="pt-4">
             <x-card>
                 @livewire('admin.items.products', ['item' => $item])
-                
+
             </x-card>
         </div>
 

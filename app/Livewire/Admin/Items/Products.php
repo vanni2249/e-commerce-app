@@ -18,6 +18,10 @@ class Products extends Component
 
     public $combination;
 
+    public $price;
+
+    public $shipping_cost;
+
     public $showCreateItemButton = false;
 
     public function mount($item)
@@ -63,10 +67,10 @@ class Products extends Component
 
     public function storeItem()
     {
-        // $selectedVariantIds = collect($this->variants)->pluck('name')->filter()->unique()->toArray();
-        // dd($selectedVariantIds);
         $rules = [
             'sku' => 'required',
+            'price' => 'required|numeric|min:0',
+            'shipping_cost' => 'required|numeric|min:0',
         ];
 
         if (!empty($this->item->attributes) && count($this->item->attributes) > 0) {
@@ -86,6 +90,8 @@ class Products extends Component
 
         $product = $this->item->products()->create([
             'sku' => $this->sku,
+            'price' => $this->price,
+            'shipping_cost' => $this->shipping_cost,
         ]);
 
         foreach ($this->variants as $variant) {
@@ -96,7 +102,7 @@ class Products extends Component
 
         $this->dispatch('close-modal', 'create-item-modal');
 
-        $this->reset(['sku', 'variants']);
+        $this->reset(['sku', 'variants', 'combination', 'price', 'shipping_cost']);
 
         $this->dispatch('product-created');
     }

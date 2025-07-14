@@ -24,7 +24,7 @@ class ResultItems extends Component
 
         return view('livewire.users.items.result-items', [
             'items' => Item::query()
-                ->with(['category', 'products'])
+                ->with(['categories', 'products'])
                 ->when($this->search, function ($query) {
                     $query->where('title', 'like', '%' . $this->search . '%');
                 })

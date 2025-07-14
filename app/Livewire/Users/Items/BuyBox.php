@@ -18,18 +18,59 @@ class BuyBox extends Component
     public $shippingCost;
     public $cart;
     public $userId;
+    public $variants = [];
 
     public function mount($item)
     {
-        $this->item = Item::with('products')->find($item);
+        $this->item = Item::with([
+            'attributes',
+            'attributes.variants' => function ($query) use ($item) {
+                $query->where('item_id', $item);
+            },
+            'products',
+            'products.variants',
+            'products.variants.attribute'
+        ])->find($item);
         $this->product = $this->item->products()->first();
+
+        if ($this->item->variants) {
+            $this->variants = $this->product->variants->pluck('pivot.variant_id')->toArray();
+        }
+
         $this->productId = $this->product->id;
-        $this->stock = $this->product->stock() > 10 ? 10 : $this->product->stock();
+        $this->stock = $this->product->inventories()->sum('quantity');
         $this->price = $this->product->price;
         $this->shippingCost = $this->product->shipping_cost;
     }
 
-     public function addToCart()
+    public function updated($property, $value)
+    {
+        foreach ($this->item->attributes as $i => $attribute) {
+            if ($property === 'variants.' . $i) {
+
+                $query = $this->item->products();
+
+                $collections = collect($this->variants)->filter()->unique()->toArray();
+
+
+                if (!empty($this->item->attributes)) {
+                    foreach ($collections as $i => $attribute) {
+                        $query->whereHas('variants', function ($query) use ($attribute) {
+                            $query->where('variant_id', $attribute);
+                        });
+                    }
+                }
+
+                $product = $query->first();
+                $this->productId = $product ? $product->id : null;
+                $this->stock = $product->inventories()->sum('quantity');
+                $this->price = $this->product->price;
+                $this->shippingCost = $this->product->shipping_cost;
+            }
+        }
+    }
+
+    public function addToCart()
     {
         // Set User ID
         $this->getUserId();
@@ -53,10 +94,9 @@ class BuyBox extends Component
             $this->cart->products()->updateExistingPivot($this->productId, [
                 'quantity' => $newQuantity,
             ]);
-            
+
             // goto session to update the counter
             $this->countProductsInCart();
-
         } else {
             // If it doesn't exist, add the product to the cart
             $this->cart->products()->attach($this->productId, [
