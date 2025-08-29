@@ -1,14 +1,14 @@
-<a {{ $attributes->merge(['class' => 'bg-white col-span-6 md:col-span-3 lg:col-span-2 rounded-xl hover:shadow']) }}>
+<a {{ $attributes->merge(['class' => 'bg-white col-span-6 md:col-span-3 lg:col-span-2 rounded-lg hover:shadow']) }}>
     <div class=" bg-blue-100 rounded-t-lg">
         <img src="{{ asset('images/'.rand(1, 4).'-512.png') }}" class="w-full h-full rounded-t-lg" alt="">
     </div>
     <div class="p-2 lg:p-2">
-        <p class="text-sm text-gray-600 line-clamp-2">
+        <p class="text-sm text-gray-800 line-clamp-2">
             {{ $item->title??'' }}
         </p>
         <div class="flex justify-between items-center mt-2">
             <div>
-                <span class="text-blue-600 font-semibold text-lg">$19.99</span>
+                <span class="text-blue-800 font-semibold text-lg">$19.99</span>
                 <span class="text-gray-500 line-through ml-2 text-sm">$29.99</span>
             </div>
             {{-- @if (request()->segment(1) == 'favorites')

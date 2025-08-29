@@ -1,30 +1,32 @@
 <?php
 
-use App\Http\Middleware\AuthAdmin;
-use App\Http\Middleware\AuthSeller;
 use App\Http\Middleware\AuthUser;
 use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\GuestSeller;
 use App\Http\Middleware\GuestUser;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
+use App\Livewire\Users\Welcome\Index as WelcomeIndex;
+use App\Livewire\Users\Items\Index as ItemsIndex;
+use App\Livewire\Users\Items\Show as ItemsShow;
+use App\Livewire\Users\Carts\Index as CartIndex;
+use App\Livewire\Users\Checkout\Index as CheckoutIndex;
+use App\Livewire\Users\Completed\Index as CompletedIndex;
+use App\Livewire\Users\Orders\Index as OrderIndex;
+use App\Livewire\Users\Orders\Show as OrderShow;
+use App\Livewire\Users\Favorites\Index as FavoritesIndex;
+use App\Livewire\Users\Addresses\Index as AddressesIndex;
+use App\Livewire\Users\Profile\Index as ProfileIndex;
 
-    Route::get('/', function () {
-        return view('users.welcome');
-    })->name('welcome');
+
+Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
+    Route::get('/', WelcomeIndex::class)->name('welcome');
 
     Route::prefix('/items')->name('items.')->group(function () {
-        Route::get('/', function () {
-            return view('users.items.index');
-        });
-
-        Route::get('/{item}', function ($item) {
-            return view('users.items.show', ['item' => $item]);
-        })->name('show');
+        Route::get('/', ItemsIndex::class)->name('index');
+        Route::get('/{item}', ItemsShow::class)->name('show');
     });
 
     
@@ -49,37 +51,17 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
             return redirect('/');
         })->name('logout');
         
-        Route::get('/cart', function () {
-            return view('users.cart.index');
-        })->name('cart');
-
-        Route::get('/checkout', function () {
-            return view('users.checkout.index');
-        })->name('checkout');
-
-        Route::get('/completed/orders/{order}', function (Order $order) {
-            return view('users.completed.index', ['order' => $order]);
-        })->name('completed');
+        Route::get('/carts', CartIndex::class)->name('cart');
+        Route::get('/checkouts', CheckoutIndex::class)->name('checkout');
+        Route::get('/completed/orders/{order}', CompletedIndex::class)->name('completed');
 
         Route::prefix('/orders')->name('orders.')->group(function () {
-            Route::get('/', function () {
-                return view('users.orders.index');
-            })->name('index');
-            Route::get('/{order}', function (Order $order) {
-                return view('users.orders.show', ['order' => $order]);
-            })->name('show');
+            Route::get('/', OrderIndex::class)->name('index');
+            Route::get('/{order}', OrderShow::class)->name('show');
         });
 
-        Route::get('/favorites', function () {
-            return view('users.favorites.index');
-        })->name('favorites.index');
-
-        Route::get('/addresses', function () {
-            return view('users.addresses.index');
-        })->name('addresses.index');
-
-        Route::get('/profile', function () {
-            return view('users.profile.index');
-        })->name('profile.index');
+        Route::get('/favorites', FavoritesIndex::class)->name('favorites');
+        Route::get('/addresses', AddressesIndex::class)->name('addresses');
+        Route::get('/profile', ProfileIndex::class)->name('profile');
     });
 });
