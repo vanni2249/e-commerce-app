@@ -1,3 +1,3 @@
-<div {{ $attributes->merge(['class' => 'bg-white p-4 rounded-xl']) }}>
+<div {{ $attributes->class([' p-4 rounded-xl', 'bg-white' => !$attributes->has('class')]) }}>
     {{ $slot }}
 </div>

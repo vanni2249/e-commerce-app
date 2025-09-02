@@ -16,9 +16,9 @@
 </head>
 
 <body class="bg-gray-200 font-sans antialiased flex flex-row min-h-screen">
-    {{-- <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
-        <aside class="bg-blue-900 rounded-xl w-full h-full overflow-auto">
-            <header class="h-16 border-b border-blue-800 flex items-center text-white px-6">
+    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
+        <aside class="bg-black rounded-xl w-full h-full overflow-auto">
+            <header class="h-16 border-b border-gray-800 flex items-center text-white px-6">
                 <div class="flex justify-between items-center w-full">
                     <div class="flex flex-col">
                         <span class="text-sm font-semibold text-gray-200">
@@ -26,8 +26,9 @@
                         </span>
                     </div>
                     <button class="cursor-pointer lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
                             class="icon icon-tabler text-gray-400 icons-tabler-outline icon-tabler-x">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M18 6l-12 12" />
@@ -41,24 +42,25 @@
                     ['title' => 'Dashboard', 'route' => 'admin.dashboard', 'active' => 'dashboard'],
                     ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
                     ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
-                    ['title' => 'Customers', 'route' => 'admin.customers.index', 'active' => 'customers'],
+                    ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
                 ]);
             @endphp
             <ul class="p-4 text-xs font-bold uppercase space-y-1">
                 @foreach ($collection as $item)
                     <li>
-                        <a href="{{ route($item['route']) }}"
-                           @class(['block px-4 py-2 text-gray-200 hover:bg-blue-800 hover:text-white rounded-lg', 'bg-blue-800' => request()->segment(2) === $item['active']])
-                        >
+                        <a href="{{ route($item['route']) }}" @class([
+                            'block px-4 py-3 text-gray-200 hover:bg-gray-800 hover:text-white rounded-lg',
+                            'bg-gray-800' => request()->segment(2) === $item['active'],
+                        ]) wire:navigate>
                             {{ $item['title'] }}
                         </a>
                     </li>
                 @endforeach
             </ul>
         </aside>
-    </div> --}}
-    
-    <div id="main-content" class="flex-grow flex max-w-7xl mx-auto flex-col">
+    </div>
+
+    <div id="main-content" class="flex-grow flex max-w-7xl lg:ml-64 mx-auto flex-col">
         <nav class="p-4">
             <div class="bg-white p-4 rounded-xl">
                 <div class="grid grid-cols-12 gap-2">
@@ -69,25 +71,38 @@
                                 <x-dropdown align="left" width="48">
                                     <x-slot:trigger>
                                         <button class="bg-blue-50 block text-blue-500 p-1 rounded-lg cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                            <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" class="size-5">
+                                                <path fill-rule="evenodd"
+                                                    d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
+                                                    clip-rule="evenodd" />
                                             </svg>
                                         </button>
                                     </x-slot:trigger>
                                     <x-slot:content>
-                                        <x-dropdown-link href="{{ route('admin.dashboard') }}">Dashboard</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.dashboard') }}">Dashboard</x-dropdown-link>
                                         <x-dropdown-link href="{{ route('admin.items.index') }}">Items</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.products.index') }}">Products</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.orders.index') }}">Orders</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.products.index') }}">Products</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.orders.index') }}">Orders</x-dropdown-link>
                                         <x-dropdown-link href="{{ route('admin.sales.index') }}">Sales</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.claims.index') }}">Claims</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.returns.index') }}">Returns</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.refunds.index') }}">Refunds</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.claims.index') }}">Claims</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.returns.index') }}">Returns</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.refunds.index') }}">Refunds</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link>
                                         {{-- <x-dropdown-link href="{{ route('admin.ratings.index') }}">Raitings</x-dropdown-link> --}}
-                                        <x-dropdown-link href="{{ route('admin.users.index') }}">Users</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.sellers.index') }}">Sellers</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.users.index') }}">Users</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.sellers.index') }}">Sellers</x-dropdown-link>
+                                        <x-dropdown-link
+                                            href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link>
                                         {{-- <x-dropdown-link href="{{ route('profile.index') }}">Profile</x-dropdown-link> --}}
                                     </x-slot:content>
                                 </x-dropdown>
@@ -101,19 +116,21 @@
                     <div class="col-span-6 md:col-span-3 md:order-last">
                         <div class="flex space-x-1 justify-end">
                             <!-- Cart Icon -->
-                             <x-dropdown width="48">
-                                    <x-slot:trigger>
-                                        <button class="bg-blue-50 block text-blue-500 p-1 rounded-lg cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
-                                        </button>
-                                    </x-slot:trigger>
-                                    <x-slot:content>
-                                        <x-dropdown-link href="">Profile</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.logout') }}">Logout</x-dropdown-link>
-                                    </x-slot:content>
-                                </x-dropdown>
+                            <x-dropdown width="48">
+                                <x-slot:trigger>
+                                    <button class="bg-blue-50 block text-blue-500 p-1 rounded-lg cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+                                    </button>
+                                </x-slot:trigger>
+                                <x-slot:content>
+                                    <x-dropdown-link href="">Profile</x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('admin.logout') }}">Logout</x-dropdown-link>
+                                </x-slot:content>
+                            </x-dropdown>
                             </a>
                         </div>
                     </div>
@@ -154,4 +171,5 @@
     @stack('scripts')
     @livewireScripts
 </body>
+
 </html>

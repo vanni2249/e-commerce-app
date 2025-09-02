@@ -16,13 +16,13 @@
         <div class="col-span-full lg:col-span-full">
             <x-card class="h-full rounded-xl">
                 <header class="flex justify-between items-center mb-4">
-                    <h1 class="text-lg font-bold">Users</h1> 
+                    <h1 class="text-lg font-bold">Users</h1>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <x-button variant="light" size="sm" class="flex items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M4 6h16" />
@@ -72,26 +72,27 @@
                     </x-slot>
                     <x-slot name="body">
                         @for ($i = 0; $i < 25; $i++)
-                        <tr class="border-t border-gray-200">
-                            <td class="px-4 py-1 w-1/5">
-                            <small>{{ rand(100000, 999999) }}</small>
-                            <br>
-                            <span>
-                                Geovanni Colon Barrios
-                            </span>
-                            </td>
-                            <td class="px-4 py-1 w-1/5">
-                                {{ rand(0, 1) ? 'Yes' : 'No' }}
-                            </td>
-                            <td class="px-4 py-1 w-1/5">
-                                <x-badge color="{{ rand(0, 1) ? 'green' : 'red' }}">{{ rand(0, 1) ? 'Activo' : 'Inactivo' }}</x-badge>
-                            </td>
-                            <td class="px-4 py-1 w-1/5">12/23/2025 10:24 PM</td>
-                            <td class="px-4 py-1 w-1/5">hace {{ rand(1,7) }} dias</td>
-                            <td class="px-4 py-1 flex justify-end">
-                                <x-icon-link href="#" icon="eye" />
-                            </td>
-                        </tr>
+                            <tr class="border-t border-gray-200">
+                                <td class="p-4">
+                                    <span class="font-bold">{{ rand(100000, 999999) }}</span>
+                                    <br>
+                                    <span>
+                                        Geovanni Colon Barrios
+                                    </span>
+                                </td>
+                                <td class="p-4">
+                                    {{ rand(0, 1) ? 'Yes' : 'No' }}
+                                </td>
+                                <td class="p-4">
+                                    <x-badge
+                                        color="{{ rand(0, 1) ? 'green' : 'red' }}">{{ rand(0, 1) ? 'Activo' : 'Inactivo' }}</x-badge>
+                                </td>
+                                <td class="p-4">12/23/2025 10:24 PM</td>
+                                <td class="p-4">hace {{ rand(1, 7) }} dias</td>
+                                <td class="px-4  flex justify-end">
+                                    <x-icon-link href="#" icon="eye" />
+                                </td>
+                            </tr>
                         @endfor
                     </x-slot>
                 </x-table>

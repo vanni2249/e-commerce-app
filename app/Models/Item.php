@@ -10,9 +10,19 @@ class Item extends Model
     public $fillable = [
         'seller_id',
         'section_id',
-        'title',
+        'en_title',
+        'es_title',
+        'en_short_description',
+        'es_short_description',
+        'en_description',
+        'es_description',
+        'en_specifications',
+        'es_specifications',
+        'en_shipping_policy',
+        'es_shipping_policy',
+        'en_return_policy',
+        'es_return_policy',
         'sku',
-        'description',
     ];
 
     public function seller() :BelongsTo

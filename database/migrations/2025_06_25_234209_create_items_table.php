@@ -15,9 +15,19 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seller_id');
             $table->foreignId('section_id');
-            $table->longText('title')->nullable();
+            $table->longText('en_title')->nullable();
+            $table->longText('es_title')->nullable();
+            $table->longText('en_short_description')->nullable();
+            $table->longText('es_short_description')->nullable();
+            $table->longText('en_description')->nullable();
+            $table->longText('es_description')->nullable();
+            $table->json('en_specifications')->nullable();
+            $table->json('es_specifications')->nullable();
+            $table->longText('en_shipping_policy')->nullable();
+            $table->longText('es_shipping_policy')->nullable();
+            $table->longText('en_return_policy')->nullable();
+            $table->longText('es_return_policy')->nullable();
             $table->string('sku')->unique()->nullable();
-            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }

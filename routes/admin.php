@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 
+use App\Livewire\Admin\Dashboard\Index as DashboardIndex;
+
+use App\Livewire\Admin\Orders\Index as OrderIndex;
+use App\Livewire\Admin\Orders\Show as OrderShow;
+
+use App\Livewire\Admin\Items\Index as ItemIndex;
+use App\Livewire\Admin\Items\Create as ItemCreate;
+use App\Livewire\Admin\Items\Show as ItemShow;
+use App\Livewire\Admin\Items\Edit as ItemEdit;
+
+use App\Livewire\Admin\Users\Index as UserIndex;
+use App\Livewire\Admin\Users\Show as UserShow;
+
+
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware([GuestAdmin::class, GuestSeller::class, GuestUser::class])->group(function () {
@@ -28,25 +42,31 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return redirect()->route('admin.login');
         })->name('logout');
 
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        // Dashboard
+        Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
+
 
         Route::prefix('/orders')->name('orders.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.orders.index');
-            })->name('index');
+            Route::get('/', OrderIndex::class)->name('index');
+            Route::get('/{order}', OrderShow::class)->name('show');
+            // Route::get('/', function () {
+            //     return view('admin.orders.index');
+            // })->name('index');
 
-            Route::get('/{order}', function ($order) {
-                return view('admin.orders.show', ['order' => $order]);
-            })->name('show');
+            // Route::get('/{order}', function ($order) {
+            //     return view('admin.orders.show', ['order' => $order]);
+            // })->name('show');
         });
 
         Route::prefix('/items')->name('items.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.items.index');
-            })->name('index');
-            Route::get('/{item}', [ItemController::class, 'show'])->name('show');
+            Route::get('/', ItemIndex::class)->name('index');
+            Route::get('/create', ItemCreate::class)->name('create');
+            Route::get('/{item}', ItemShow::class)->name('show');
+            Route::get('/{item}/edit', ItemEdit::class)->name('edit');
+            // Route::get('/', function () {
+            //     return view('admin.items.index');
+            // })->name('index');
+            // Route::get('/{item}', [ItemController::class, 'show'])->name('show');
         });
 
         Route::prefix('/products')->name('products.')->group(function () {
@@ -145,13 +165,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         Route::prefix('/users')->name('users.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.users.index');
-            })->name('index');
+            Route::get('/', UserIndex::class)->name('index');
+            Route::get('/{user}', UserShow::class)->name('show');
+            // Route::get('/', function () {
+            //     return view('admin.users.index');
+            // })->name('index');
 
-            Route::get('/{user}', function ($user) {
-                return view('admin.users.show', ['user' => $user]);
-            })->name('show');
+            // Route::get('/{user}', function ($user) {
+            //     return view('admin.users.show', ['user' => $user]);
+            // })->name('show');
         });
         Route::prefix('/sellers')->name('sellers.')->group(function () {
             Route::get('/', function () {
