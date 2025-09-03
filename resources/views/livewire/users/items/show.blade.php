@@ -1,6 +1,6 @@
 <div>
     <div class="grid grid-cols-12 gap-2 md:gap-4">
-        <x-card class="col-span-full">
+        <x-card class="col-span-full bg-white">
             <div class="grid grid-cols-12 gap-2">
                 <div class="col-span-12 md:col-span-6 lg:col-span-6">
                     <!-- Main box imagens -->
@@ -28,7 +28,7 @@
                     <!-- Title -->
                     <div>
                         <h2 class="text-2xl font-semibold line-clamp-2">
-                            {{ $item->title }}
+                            {{ $item->en_title }}
                         </h2>
                         <!-- Rating -->
                         <div class="flex items-center space-x-1">
@@ -52,7 +52,7 @@
                             </span>
                         </div>
                         <div>
-                            <span class="text-gray-500 text-sm">
+                            <span class="text-gray-800 text-sm">
                                 @if ($shippingCost > 0)
                                     + ${{ $shippingCost }} shipping
                                 @else
@@ -62,8 +62,8 @@
                         </div>
                     </div>
                     <!-- Description -->
-                    <p class="text-gray-600 text-sm line-clamp-2">
-                        {{ $item->description }}
+                    <p class="text-gray-600 prose line-clamp-2">
+                        {{ $item->en_short_description }}
                     </p>
                     <!-- Variants -->
                     <div class="space-y-2">
@@ -165,6 +165,51 @@
                         @endguest
                     </div>
                 </div>
+            </div>
+        </x-card>
+        <!-- Description -->
+        <x-card class="bg-white col-span-full">
+            <header class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Description</h2>
+            </header>
+            <div class="prose max-w-none">
+                {!! $item->en_description !!}
+            </div>
+        </x-card>
+
+        <!-- Specification -->
+        <x-card class="bg-white col-span-full">
+            <header class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Specification</h2>
+            </header>
+
+            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+                @foreach ($item->en_specifications as $specification)
+                    <li class="flex">
+                        <span class="w-1/4 text-sm text-gray-600">{{ $specification['label'] }}</span>
+                        <span class="font-bold prose">{{ $specification['value'] }}</span>
+                    </li>
+                @endforeach
+            </ul>
+        </x-card>
+
+        <!-- Shipping policy -->
+        <x-card class="bg-white col-span-full">
+            <header class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Shipping Policy</h2>
+            </header>
+            <div class="prose max-w-none">
+                {!! $item->en_shipping_policy??$item->seller->shipping_policy !!}
+            </div>
+        </x-card>
+
+        <!-- Return policy -->
+        <x-card class="bg-white col-span-full">
+            <header class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Return Policy</h2>
+            </header>
+            <div class="prose max-w-none">
+                {!! $item->en_return_policy??$item->seller->return_policy !!}
             </div>
         </x-card>
     </div>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Item;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Uid\Ulid;
 
 class ItemSeeder extends Seeder
 {
@@ -15,6 +16,7 @@ class ItemSeeder extends Seeder
     {
         $items = [
             [
+                'id' => Ulid::generate(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Spa Treatment Package Dove 16 oz',
@@ -24,14 +26,32 @@ class ItemSeeder extends Seeder
                 'en_description' => 'A relaxing spa treatment package that includes a full body massage, facial',
                 'es_description' => 'Un paquete de tratamiento de spa relajante que incluye un masaje corporal completo, facial',
                 'en_specifications' => json_encode([
-                    'Duration' => '60 minutes',
-                    'Includes' => 'Full body massage, facial, aromatherapy',
-                    'Suitable for' => 'All skin types',
+                    [
+                        'label' => 'Duration',
+                        'value' => '60 minutes',
+                    ],
+                    [
+                        'label' => 'Includes',
+                        'value' => 'Full body massage, facial, aromatherapy',
+                    ],
+                    [
+                        'label' => 'Suitable for',
+                        'value' => 'All skin types',
+                    ],
                 ]),
                 'es_specifications' => json_encode([
-                    'Duración' => '60 minutos',
-                    'Incluye' => 'Masaje corporal completo, facial, aromatherapy',
-                    'Apto para' => 'Todos los tipos de piel',
+                    [
+                        'label' => 'Duración',
+                        'value' => '60 minutos',
+                    ],
+                    [
+                        'label' => 'Incluye',
+                        'value' => 'Masaje corporal completo, facial, aromaterapia',
+                    ],
+                    [
+                        'label' => 'Apto para',
+                        'value' => 'Todos los tipos de piel',
+                    ],
                 ]),
                 'en_shipping_policy' => 'Ships within 3-5 business days',
                 'es_shipping_policy' => 'Envío dentro de 3-5 días hábiles',
@@ -42,6 +62,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
+                'id' => Ulid::generate(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Hair Color Treatment Dove 24 oz',
@@ -51,14 +72,32 @@ class ItemSeeder extends Seeder
                 'en_description' => 'A nourishing hair color treatment that revitalizes and adds shine to your hair',
                 'es_description' => 'Un tratamiento de color de cabello nutritivo que revitaliza y añade brillo a tu cabello',
                 'en_specifications' => json_encode([
-                    'Color' => 'Natural Brown',
-                    'Size' => '24 oz',
-                    'Ingredients' => 'Aloe Vera, Vitamin E',
+                    [
+                        'label' => 'Color',
+                        'value' => 'Natural Brown',
+                    ],
+                    [
+                        'label' => 'Size',
+                        'value' => '24 oz',
+                    ],
+                    [
+                        'label' => 'Ingredients',
+                        'value' => 'Aloe Vera, Vitamin E',      
+                    ]
                 ]),
                 'es_specifications' => json_encode([
-                    'Color' => 'Marrón Natural',
-                    'Tamaño' => '24 oz',
-                    'Ingredientes' => 'Aloe Vera, Vitamina E',
+                    [
+                        'label' => 'Color',
+                        'value' => 'Marrón Natural',
+                    ],
+                    [
+                        'label' => 'Tamaño',
+                        'value' => '24 oz',
+                    ],
+                    [
+                        'label' => 'Ingredientes',
+                        'value' => 'Aloe Vera, Vitamina E',
+                    ]
                 ]),
                 'en_shipping_policy' => 'Ships within 2-4 business days',
                 'es_shipping_policy' => 'Envío dentro de 2-4 días hábiles',
@@ -69,6 +108,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
+                'id' => Ulid::generate(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Nail Art Design Kit Dove 8 oz',
@@ -78,14 +118,32 @@ class ItemSeeder extends Seeder
                 'en_description' => 'A complete nail art design kit with various colors and tools for creative nail art',
                 'es_description' => 'Un kit completo de diseño de arte de uñas con varios colores y herramientas para arte de uñas creativo',
                 'en_specifications' => json_encode([
-                    'Colors Included' => 'Red, Blue, Green, Yellow, Pink',
-                    'Tools' => 'Brushes, Dotting tools, Stickers',
-                    'Size' => '8 oz',
+                    [
+                        'label' => 'Colors Included',
+                        'value' => 'Red, Blue, Green, Yellow, Pink',
+                    ],
+                    [
+                        'label' => 'Tools',
+                        'value' => 'Brushes, Dotting tools, Stickers',
+                    ],
+                    [
+                        'label' => 'Size',
+                        'value' => '8 oz',
+                    ]
                 ]),
                 'es_specifications' => json_encode([
-                    'Colores Incluidos' => 'Rojo, Azul, Verde, Amarillo, Rosa',
-                    'Herramientas' => 'Pinceles, Herramientas de punteo, Pegatinas',
-                    'Tamaño' => '8 oz',
+                    [
+                        'label' => 'Colores Incluidos',
+                        'value' => 'Rojo, Azul, Verde, Amarillo, Rosa',
+                    ],
+                    [
+                        'label' => 'Herramientas',
+                        'value' => 'Pinceles, Herramientas de punteo, Pegatinas',
+                    ],
+                    [
+                        'label' => 'Tamaño',
+                        'value' => '8 oz',
+                    ]
                 ]),
                 'en_shipping_policy' => 'Ships within 1-3 business days',
                 'es_shipping_policy' => 'Envío dentro de 1-3 días hábiles',
@@ -96,6 +154,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],      
             [
+                'id' => Ulid::generate(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Nail Art Design Kit Dove 8 oz',
@@ -105,14 +164,32 @@ class ItemSeeder extends Seeder
                 'en_description' => 'A complete nail art design kit with various colors and tools for creative nail art',
                 'es_description' => 'Un kit completo de diseño de arte de uñas con varios colores y herramientas para arte de uñas creativo',
                 'en_specifications' => json_encode([
-                    'Colors Included' => 'Red, Blue, Green, Yellow, Pink',
-                    'Tools' => 'Brushes, Dotting tools, Stickers',
-                    'Size' => '8 oz',
+                    [
+                        'label' => 'Colors Included',
+                        'value' => 'Red, Blue, Green, Yellow, Pink',
+                    ],
+                    [
+                        'label' => 'Tools',
+                        'value' => 'Brushes, Dotting tools, Stickers',
+                    ],
+                    [
+                        'label' => 'Size',
+                        'value' => '8 oz',
+                    ]
                 ]),
                 'es_specifications' => json_encode([
-                    'Colores Incluidos' => 'Rojo, Azul, Verde, Amarillo, Rosa',
-                    'Herramientas' => 'Pinceles, Herramientas de punteo, Pegatinas',
-                    'Tamaño' => '8 oz',
+                    [
+                        'label' => 'Colores Incluidos',
+                        'value' => 'Rojo, Azul, Verde, Amarillo, Rosa',
+                    ],
+                    [
+                        'label' => 'Herramientas',
+                        'value' => 'Pinceles, Herramientas de punteo, Pegatinas',
+                    ],
+                    [
+                        'label' => 'Tamaño',
+                        'value' => '8 oz',
+                    ]
                 ]),
                 'en_shipping_policy' => 'Ships within 1-3 business days',
                 'es_shipping_policy' => 'Envío dentro de 1-3 días hábiles',

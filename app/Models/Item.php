@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Item extends Model
 {
-    public $fillable = [
+    use HasUlids;
+    protected $fillable = [
         'seller_id',
         'section_id',
         'en_title',
@@ -23,6 +25,11 @@ class Item extends Model
         'en_return_policy',
         'es_return_policy',
         'sku',
+    ];
+
+    protected $casts = [
+        'en_specifications' => 'array',
+        'es_specifications' => 'array',
     ];
 
     public function seller() :BelongsTo
@@ -54,5 +61,12 @@ class Item extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    // return specifications as array
+    // public function getEnSpecificationsAttribute()
+    // {
+    //     return json_decode($this->en_specifications, true) ?: [];
+    // }
+
     
 }
