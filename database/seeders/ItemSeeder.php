@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Item;
+use App\Traits\CreateItemNumber;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Symfony\Component\Uid\Ulid;
 
 class ItemSeeder extends Seeder
 {
+    use CreateItemNumber;
     /**
      * Run the database seeds.
      */
@@ -17,6 +19,7 @@ class ItemSeeder extends Seeder
         $items = [
             [
                 'id' => Ulid::generate(),
+                'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Spa Treatment Package Dove 16 oz',
@@ -63,6 +66,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'id' => Ulid::generate(),
+                'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Hair Color Treatment Dove 24 oz',
@@ -109,6 +113,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'id' => Ulid::generate(),
+                'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Nail Art Design Kit Dove 8 oz',
@@ -155,6 +160,7 @@ class ItemSeeder extends Seeder
             ],      
             [
                 'id' => Ulid::generate(),
+                'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'en_title' => 'Nail Art Design Kit Dove 8 oz',

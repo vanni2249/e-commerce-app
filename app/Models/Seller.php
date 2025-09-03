@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Seller extends Authenticatable
+class Seller extends Model
 {
-    protected $table = 'sellers';
-
     protected $fillable = [
-        'name', 'email', 'password',
+        'user_id',
+        'store_name',
+        'store_description',
+        'contact_email',
+        'contact_phone',
+        'is_active',
+        'is_verified',
+        'is_vacation_mode',
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-    /** @use HasFactory<\Database\Factories\SellerFactory> */
-    use HasFactory;
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
     public function items()
     {
         return $this->hasMany(Item::class, 'seller_id');

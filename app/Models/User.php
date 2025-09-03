@@ -49,17 +49,16 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the user's transactions.
-     */
+    public function seller()
+    {
+        return $this->hasOne(Seller::class);
+    }
+    
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
     }
     
-    /**
-     * Get the user's orders.
-     */
     public function orders()
     {
         return $this->hasMany(Order::class);

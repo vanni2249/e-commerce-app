@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('store_name');
+            $table->text('store_description')->nullable();
+            $table->string('contact_email');
+            $table->string('contact_phone')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('is_vacation_mode')->default(false);
             $table->timestamps();
         });
     }

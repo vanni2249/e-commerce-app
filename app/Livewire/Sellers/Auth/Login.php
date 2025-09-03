@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sellers\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -31,7 +32,16 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::guard('seller')->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        $user = User::where('email', $this->email)->first();
+
+        if (!$user || !$user->seller || $user->seller->is_active == false || !$user->seller->is_verified) {
+
+            throw ValidationException::withMessages([
+                'email' => __('Only verified and active sellers can login.'),
+            ]);
+        }
+
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

@@ -16,7 +16,8 @@ class GuestSeller
      */
     public function handle(Request $request, Closure $next): Response
     {
-         if (Auth::guard('seller')->check()) {
+        $user = Auth::user();
+         if ($user && $user->seller) {
             return redirect()->route('sellers.dashboard');
         }
         return $next($request);

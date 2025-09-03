@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Zierra</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,9 +16,9 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased flex flex-row min-h-screen">
-    {{-- <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
-        <aside class="bg-blue-900 rounded-xl w-full h-full overflow-auto">
-            <header class="h-16 border-b border-blue-800 flex items-center text-white px-6">
+    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
+        <aside class="bg-black rounded-xl w-full h-full overflow-auto">
+            <header class="h-16 border-b border-gray-800 flex items-center text-white px-6">
                 <div class="flex justify-between items-center w-full">
                     <div class="flex flex-col">
                         <span class="text-sm font-semibold text-gray-200">
@@ -38,17 +38,15 @@
             </header>
             @php
                 $collection = collect([
-                    ['title' => 'Dashboard', 'route' => 'admin.dashboard', 'active' => 'dashboard'],
-                    ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
-                    ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
-                    ['title' => 'Customers', 'route' => 'admin.customers.index', 'active' => 'customers'],
+                    ['title' => 'Dashboard', 'route' => 'sellers.dashboard', 'active' => 'dashboard'],
+                    ['title' => 'Items', 'route' => 'sellers.items.index', 'active' => 'items'],
                 ]);
             @endphp
             <ul class="p-4 text-xs font-bold uppercase space-y-1">
                 @foreach ($collection as $item)
                     <li>
                         <a href="{{ route($item['route']) }}"
-                           @class(['block px-4 py-2 text-gray-200 hover:bg-blue-800 hover:text-white rounded-lg', 'bg-blue-800' => request()->segment(2) === $item['active']])
+                           @class(['block px-4 py-2 text-gray-200 hover:bg-gray-800 hover:text-white rounded-lg', 'bg-gray-800' => request()->segment(2) === $item['active']])
                         >
                             {{ $item['title'] }}
                         </a>
@@ -56,9 +54,9 @@
                 @endforeach
             </ul>
         </aside>
-    </div> --}}
+    </div>
     
-    <div id="main-content" class="flex-grow flex max-w-7xl mx-auto flex-col">
+    <div id="main-content" class="flex-grow flex ml-64 flex-col">
         <nav class="p-4">
             <div class="bg-white p-4 rounded-xl">
                 <div class="grid grid-cols-12 gap-2">

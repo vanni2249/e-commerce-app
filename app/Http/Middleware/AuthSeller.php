@@ -16,7 +16,8 @@ class AuthSeller
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('seller')->check()) {
+        $user = Auth::user();
+        if (!Auth::check()) {
             return redirect()->route('sellers.login');
         }
         return $next($request);

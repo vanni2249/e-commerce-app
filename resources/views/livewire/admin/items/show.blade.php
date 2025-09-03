@@ -63,7 +63,7 @@
                         <div class="space-y-2">
                             <x-label for="seller" value="Seller" />
                             <x-card class="bg-gray-200">
-                                <p class="text-sm text-gray-600">Geovanni Colon</p>
+                                <p class="text-sm text-gray-600">{{ $item->seller->name }}</p>
                             </x-card>
                         </div>
                     </div>
@@ -102,8 +102,7 @@
                             <x-label for="english" value="English" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate pariatur facere
-                                    autem.
+                                    {{ $item->en_title }}
                                 </p>
                             </x-card>
                         </div>
@@ -111,8 +110,7 @@
                             <x-label for="spanish" value="Spanish" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate pariatur facere
-                                    autem.
+                                    {{ $item->es_title }}
                                 </p>
                             </x-card>
                         </div>
@@ -133,7 +131,7 @@
                             <x-label for="english" value="English" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{ $item->en_short_description }}
                                 </p>
                             </x-card>
                         </div>
@@ -141,7 +139,7 @@
                             <x-label for="spanish" value="Spanish" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{ $item->es_short_description }}
                                 </p>
                             </x-card>
                         </div>
@@ -162,9 +160,7 @@
                             <x-label for="english" value="English" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{ $item->en_description }}
                                 </p>
                             </x-card>
                         </div>
@@ -172,9 +168,7 @@
                             <x-label for="spanish" value="Spanish" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{ $item->es_description }}
                                 </p>
                             </x-card>
                         </div>
@@ -190,24 +184,13 @@
                     </p>
                 </div>
                 <div class="col-span-full lg:col-span-4">
-                    @php
-                        $items = [
-                            ['label' => 'Condition', 'value' => 'New'],
-                            ['label' => 'Brand', 'value' => 'Apple'],
-                            ['label' => 'Model', 'value' => 'iPhone 13'],
-                            ['label' => 'Storage', 'value' => '128GB'],
-                            ['label' => 'Color', 'value' => 'Blue'],
-                            ['label' => 'Warranty', 'value' => '1 Year'],
-                        ];
-
-                    @endphp
                     <x-label for="title" value="English" class="mb-2" />
                     <x-card class="bg-gray-200 mb-4">
                         <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @foreach ($items as $item)
+                            @foreach ($item->en_specifications as $specification)
                                 <li class="flex">
-                                    <span class="text-gray-600 text-sm w-1/2">{{ $item['label'] }}: </span>
-                                    <span class="font-bold text-sm text-gray-800">{{ $item['value'] }}</span>
+                                    <span class="text-gray-600 text-sm w-1/2">{{ $specification['label'] }}: </span>
+                                    <span class="font-bold text-sm text-gray-800">{{ $specification['value'] }}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -228,10 +211,10 @@
                     <x-card class="bg-gray-200">
 
                         <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @foreach ($items as $item)
+                            @foreach ($item->es_specifications as $specification)
                                 <li class="flex">
-                                    <span class="text-gray-600 text-sm w-1/2">{{ $item['label'] }}: </span>
-                                    <span class="font-bold text-sm text-gray-800">{{ $item['value'] }}</span>
+                                    <span class="text-gray-600 text-sm w-1/2">{{ $specification['label'] }}: </span>
+                                    <span class="font-bold text-sm text-gray-800">{{ $specification['value'] }}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -252,9 +235,7 @@
                             <x-label for="english" value="English" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{$item->en_shipping_policy}}
                                 </p>
                             </x-card>
                         </div>
@@ -262,9 +243,7 @@
                             <x-label for="spanish" value="Spanish" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{$item->es_shipping_policy}}
                                 </p>
                             </x-card>
                         </div>
@@ -285,9 +264,7 @@
                             <x-label for="english" value="English" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{$item->en_return_policy}}
                                 </p>
                             </x-card>
                         </div>
@@ -295,9 +272,7 @@
                             <x-label for="spanish" value="Spanish" />
                             <x-card class="bg-gray-200">
                                 <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum
-                                    dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Quisquam, quod.
+                                    {{$item->es_return_policy}}
                                 </p>
                             </x-card>
                         </div>
