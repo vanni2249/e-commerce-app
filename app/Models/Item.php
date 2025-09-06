@@ -10,6 +10,7 @@ class Item extends Model
 {
     use HasUlids;
     protected $fillable = [
+        'number',
         'seller_id',
         'section_id',
         'en_title',
@@ -24,6 +25,10 @@ class Item extends Model
         'es_shipping_policy',
         'en_return_policy',
         'es_return_policy',
+        'is_active',
+        'approved_by',
+        'approved_at',
+        'available_at',
         'sku',
     ];
 

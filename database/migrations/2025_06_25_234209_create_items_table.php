@@ -15,7 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->string('number')->unique();
             $table->string('sku')->unique()->nullable();
-            $table->foreignId('seller_id');
+            $table->foreignId('seller_id')->nullable();
             $table->foreignId('section_id');
             $table->longText('en_title')->nullable();
             $table->longText('es_title')->nullable();
@@ -30,7 +30,6 @@ return new class extends Migration
             $table->longText('en_return_policy')->nullable();
             $table->longText('es_return_policy')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->boolean('is_approved')->default(false);
             $table->foreignId('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('available_at')->nullable();

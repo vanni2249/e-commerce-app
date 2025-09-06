@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Items;
 
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;

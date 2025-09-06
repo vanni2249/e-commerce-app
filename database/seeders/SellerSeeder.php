@@ -18,7 +18,7 @@ class SellerSeeder extends Seeder
         $items = [
           [
             'user_id' => 1,
-            'store_name' => 'Gioavanni Store',
+            'store_name' => 'Giovanni Store',
             'store_description' => 'Best products in town',
             'contact_email' => 'vanni2249@gmail.com',
             'contact_phone' => '123-456-7890',

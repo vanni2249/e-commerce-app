@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\Livewire\Sellers\Dashboard\Index as DashboardIndex;
-use App\Livewire\Sellers\Items\Index as ItemIndex;
-use App\Livewire\Sellers\Items\Show as ItemShow;
-use App\Livewire\Sellers\Items\Edit as ItemEdit;
+
+
+use App\Livewire\AdminSeller\Items\Index as ItemIndex;
+use App\Livewire\AdminSeller\Items\Show as ItemShow;
+use App\Livewire\AdminSeller\Items\Edit as ItemEdit;
 
 Route::prefix('/sellers')->name('sellers.')->group(function () {
 

@@ -14,10 +14,10 @@ use App\Livewire\Admin\Dashboard\Index as DashboardIndex;
 use App\Livewire\Admin\Orders\Index as OrderIndex;
 use App\Livewire\Admin\Orders\Show as OrderShow;
 
-use App\Livewire\Admin\Items\Index as ItemIndex;
+use App\Livewire\AdminSeller\Items\Index as ItemIndex;
 use App\Livewire\Admin\Items\Create as ItemCreate;
-use App\Livewire\Admin\Items\Show as ItemShow;
-use App\Livewire\Admin\Items\Edit as ItemEdit;
+use App\Livewire\AdminSeller\Items\Show as ItemShow;
+use App\Livewire\AdminSeller\Items\Edit as ItemEdit;
 
 use App\Livewire\Admin\Users\Index as UserIndex;
 use App\Livewire\Admin\Users\Show as UserShow;
