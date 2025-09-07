@@ -29,11 +29,11 @@ return new class extends Migration
             $table->longText('es_shipping_policy')->nullable();
             $table->longText('en_return_policy')->nullable();
             $table->longText('es_return_policy')->nullable();
-            $table->boolean('is_active')->default(false);
             $table->foreignId('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('available_at')->nullable();
             $table->softDeletes();
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }

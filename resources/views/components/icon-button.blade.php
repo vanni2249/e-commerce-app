@@ -1,18 +1,37 @@
-@props(['type' => 'button', 'bg' => 'gray', 'icon' => 'edit'])
+@props(['type' => 'button', 'variant' => 'light', 'icon' => 'edit', 'size' => 'md'])
 
 @php
-    $bg = match ($bg) {
-        'gray' => 'bg-gray-200 hover:bg-gray-300',
-        'red' => 'bg-red-200 hover:bg-red-300',
-        'green' => 'bg-green-200 hover:bg-green-300',
-        'blue' => 'bg-blue-50 hover:bg-blue-100',
+    $variant = match ($variant) {
+        'primary' => 'bg-blue-200 hover:bg-blue-300',
+        'primary-outline' => 'bg-white border border-blue-300 text-blue-600 hover:bg-blue-50',
+        'secondary' => 'bg-gray-200 hover:bg-gray-300',
+        'secondary-outline' => 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50',
+        'warning' => 'bg-yellow-200 hover:bg-yellow-300',
+        'warning-outline' => 'bg-white border border-yellow-300 text-yellow-600 hover:bg-yellow-50',
+        'success' => 'bg-green-200 hover:bg-green-300',
+        'success-outline' => 'bg-white border border-green-300 text-green-600 hover:bg-green-50',
+        'danger' => 'bg-red-200 hover:bg-red-300',
+        'danger-outline' => 'bg-white border border-red-300 text-red-600 hover:bg-red-50',
+        'light' => 'bg-gray-200 hover:bg-gray-300 text-blue-600',
+        'light-outline' => 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50',
+        'dark' => 'bg-gray-800 hover:bg-gray-900 text-white',
+        'dark-outline' => 'bg-white border border-gray-800 text-gray-800 hover:bg-gray-50',
+        'info' => 'bg-blue-50 hover:bg-blue-100',
+        'info-outline' => 'bg-white border border-blue-300 text-blue-600 hover:bg-blue-50',
         default => 'bg-gray-200 hover:bg-gray-300',
     };
+
+    $size = match ($size) {
+        'sm' => 'p-0.5 text-xs',
+        'md' => 'p-1.5 text-base',
+        'lg' => 'p-2 text-md',
+        default => 'p-1',
+    }
 @endphp
 
 
 
-<button type="{{ $type }}" {{ $attributes->merge(['class' => $bg . ' rounded-full p-1.5 cursor-pointer']) }}>
+<button type="{{ $type }}" {{ $attributes->merge(['class' => $variant . ' ' . $size . ' rounded-full cursor-pointer']) }}>
 
     @switch($icon)
         @case('minus')
@@ -63,6 +82,7 @@
                 <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
             </svg>
         @break
+        
         @case('ellipsis-vertical')
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="size-6">

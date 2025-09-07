@@ -8,10 +8,12 @@ use Livewire\Component;
 
 class Show extends Component
 {
+    public $admin;
     public $item;
 
     public function mount($item)
     {
+        $this->admin = Auth::guard('admin')->check();
         $this->item = Item::findOrFail($item);
     }
 

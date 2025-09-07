@@ -37,9 +37,14 @@ class Item extends Model
         'es_specifications' => 'array',
     ];
 
-    public function seller() :BelongsTo
+    public function seller(): BelongsTo
     {
         return $this->belongsTo(Seller::class, 'seller_id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(Admin::class, 'approved_by');
     }
 
     public function section()
@@ -73,5 +78,5 @@ class Item extends Model
     //     return json_decode($this->en_specifications, true) ?: [];
     // }
 
-    
+
 }
