@@ -72,11 +72,13 @@ class Item extends Model
         return $this->hasMany(Product::class);
     }
 
-    // return specifications as array
-    // public function getEnSpecificationsAttribute()
-    // {
-    //     return json_decode($this->en_specifications, true) ?: [];
-    // }
-
+    public function scopeShow($query)
+    {
+        return $query->whereNotNull('approved_at')
+            ->whereNotNull('available_at')
+            ->where('is_active', true)
+            ->whereNull('deleted_at')
+            ->inRandomOrder();
+    }
 
 }
