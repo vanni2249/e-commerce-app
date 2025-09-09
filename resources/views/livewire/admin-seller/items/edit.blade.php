@@ -7,12 +7,59 @@
             </header>
         </x-card>
 
-        <!-- Image -->
+        <!-- Images card -->
         <x-card>
+            <div class="grid grid-cols-6 gap-4">
+                <!-- Images -->
+                <div class="col-span-full lg:col-span-2">
+                    <h3 class="text-m font-bold text-gray-800">
+                        Item Images
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        Add, remove or update item images.
+                    </p>
+                </div>
+                <div class="col-span-full lg:col-span-4 space-y-4">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        @for ($i = 0; $i < 6; $i++)
+                            <div class="flex flex-col border border-gray-300 rounded-md p-2 space-y-2">
+                                <div class="bg-gray-200 h-32 rounded-md"></div>
+                                <div class="flex items-center space-x-2">
+                                    <x-icon-button icon="delete" class="p-1" />
+                                    <x-button variant="light" size="sm" value="Set default" class="grow" />
+                                </div>
+                            </div>
+                        @endfor
 
+                        <button @click="$dispatch('open-modal', 'image-modal')" type="button"
+                            class="bg-gray-200 h-full border border-dashed border-gray-400 rounded-xl cursor-pointer">
+                            <div class="flex flex-col justify-center items-center h-full p-4 space-y-2">
+                                <span class="text-sm text-gray-600">Add Image</span>
+                            </div>
+                        </button>
+                        <x-modal name="image-modal" title="Add image" size="lg">
+                            <form wire:submit.prevent=''>
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div class="col-span-1">
+                                        <x-label for="image" value="Image" />
+                                        <x-input wire:model.lazy='' type="file" class="w-full" />
+                                        @error('')
+                                            <x-error message="{{ $message }}" />
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex justify-end items-center space-x-2">
+                                    <x-button type="submit" value="Add Image" />
+                                </div>
+                            </form>
+                        </x-modal>
+                    </div>
+
+                </div>
+            </div>
         </x-card>
 
-        <!-- Info -->
+        <!-- Info card-->
         <x-card>
             <div class="grid grid-cols-6 gap-4">
                 <div class="col-span-full lg:col-span-2">
@@ -135,29 +182,56 @@
                     </p>
                 </div>
                 <div class="col-span-full lg:col-span-4">
-                    <x-label for="title" value="English" class="mb-2" />
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border border-gray-200 rounded p-4">
-                        @if (count($en_specifications) == 0)
-                            <li class="col-span-full text-center text-gray-600">
-                                No specifications added yet.
-                            </li>
-                        @else
-                            @foreach ($en_specifications as $i => $specification)
-                                <li class="grid grid-cols-1 md:grid-cols-2 items-center">
-                                    <div class="text-gray-600 text-sm flex items-center space-x-1">
+                    <header class="flex justify-between items-end mb-1">
+                        <x-label for="title" value="English" class="mb-2" />
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <x-icon-button icon="ellipsis-vertical"/>
+                            </x-slot>
+                            <x-slot name="content">
+                                <x-dropdown-link @click="$dispatch('open-modal', 'new_en_specification-modal')">
+                                    Add English Specification
+                                </x-dropdown-link>
+                                <x-dropdown-link>
+                                    Add specification from template
+                                </x-dropdown-link>
+                            </x-slot>
+                        </x-dropdown>
+                    </header>
+                    <x-table>
+                        <x-slot name="head">
+                            <tr>
+                                <th class="p-4 w-1/4">Label</th>
+                                <th class="p-4">Value</th>
+                                <th class="p-4 w-14">Action</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="body">
+                            @forelse ($en_specifications as $i => $specification)
+                                <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                    <td class="p-4">
+                                        {{ $specification['label'] }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ $specification['value'] }}
+                                    </td>
+                                    <td class="p-4 text-right">
                                         <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'
                                             icon="delete" size="sm" />
-                                        <span>
-                                            {{ $specification['label'] }}:
-                                        </span>
-                                    </div>
-                                    <span class="font-bold text-sm text-gray-800">{{ $specification['value'] }}</span>
-                                </li>
-                            @endforeach
-                        @endif
-                    </ul>
-                    <x-button @click="$dispatch('open-modal', 'new_en_specification-modal')" type="button"
-                        value="Add english Specifics" />
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="p-4 text-center text-gray-600">
+                                        No specifications added yet.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </x-slot>
+                    </x-table>
+                    {{-- <br> --}}
+                    {{-- <x-button @click="$dispatch('open-modal', 'new_en_specification-modal')" type="button"
+                        value="Add english Specifics" /> --}}
                     <x-modal name="new_en_specification-modal" title="Add english specification" size="lg">
                         <form wire:submit.prevent='addEnglishSpecification'>
                             <div class="grid grid-cols-1 gap-4">
@@ -184,29 +258,56 @@
                         </form>
                     </x-modal>
                     <div class="my-4"></div>
-                    <x-label for="title" value="Spanish" class="mb-2" />
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border border-gray-200 rounded p-4">
-                        @if (count($es_specifications) == 0)
-                            <li class="col-span-full text-center text-gray-600">
-                                No specifications added yet.
-                            </li>
-                        @else
-                            @foreach ($es_specifications as $i => $specification)
-                                <li class="grid grid-cols-1 md:grid-cols-2 items-center">
-                                    <div class="text-gray-600 text-sm flex items-center space-x-1">
-                                        <x-icon-button wire:click='removeSpanishSpecification({{ $i }})'
+                    <header class="flex justify-between items-end mb-1">
+                        <x-label for="title" value="Spanish" class="mb-2" />
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <x-icon-button icon="ellipsis-vertical"/>
+                            </x-slot>
+                            <x-slot name="content">
+                                <x-dropdown-link @click="$dispatch('open-modal', 'new_es_specification-modal')">
+                                    Add Spanish Specification
+                                </x-dropdown-link>
+                                <x-dropdown-link>
+                                    Add specification from template
+                                </x-dropdown-link>
+                            </x-slot>
+                        </x-dropdown>
+                    </header>
+                    <x-table>
+                        <x-slot name="head">
+                            <tr>
+                                <th class="p-4 w-1/4">Label</th>
+                                <th class="p-4">Value</th>
+                                <th class="p-4 w-14">Action</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="body">
+                            @forelse ($es_specifications as $i => $specification)
+                                <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                    <td class="p-4">
+                                        {{ $specification['label'] }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ $specification['value'] }}
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'
                                             icon="delete" size="sm" />
-                                        <span>
-                                            {{ $specification['label'] }}:
-                                        </span>
-                                    </div>
-                                    <span class="font-bold text-sm text-gray-800">{{ $specification['value'] }}</span>
-                                </li>
-                            @endforeach
-                        @endif
-                    </ul>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="p-4 text-center text-gray-600">
+                                        No specifications added yet.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </x-slot>
+                    </x-table>
+                    {{-- <br>
                     <x-button @click="$dispatch('open-modal','new_es_specification-modal')" type="button"
-                        value="Add Spanish Specifics" />
+                        value="Add Spanish Specifics" /> --}}
                     <x-modal name="new_es_specification-modal" title="Add spanish specification" size="lg">
                         <form wire:submit.prevent='addSpanishSpecification'>
                             <div class="grid grid-cols-1 gap-4">
@@ -227,7 +328,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mt-4 flex justify-end items-center space-x-2">
+                            <div class="mt-4 flex justify-start items-center space-x-2">
                                 <x-button type="submit" value="Add Specification" />
                             </div>
                         </form>
@@ -291,6 +392,113 @@
 
         </x-card>
 
+        <!-- Variants -->
+        <x-card>
+            <div class="grid grid-cols-6 gap-4">
+                <div class="col-span-full lg:col-span-2">
+                    <h2 class="text-md font-bold text-gray-900">Item variants</h2>
+                    <p class="text-sm text-gray-600">
+                        Item variants and attributes.
+                    </p>
+                </div>
+                <div class="col-span-full lg:col-span-4">
+                    <x-label for="color" value="Color" />
+                    <div class="flex flex-wrap gap-2">
+                        @php
+                            $variants = [
+                                ['en' => 'Blue', 'es' => 'Azul'],
+                                ['en' => 'Red', 'es' => 'Rojo'],
+                                ['en' => 'Green', 'es' => 'Verde'],
+                            ];
+                        @endphp
+
+                        @foreach ($variants as $variant)
+                            <x-card class="bg-gray-200 w-full md:w-auto">
+                                <div class="flex whitespace-nowrap items-center justify-between space-x-4">
+
+                                    <p class="text-sm text-gray-600">
+                                        {{ $variant['en'] }} | {{ $variant['es'] }}
+                                    </p>
+                                    <div class="flex space-x-1">
+                                        <button>
+                                            <x-icon icon="pencil" />
+                                        </button>
+                                        <button>
+                                            <x-icon icon="delete" />
+                                        </button>
+                                        {{-- <x-icon-button />
+                                        <x-icon-button icon="delete" /> --}}
+                                    </div>
+                                </div>
+                            </x-card>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+        </x-card>
+
+        <!-- Products -->
+        <x-card>
+            <div class="grid grid-cols-6 gap-4">
+
+                <div class="col-span-full lg:col-span-2">
+                    <h2 class="text-md font-bold text-gray-900">Item products</h2>
+                    <p class="text-sm text-gray-600">
+                        Item products and stock keeping units (SKUs).
+                    </p>
+                </div>
+                <div class="col-span-full lg:col-span-4">
+                    @php
+                        $products = [
+                            ['sku' => 'SKU123', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU124', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU125', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU126', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU127', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU128', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU129', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU130', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU131', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU132', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU133', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                            ['sku' => 'SKU134', 'pn' => 'pn-', 'variant' => rand(1, 100)],
+                        ];
+                    @endphp
+                    <div class="space-y-2">
+                        <x-table>
+                            <x-slot name="head">
+                                <tr>
+                                    <th class="p-4 w-24">SKU</th>
+                                    <th class="p-4 w-32">PN</th>
+                                    <th class="p-4">Variant</th>
+                                    <th class="p-4 w-14">Action</th>
+                                </tr>
+                            </x-slot>
+                            <x-slot name="body">
+                                @foreach ($products as $product)
+                                    <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                        <td class="p-4">
+                                            {{ $product['sku'] }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $product['pn'] }}{{ $product['variant'] }}
+                                        </td>
+                                        <td class="p-4">
+                                            Variant {{ $product['variant'] }}
+                                        </td>
+                                        <td class="p-4">
+                                            <x-icon-button />
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </x-slot>
+                        </x-table>
+                    </div>
+                </div>
+            </div>
+        </x-card>
+
         <!-- Tags -->
         <x-card>
         </x-card>
@@ -329,11 +537,13 @@
                             @else
                                 <div class="col-span-2 lg:col-span-1">
                                     <x-label for="title" value="Approved by" />
-                                    <x-input disabled="true" wire:model='approved_by' type="text" class="w-full" />
+                                    <x-input disabled="true" wire:model='approved_by' type="text"
+                                        class="w-full" />
                                 </div>
                                 <div class="col-span-2 lg:col-span-1">
                                     <x-label for="title" value="Approved datetime" />
-                                    <x-input disabled="true" wire:model='approved_at' type="datetime" class="w-full" />
+                                    <x-input disabled="true" wire:model='approved_at' type="datetime"
+                                        class="w-full" />
                                 </div>
                             @endif
                         </div>
@@ -356,7 +566,8 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div class="col-span-2 lg:col-span-1">
                                 <x-label for="title" value="Available date" />
-                                <x-input wire:model.lazy='available_at' disabled="true" type="datetime" class="w-full" />
+                                <x-input wire:model.lazy='available_at' disabled="true" type="datetime"
+                                    class="w-full" />
                             </div>
                             <div class="col-span-2 lg:col-span-1">
                                 <x-label for="Set date" value="Set date" />

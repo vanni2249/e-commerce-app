@@ -1,18 +1,18 @@
-@props(['bg' => 'gray', 'icon' => 'edit'])
+@props(['variant' => 'light', 'icon' => 'edit', 'size' => 'md'])
 
 @php
-    $bg = match ($bg) {
-        'gray' => 'bg-gray-200 hover:bg-gray-300 text-blue-500',
-        'red' => 'bg-red-200 hover:bg-red-300',
-        'green' => 'bg-green-200 hover:bg-green-300',
-        'blue' => 'bg-blue-200 hover:bg-blue-300',
+    $variant = match ($variant) {
+        'light' => 'bg-gray-200 hover:bg-gray-300 text-blue-500',
+        'danger' => 'bg-red-200 hover:bg-red-300',
+        'success' => 'bg-green-200 hover:bg-green-300',
+        'info' => 'bg-blue-200 hover:bg-blue-300',
         default => 'bg-gray-200 hover:bg-gray-300',
     };
 @endphp
 
 
 
-<a {{ $attributes->merge(['class' => $bg . ' rounded-full p-1.5 cursor-pointer']) }}>
+<a {{ $attributes->merge(['class' => $variant . ' rounded-full p-1.5 cursor-pointer']) }}>
 
     @switch($icon)
         @case('minus')
