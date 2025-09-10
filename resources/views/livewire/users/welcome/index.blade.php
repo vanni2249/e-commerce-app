@@ -14,7 +14,7 @@
                 <li class="py-2">
                     <a href="#"
                         class="bg-white hover:bg-blue-100 text-blue-800 flex-auto px-4 py-2 rounded-lg text-sm mr-2 whitespace-nowrap">
-                        {{ $category->name }}
+                        {{ $category->en_name }}
                     </a>
                 </li>
             @endforeach
