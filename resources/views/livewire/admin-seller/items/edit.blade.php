@@ -186,7 +186,7 @@
                         <x-label for="title" value="English" class="mb-2" />
                         <x-dropdown>
                             <x-slot name="trigger">
-                                <x-icon-button icon="ellipsis-vertical"/>
+                                <x-icon-button icon="ellipsis-vertical" />
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link @click="$dispatch('open-modal', 'new_en_specification-modal')">
@@ -262,7 +262,7 @@
                         <x-label for="title" value="Spanish" class="mb-2" />
                         <x-dropdown>
                             <x-slot name="trigger">
-                                <x-icon-button icon="ellipsis-vertical"/>
+                                <x-icon-button icon="ellipsis-vertical" />
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link @click="$dispatch('open-modal', 'new_es_specification-modal')">
@@ -389,52 +389,193 @@
 
         <!-- Categories -->
         <x-card>
-
-        </x-card>
-
-        <!-- Variants -->
-        <x-card>
+            <header class="flex justify-between items-top">
+                <h1 class="text-md font-bold">Categories</h1>
+                <x-icon-button wire:click='handleCategoriesModal' icon="plus" />
+            </header>
+            <x-modal name="sync-categories-modal" title="Add category">
+                @if ($categories)
+                    <form wire:submit="syncCategories">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach ($categories as $category)
+                                <div class="flex items-center bg-gray-100 p-2 rounded">
+                                    <input type="checkbox" wire:model="selectedCategories"
+                                        value="{{ $category->id }}" id="category-{{ $category->id }}"
+                                        class="mr-2">
+                                    <label for="category-{{ $category->id }}"
+                                        class="text-sm">{{ $category->en_name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit"
+                                class="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200">
+                                Sync Categories
+                            </button>
+                        </div>
+                    </form>
+                @endif
+            </x-modal>
             <div class="grid grid-cols-6 gap-4">
                 <div class="col-span-full lg:col-span-2">
-                    <h2 class="text-md font-bold text-gray-900">Item variants</h2>
+                    <p class="text-sm text-gray-600">
+                        Assign categories to the item for better organization and searchability.
+                    </p>
+                </div>
+                <div class="col-span-full lg:col-span-4">
+                    <div class="flex flex-wrap gap-2">
+                        @forelse ($item->categories as $category)
+                            <x-card class="bg-gray-200 w-full md:w-auto">
+                                <div class="flex whitespace-nowrap items-center justify-between space-x-4">
+
+                                    <p class="text-sm text-gray-600">
+                                        {{ $category->en_name }} | {{ $category->es_name }}
+                                    </p>
+                                </div>
+                            </x-card>
+                        @empty
+                            <span class="text-gray-800">No categories added.</span>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </x-card>
+
+        <!-- Attributes & Variants -->
+        <x-card>
+            <header class="flex justify-between items-center">
+                <h2 class="text-md font-bold">Variants</h2>
+                @if ($item->variants->isEmpty())
+                    <x-icon-button wire:click="handleAttributesModal" icon="plus" />
+                @endif
+            </header>
+            <!-- Modal add attributes -->
+            <x-modal name="sync-attributes-modal" title="Sync attributes">
+                @if ($attrs)
+                    <form wire:submit="syncAttributes">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-4">
+                            @foreach ($attrs as $attribute)
+                                <div class="bg-gray-100 p-2 rounded flex items-center">
+                                    <input type="checkbox" wire:model="selectedAttributes"
+                                        value="{{ $attribute->id }}" id="attribute-{{ $attribute->id }}"
+                                        class="mr-2">
+                                    <label for="attribute-{{ $attribute->id }}"
+                                        class="text-sm">{{ $attribute->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit"
+                                class="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200">
+                                Sync Attributes
+                            </button>
+                        </div>
+                    </form>
+                @endif
+            </x-modal>
+            <div class="grid grid-cols-6 gap-4">
+                <div class="col-span-full lg:col-span-2">
                     <p class="text-sm text-gray-600">
                         Item variants and attributes.
                     </p>
                 </div>
                 <div class="col-span-full lg:col-span-4">
-                    <x-label for="color" value="Color" />
-                    <div class="flex flex-wrap gap-2">
-                        @php
-                            $variants = [
-                                ['en' => 'Blue', 'es' => 'Azul'],
-                                ['en' => 'Red', 'es' => 'Rojo'],
-                                ['en' => 'Green', 'es' => 'Verde'],
-                            ];
-                        @endphp
-
-                        @foreach ($variants as $variant)
-                            <x-card class="bg-gray-200 w-full md:w-auto">
-                                <div class="flex whitespace-nowrap items-center justify-between space-x-4">
-
-                                    <p class="text-sm text-gray-600">
-                                        {{ $variant['en'] }} | {{ $variant['es'] }}
-                                    </p>
-                                    <div class="flex space-x-1">
-                                        <button>
-                                            <x-icon icon="pencil" />
-                                        </button>
-                                        <button>
-                                            <x-icon icon="delete" />
-                                        </button>
-                                        {{-- <x-icon-button />
-                                        <x-icon-button icon="delete" /> --}}
-                                    </div>
-                                </div>
-                            </x-card>
-                        @endforeach
-                    </div>
+                    @forelse ($item->attributes as $attribute)
+                        <div class="w-full">
+                            <header class="flex justify-between items-end pt-4 pb-1">
+                                <x-label for="{{ $attribute->name }}" value="{{ $attribute->name }}" />
+                                <x-button wire:click="handleVariantModal({{ $attribute->id }})" variant="primary"
+                                    size="sm" value="Add {{ $attribute->name }}" />
+                            </header>
+                            <x-table>
+                                <x-slot name="head">
+                                    <tr>
+                                        <th class="p-4">English name</th>
+                                        <th class="p-4">Spanish name</th>
+                                        <th class="p-4 w-14">Action</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="body">
+                                    @forelse ($attribute->variants as $variant)
+                                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                            <td class="p-4">
+                                                {{ $variant->en_name }}
+                                            </td>
+                                            <td class="">
+                                                {{ $variant->es_name }}
+                                            </td>
+                                            <td class="p-4 text-right">
+                                                <x-icon-button
+                                                    wire:click="handleEditVariantModal({{ $variant->id }})"
+                                                    icon="edit" size="sm" />
+                                                <x-icon-button wire:click="deleteVariant({{ $variant->id }})"
+                                                    icon="delete" size="sm" />
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td class="p-4" colspan="3">
+                                                No variants added yet.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                    {{-- <tr>
+                                        <td colspan="3">
+                                            <x-icon-button icon="plus" />
+                                        </td>
+                                    </tr> --}}
+                                </x-slot>
+                            </x-table>
+                        </div>
+                    @empty
+                        <p class="text-gray-800">No attributes added.</p>
+                    @endforelse
                 </div>
+                <!-- Modal Create Variant -->
+                <x-modal name="create-variant-modal" title="Create Variant" size="lg">
+                    <form wire:submit="storeVariant" class="space-y-4">
+                        <div>
+                            <x-label value="English name" />
+                            <x-input wire:model="en_name" type="text" class="w-full" />
+                            @error('en_name')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div>
+                            <x-label value="Spanish name" />
+                            <x-input wire:model="es_name" type="text" class="w-full" />
+                            @error('es_name')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div>
+                            <x-button type="submit" label="Save" />
+                        </div>
+                    </form>
+                </x-modal>
 
+                <!-- Modal Edit Variant -->
+                <x-modal name="edit-variant-modal" title="Edit Variant">
+                    <form wire:submit="updateVariant" class="space-y-4">
+                        <div>
+                            <x-label value="Name" />
+                            <x-input wire:model="en_name" type="text" class="w-full" />
+                            @error('en_name')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div>
+                            <x-label value="Spanish name" />
+                            <x-input wire:model="es_name" type="text" class="w-full" />
+                            @error('es_name')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        <div>
+                            <x-button type="submit" label="Save" />
+                        </div>
+                    </form>
+                </x-modal>
             </div>
         </x-card>
 

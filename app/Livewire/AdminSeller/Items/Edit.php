@@ -2,6 +2,8 @@
 
 namespace App\Livewire\AdminSeller\Items;
 
+use App\Models\Attribute;
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -25,6 +27,15 @@ class Edit extends Component
     public $es_shipping_policy;
     public $en_return_policy;
     public $es_return_policy;
+    public $categories;
+    public $selectedCategories = [];
+    public $attrs;
+    public $selectedAttributes = [];
+    public $attribute_id;
+    public $en_name;
+    public $es_name;
+    public $variant;
+    public $variant_id;
     public $is_active;
     public $approved_by;
     public $approved_at;
@@ -154,6 +165,94 @@ class Edit extends Component
                 'es_specifications' => $this->es_specifications,
             ]);
         }
+    }
+
+    public function handleCategoriesModal()
+    {
+        $this->categories = Category::all();
+        $this->selectedCategories = $this->item->categories->pluck('id')->toArray();
+        $this->dispatch('open-modal', 'sync-categories-modal');
+    }
+
+    public function syncCategories()
+    {
+        $this->item->categories()->sync($this->selectedCategories);
+
+        $this->dispatch('close-modal', 'sync-categories-modal');
+    }
+
+    public function handleAttributesModal()
+    {
+        $this->dispatch('open-modal', 'sync-attributes-modal');
+        $this->attrs = Attribute::all();
+        $this->selectedAttributes = $this->item->attributes->pluck('id')->toArray();
+    }
+
+    public function syncAttributes()
+    {
+        $this->item->attributes()->sync($this->selectedAttributes);
+        $this->dispatch('close-modal', 'sync-attributes-modal');
+    }
+
+    public function handleVariantModal($attribute_id)
+    {
+        $this->attribute_id = $attribute_id;
+        $this->dispatch('open-modal', 'create-variant-modal');
+    }
+
+    public function storeVariant()
+    {
+        $this->validate([
+            'en_name' => 'required|string|max:10',
+            'es_name' => 'nullable|string|max:10',
+        ]);
+
+        // Logic to create a new variant for the item
+        $this->item->variants()->create([
+            'attribute_id' => $this->attribute_id,
+            'en_name' => $this->en_name,
+            'es_name' => $this->es_name,
+        ]);
+
+        $this->reset('en_name', 'es_name');
+    }
+
+    public function deleteVariant($variantId)
+    {
+        $variant = $this->item->variants()->find($variantId);
+        if ($variant) {
+            $variant->delete();
+        }
+    }
+
+    public function handleEditVariantModal($variantId)
+    {
+        $this->variant = $this->item->variants()->find($variantId);
+        if ($this->variant) {
+            $this->variant_id = $this->variant->id;
+            $this->en_name = $this->variant->en_name;
+            $this->es_name = $this->variant->es_name;
+            $this->attribute_id = $this->variant->attribute_id;
+            $this->dispatch('open-modal', 'edit-variant-modal');
+        }
+    }
+
+    public function updateVariant()
+    {
+        $this->validate([
+            'en_name' => 'required|string|max:10',
+        ]);
+
+        if ($this->variant) {
+            $this->variant->update([
+                'attribute_id' => $this->attribute_id,
+                'en_name' => $this->en_name,
+                'es_name' => $this->es_name,
+            ]);
+        }
+
+        $this->reset(['en_name', 'es_name']);
+        $this->dispatch('close-modal', 'edit-variant-modal');
     }
 
     public function approveItem()
