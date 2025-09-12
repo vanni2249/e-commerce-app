@@ -670,6 +670,8 @@
                                 <tr>
                                     <th class="p-4 w-32">Product<br />Number</th>
                                     <th class="p-4 w-24">SKU</th>
+                                    <th class="p-4">Price</th>
+                                    <th class="p-4">Shipping</th>
                                     <th class="p-4">Variant</th>
                                     <th class="p-4 w-14 text-right">Action</th>
                                 </tr>
@@ -682,6 +684,12 @@
                                         </td>
                                         <td class="p-4">
                                             {{ $product->sku ?? '...' }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $product->price ?? '...' }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $product->shipping ?? 'Free' }}
                                         </td>
                                         <td class="p-4">
                                             @forelse ($product->variants as $variant)
