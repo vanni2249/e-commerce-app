@@ -44,7 +44,7 @@
                 </li>
                 <!-- Variant name -->
                 <ul class="flex flex-wrap gap-1 items-center bg-gray-100 py-2 rounded-xl space-x-1 px-2">
-                    @foreach ($attribute->variants as $variant)
+                    @foreach ($item->attributes()->where('attribute_id',$attribute->id)->variants as $variant)
                         <li class="inline-block bg-gray-200 text-sm px-2 py-1 rounded">
                             <div class="flex justify-between">
                                 <span>

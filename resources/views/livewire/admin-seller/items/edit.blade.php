@@ -62,19 +62,20 @@
         <!-- Info card-->
         <x-card>
             <div class="grid grid-cols-6 gap-4">
+                <!-- Main information -->
                 <div class="col-span-full lg:col-span-2">
                     <h2 class="text-md font-bold text-gray-900">Business & Seller</h2>
                     <p class="mb-4 text-sm text-gray-600">
                         Select the business and seller associated with this item.
                     </p>
                 </div>
-                <!-- Titles -->
+                <!-- Information -->
                 <div class="col-span-full lg:col-span-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-1">
-                            <x-label for="title" value="Business" />
+                            <x-label for="title" value="Section" />
                             <x-select wire:model.lazy="section_id" class="w-full">
-                                <option value="">Select a business</option>
+                                <option value="">Select a section</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}">{{ $section->name }}</option>
                                 @endforeach
@@ -90,14 +91,15 @@
                         </div>
                     </div>
                 </div>
+                <!-- Space -->
                 <div class="col-span-full py-4"></div>
+                <!-- Titles -->
                 <div class="col-span-full lg:col-span-2">
                     <h2 class="text-md font-bold text-gray-900">Titles</h2>
                     <p class="text-sm text-gray-600 mb-4">
                         The titles of the item in different languages.
                     </p>
                 </div>
-                <!-- Titles -->
                 <div class="col-span-full lg:col-span-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-full lg:col-span-1">
@@ -444,8 +446,9 @@
         <!-- Attributes & Variants -->
         <x-card>
             <header class="flex justify-between items-center">
+                {{-- {{ $item->products->count() }} Products --}}
                 <h2 class="text-md font-bold">Variants</h2>
-                @if ($item->variants->isEmpty())
+                @if ($item->variants->isEmpty() && $item->products->count() === 0)
                     <x-icon-button wire:click="handleAttributesModal" icon="plus" />
                 @endif
             </header>
@@ -496,7 +499,7 @@
                                     </tr>
                                 </x-slot>
                                 <x-slot name="body">
-                                    @forelse ($attribute->variants as $variant)
+                                    @forelse ($item->variants->where('attribute_id', $attribute->id) as $variant)
                                         <tr class="hover:bg-gray-50 border-b border-gray-200">
                                             <td class="p-4">
                                                 {{ $variant->en_name }}
@@ -508,8 +511,10 @@
                                                 <x-icon-button
                                                     wire:click="handleEditVariantModal({{ $variant->id }})"
                                                     icon="edit" size="sm" />
-                                                <x-icon-button wire:click="deleteVariant({{ $variant->id }})"
-                                                    icon="delete" size="sm" />
+                                                @if ($variant->products->count() > 0)
+                                                    <x-icon-button wire:click="deleteVariant({{ $variant->id }})"
+                                                        icon="delete" size="sm" />
+                                                @endif
                                             </td>
                                         </tr>
                                     @empty
@@ -519,11 +524,6 @@
                                             </td>
                                         </tr>
                                     @endforelse
-                                    {{-- <tr>
-                                        <td colspan="3">
-                                            <x-icon-button icon="plus" />
-                                        </td>
-                                    </tr> --}}
                                 </x-slot>
                             </x-table>
                         </div>
@@ -581,77 +581,215 @@
 
         <!-- Products -->
         <x-card>
-            <div class="grid grid-cols-6 gap-4">
+            <header class="flex justify-between items-center mb-1">
+                <h2 class="text-md font-bold text-gray-900">Item products</h2>
+                @if ($showCreateProductButton)
+                    <x-icon-button wire:click="handleCreateProductModal" icon="plus" />
+                @endif
+            </header>
+            <!-- Create product -->
+            <x-modal name="create-item-modal" title="Create product">
+                <form wire:submit.prevent="storeProduct">
+                    <div class="space-y-4">
+                        @error('combination')
+                            <div class="bg-red-200 p-4 rounded border border-red-300" role="alert">
+                                <x-error message="{{ $message }}" />
+                            </div>
+                        @enderror
+                        <div>
+                            <x-label value="Sku" />
+                            <br>
+                            <x-input type="text" wire:model="product_sku" @class(['w-full', 'border-red-300' => $errors->has('product_sku')]) />
+                            @error('product_sku')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        @if (!empty($item->attributes))
+                            @foreach ($item->attributes as $i => $attribute)
+                                <div>
+                                    <x-label value="{!! $attribute->name !!}" />
+                                    <br>
+                                    <x-select name="variants[{{ $i }}][name]"
+                                        wire:model.defer="product_variants.{{ $i }}.id"
+                                        @class([
+                                            'w-full',
+                                            'border-red-300' => $errors->has('product_variants.' . $i . '.id'),
+                                        ])>
+                                        <option value="">Select {{ $attribute->name }}</option>
+                                        @foreach ($item->variants->where('attribute_id', $attribute->id) as $variant)
+                                            <option value="{{ $variant->id }}">{{ $variant->en_name }}</option>
+                                        @endforeach
+                                    </x-select>
+                                    @error('product_variants.' . $i . '.id')
+                                        <x-error message="{{ $message }}" />
+                                    @enderror
+                                </div>
+                            @endforeach
+                        @endif
 
+                        <div class="flex items-center space-x-4">
+                            <div class="w-1/2">
+                                <x-label value="Price" />
+                                <br>
+                                <x-input type="number" wire:model="product_price" step="0.01"
+                                    @class(['w-full', 'border-red-300' => $errors->has('product_price')]) />
+                                @error('product_price')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
+                            </div>
+                            <div class="w-1/2">
+                                <x-label value="Shipping" />
+                                <br>
+                                <x-input type="number" wire:model="product_shipping_cost" step="0.01"
+                                    @class([
+                                        'w-full',
+                                        'border-red-300' => $errors->has('product_shipping'),
+                                    ]) />
+                                @error('product_shipping_cost')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <x-button type="submit" label="Save" />
+                        </div>
+                    </div>
+                </form>
+            </x-modal>
+            <!-- Products table -->
+            <div class="grid grid-cols-6 gap-4">
                 <div class="col-span-full lg:col-span-2">
-                    <h2 class="text-md font-bold text-gray-900">Item products</h2>
                     <p class="text-sm text-gray-600">
                         Item products and stock keeping units (SKUs).
                     </p>
                 </div>
                 <div class="col-span-full lg:col-span-4">
-                    @php
-                        $products = [
-                            ['sku' => 'SKU123', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU124', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU125', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU126', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU127', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU128', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU129', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU130', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU131', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU132', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU133', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                            ['sku' => 'SKU134', 'pn' => 'pn-', 'variant' => rand(1, 100)],
-                        ];
-                    @endphp
                     <div class="space-y-2">
                         <x-table>
                             <x-slot name="head">
                                 <tr>
+                                    <th class="p-4 w-32">Product<br />Number</th>
                                     <th class="p-4 w-24">SKU</th>
-                                    <th class="p-4 w-32">PN</th>
                                     <th class="p-4">Variant</th>
-                                    <th class="p-4 w-14">Action</th>
+                                    <th class="p-4 w-14 text-right">Action</th>
                                 </tr>
                             </x-slot>
                             <x-slot name="body">
-                                @foreach ($products as $product)
+                                @forelse ($item->products as $product)
                                     <tr class="hover:bg-gray-50 border-b border-gray-200">
                                         <td class="p-4">
-                                            {{ $product['sku'] }}
+                                            {{ $product->number ?? '...' }}
                                         </td>
                                         <td class="p-4">
-                                            {{ $product['pn'] }}{{ $product['variant'] }}
+                                            {{ $product->sku ?? '...' }}
                                         </td>
                                         <td class="p-4">
-                                            Variant {{ $product['variant'] }}
+                                            @forelse ($product->variants as $variant)
+                                                <span
+                                                    class="inline-block bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded mr-1">
+                                                    {{ $variant->attribute->name }}: {{ $variant->en_name }}
+                                                </span>
+
+                                            @empty
+                                                ...
+                                            @endforelse
                                         </td>
                                         <td class="p-4">
-                                            <x-icon-button />
+                                            <x-icon-button wire:click="handleProductEditModal({{ $product->id }})"
+                                                icon="edit" />
+                                            <x-icon-button wire:click="handleProductDeleteModal({{ $product->id }})"
+                                                icon="delete" />
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="p-4 text-center text-gray-600">
+                                            No products added yet.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </x-slot>
                         </x-table>
                     </div>
                 </div>
             </div>
+            <!-- Edit product -->
+            <x-modal name="edit-product-modal" title="Edit product">
+                <form wire:submit.prevent="updateProduct">
+                    <div class="space-y-4">
+                        <div>
+                            <x-label value="Sku" />
+                            <br>
+                            <x-input type="text" wire:model="product_sku" class="w-full" />
+                            @error('product_sku')
+                                <x-error message="{{ $message }}" />
+                            @enderror
+                        </div>
+                        @if (!empty($item->attributes))
+                            @foreach ($item->attributes as $i => $attribute)
+                                <div>
+                                    <x-label value="{!! $attribute->name !!}" />
+                                    <br>
+                                    <x-select name="variants[{{ $i }}][name]"
+                                        wire:model.defer="product_variants.{{ $i }}.id" class="w-full">
+                                        <option value="">Select {{ $attribute->name }}</option>
+                                        @foreach ($item->variants->where('attribute_id', $attribute->id) as $variant)
+                                            <option value="{{ $variant->id }}">{{ $variant->en_name }}</option>
+                                        @endforeach
+                                    </x-select>
+                                    @error('product_variants.' . $i . '.id')
+                                        <x-error message="{{ $message }}" />
+                                    @enderror
+                                </div>
+                            @endforeach
+                        @endif
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-1/2">
+                                <x-label value="Price" />
+                                <br>
+                                <x-input type="number" wire:model="product_price" step="0.01" class="w-full" />
+                                @error('product_price')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
+                            </div>
+                            <div class="w-1/2">
+                                <x-label value="Shipping" />
+                                <br>
+                                <x-input type="number" wire:model="product_shipping_cost" step="0.01"
+                                    class="w-full" />
+                                @error('product_shipping_cost')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <x-button type="submit" label="Save" />
+                        </div>
+                    </div>
+                </form>
+            </x-modal>
+            <!-- Remove product -->
+            <x-modal name="delete-product-modal" title="Remove product">
+                <form wire:submit.prevent="deleteProduct">
+                    <p class="text-base text-gray-600 mb-4">
+                        Are you sure you want to remove this product? This action cannot be undone.
+                    </p>
+                    <div class="mt-4 flex items-center space-x-2">
+                        <x-button type="submit" value="Yes, remove product" />
+                    </div>
+                </form>
+            </x-modal>
         </x-card>
 
-        <!-- Tags -->
-        <x-card>
-        </x-card>
-
-        <!-- Approve -->
-        @if ($admin)
+        <!-- Approve and post -->
+        @if (($item->products()->count() > 0) & $admin)
             <x-card>
                 <div class="grid grid-cols-6 gap-4">
                     <div class="col-span-full lg:col-span-2">
                         <h2 class="text-md font-bold text-gray-900">Approve item</h2>
                         <p class="text-sm text-gray-600 mb-4">
-                            Approve the item to make it visible to customers.
+                            Approve and post date of the item to make it visible to customers.
                         </p>
                     </div>
                     <div class="col-span-full lg:col-span-4">
@@ -669,6 +807,14 @@
                                                 Are you sure you want to approve this item? This action cannot be
                                                 undone.
                                             </p>
+                                            <div class="col-span-1">
+                                                <x-label for="available_at" value="Available date" />
+                                                <x-input wire:model.lazy='available_at' type="datetime-local"
+                                                    class="w-full" />
+                                                @error('available_at')
+                                                    <x-error message="{{ $message }}" />
+                                                @enderror
+                                            </div>
                                             <div class="mt-4 flex items-center space-x-2">
                                                 <x-button type="submit" value="Yes, approve item" />
                                             </div>
@@ -686,52 +832,12 @@
                                     <x-input disabled="true" wire:model='approved_at' type="datetime"
                                         class="w-full" />
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </x-card>
-        @endif
-
-        <!-- Available date -->
-        @if ($item->approved_at != null)
-            <x-card>
-                <div class="grid grid-cols-6 gap-4">
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Available date</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            The date when the item becomes available for purchase.
-                        </p>
-                    </div>
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2 lg:col-span-1">
-                                <x-label for="title" value="Available date" />
-                                <x-input wire:model.lazy='available_at' disabled="true" type="datetime"
-                                    class="w-full" />
-                            </div>
-                            <div class="col-span-2 lg:col-span-1">
-                                <x-label for="Set date" value="Set date" />
-                                <div class="w-full">
-                                    <x-button @click="$dispatch('open-modal', 'available-at-modal')" type="button"
-                                        value="Set available date" />
-                                    <x-modal name="available-at-modal" title="Set available date" size="lg">
-                                        <form wire:submit.prevent='setAvailableAt'>
-                                            <div class="col-span-1">
-                                                <x-label for="available_at" value="Available date" />
-                                                <x-input wire:model.lazy='available_at' type="datetime-local"
-                                                    class="w-full" />
-                                                @error('available_at')
-                                                    <x-error message="{{ $message }}" />
-                                                @enderror
-                                            </div>
-                                            <div class="mt-4 flex items-center space-x-2">
-                                                <x-button type="submit" value="Set available date" />
-                                            </div>
-                                        </form>
-                                    </x-modal>
+                                <div class="col-span-2 lg:col-span-1">
+                                    <x-label for="title" value="Available datetime" />
+                                    <x-input disabled="true" wire:model='available_at' type="datetime"
+                                        class="w-full" />
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

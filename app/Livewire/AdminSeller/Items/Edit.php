@@ -5,11 +5,16 @@ namespace App\Livewire\AdminSeller\Items;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Item;
+use App\Traits\ProductNumber;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class Edit extends Component
 {
+    use ProductNumber;
+
     public $admin;
     public $item;
     public $section_id;
@@ -36,10 +41,20 @@ class Edit extends Component
     public $es_name;
     public $variant;
     public $variant_id;
+    public $sku;
+    public $variants = [];
     public $is_active;
     public $approved_by;
     public $approved_at;
     public $available_at;
+    public $product_sku = '';
+    public $product_variants = [];
+    public $product_combination;
+    public $product_price;
+    public $product_shipping_cost;
+    public $product;
+
+    public $showCreateProductButton = false;
 
     public function mount($item)
     {
@@ -59,10 +74,11 @@ class Edit extends Component
         $this->en_return_policy = $this->item->en_return_policy;
         $this->es_return_policy = $this->item->es_return_policy;
         $this->is_active = $this->item->is_active;
-        $this->approved_by = $this->item->approvedBy->name??'';
+        $this->approved_by = $this->item->approvedBy->name ?? '';
         $this->approved_at = $this->item->approved_at;
         $this->available_at = $this->item->available_at;
 
+        $this->showCreateProductButton = $this->showCreateProductButton();
     }
 
     public function updated($field)
@@ -82,7 +98,7 @@ class Edit extends Component
             'en_return_policy' => 'nullable|string',
             'es_return_policy' => 'nullable|string',
         ]);
-        
+
         $this->item->update([
             'section_id' => $this->section_id,
             'en_title' => $this->en_title,
@@ -115,7 +131,7 @@ class Edit extends Component
         $this->item->update([
             'en_specifications' => $this->en_specifications,
         ]);
-        
+
         $this->new_en_specification = [];
 
         $this->dispatch('close-modal', 'new_en_specification-modal');
@@ -148,11 +164,10 @@ class Edit extends Component
         $this->item->update([
             'es_specifications' => $this->en_specifications,
         ]);
-        
+
         $this->new_es_specification = [];
 
         $this->dispatch('close-modal', 'new_es_specification-modal');
-
     }
 
     public function removeSpanishSpecification($index)
@@ -255,17 +270,229 @@ class Edit extends Component
         $this->dispatch('close-modal', 'edit-variant-modal');
     }
 
+    public function handleCreateProductModal()
+    {
+        $this->dispatch('open-modal', 'create-item-modal');
+        $this->product_sku = '';
+
+        $this->setProductVariant();
+    }
+
+    public function setProductVariant()
+    {
+        foreach ($this->item->attributes as $i => $attribute) {
+            $this->product_variants[$i] = ['name' => ''];
+        }
+    }
+
+    public function showCreateProductButton()
+    {
+        if ($this->item->attributes->isNotEmpty()) {
+            return true;
+        } else {
+            if ($this->countProducts() === 1) {
+                // Item has no attributes, only allow creating one product (hide button)
+                return false;
+            } else {
+                // Item has no attributes, but already has products, so we can show the button
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function countProducts()
+    {
+        return $this->item->products()->count();
+    }
+
+    public function storeProduct()
+    {
+        $rules = [
+            'product_sku' => 'required',
+            'product_price' => 'required|numeric|min:0',
+            'product_shipping_cost' => 'required|numeric|min:0',
+        ];
+
+        if (!empty($this->item->attributes) && count($this->item->attributes) > 0) {
+            $rules['product_variants'] = 'required|array';
+            $rules['product_variants.*.id'] = 'required|exists:variants,id';
+        }
+
+        $messages = [
+            'required' => 'The :attribute field is required.',
+            'product_variants.*.id.required' => 'Each variant must be selected.',
+            'product_variants.*.id.exists' => 'Invalid variant selected.',
+        ];
+
+        $this->validate($rules, $messages);
+
+        if (!empty($this->item->attributes) && $this->checkIfProductCombinationExists()) {
+            throw ValidationException::withMessages([
+                'combination' => 'Product variants already exist.',
+            ]);
+        }
+
+        $product = $this->item->products()->create([
+            'number' => $this->createProductNumber(),
+            'sku' => $this->product_sku,
+            'price' => $this->product_price,
+            'shipping_cost' => $this->product_shipping_cost,
+        ]);
+
+        foreach ($this->product_variants as $variant) {
+            $product->variants()->attach($variant['id']);
+        }
+
+        $this->showCreateProductButton = $this->showCreateProductButton();
+
+        $this->dispatch('close-modal', 'create-item-modal');
+
+        $this->reset(['product_sku', 'product_variants', 'product_combination', 'product_price', 'product_shipping_cost']);
+    }
+
+    protected function checkIfProductCombinationExists()
+    {
+        $variantIds = collect($this->product_variants)->pluck('id')->filter()->unique()->toArray();
+
+        if (empty($variantIds)) {
+            return false;
+        }
+
+        $query = $this->item->products();
+
+        $query->whereHas('variants', function ($q) use ($variantIds) {
+            $q->whereIn('variant_id', $variantIds);
+        }, '=', count($variantIds));
+
+        return $query->exists();
+    }
+
+    public function handleProductEditModal($productId)
+    {
+        $this->dispatch('open-modal', 'edit-product-modal');
+        $this->product = $this->item->products()->with('variants')->find($productId);
+        if ($this->product) {
+            $this->product_sku = $this->product->sku;
+            $this->product_price = $this->product->price;
+            $this->product_shipping_cost = $this->product->shipping_cost;
+            $this->product_variants = [];
+
+            foreach ($this->item->attributes as $i => $attribute) {
+                $this->product_variants[$i] = ['id' => ''];
+            }
+
+            foreach ($this->product->variants as $variant) {
+                $index = $this->item->attributes->search(function ($attr) use ($variant) {
+                    return $attr->id === $variant->attribute_id;
+                });
+                if ($index !== false) {
+                    $this->product_variants[$index] = ['id' => $variant->id];
+                }
+            }
+
+            $this->product_combination = $this->product->variants->pluck('id')->toArray();
+        }
+    }
+
+    public function updateProduct()
+    {
+        $rules = [
+            'product_sku' => 'required',
+            'product_price' => 'required|numeric|min:0',
+            'product_shipping_cost' => 'required|numeric|min:0',
+        ];
+
+        if (!empty($this->item->attributes) && count($this->item->attributes) > 0) {
+            $rules['product_variants'] = 'required|array';
+            $rules['product_variants.*.id'] = 'required|exists:variants,id';
+        }
+
+        $messages = [
+            'required' => 'The :attribute field is required.',
+            'product_variants.*.id.required' => 'Each variant must be selected.',
+            'product_variants.*.id.exists' => 'Invalid variant selected.',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $product = $this->item->products()->find($this->product)->first();
+        
+        if ($product) {
+            if (!empty($this->item->attributes) && $this->checkIfProductCombinationExistsForUpdate($product)) {
+                throw ValidationException::withMessages([
+                    'combination' => 'Product variants already exist.',
+                ]);
+            }
+
+            $product->update([
+                'sku' => $this->product_sku,
+                'price' => $this->product_price,
+                'shipping_cost' => $this->product_shipping_cost,
+            ]);
+
+            $variantIds = collect($this->product_variants)->pluck('id')->filter()->unique()->toArray();
+            $product->variants()->sync($variantIds);
+        }
+
+        $this->reset(['product_sku', 'product_variants', 'product_combination', 'product_price', 'product_shipping_cost']);
+        $this->dispatch('close-modal', 'edit-product-modal');
+    }
+
+    public function checkIfProductCombinationExistsForUpdate($product)
+    {
+        $variantIds = collect($this->product_variants)->pluck('id')->filter()->unique()->toArray();
+
+        if (empty($variantIds)) {
+            return false;
+        }
+
+        $query = $this->item->products()->where('id', '!=', $product->id);
+
+        $query->whereHas('variants', function ($q) use ($variantIds) {
+            $q->whereIn('variant_id', $variantIds);
+        }, '=', count($variantIds));
+
+        return $query->exists();
+    }
+
+    public function handleProductDeleteModal($productId)
+    {
+        $this->product = $this->item->products()->find($productId)->first();
+        if ($this->product) {
+            $this->dispatch('open-modal', 'delete-product-modal');
+        }
+    }
+
+    public function deleteProduct()
+    {
+        if ($this->product) {
+            $this->product->variants()->detach();
+            $this->product->delete();
+            $this->product = null;
+            $this->showCreateProductButton = $this->showCreateProductButton();
+            $this->dispatch('close-modal', 'delete-product-modal');
+        }
+    }
+
     public function approveItem()
     {
+        $this->validate([
+            'available_at' => 'required'
+        ]);
+
+
         $this->item->update([
             'is_active' => true,
             'approved_by' => Auth::guard('admin')->user()->id,
             'approved_at' => now(),
+            'available_at' => $this->available_at,
         ]);
 
         $this->is_active = $this->item->is_active;
-        $this->approved_by = $this->item->approvedBy->name??'';
+        $this->approved_by = $this->item->approvedBy->name ?? '';
         $this->approved_at = $this->item->approved_at;
+        $this->available_at = $this->item->available_at;
 
         $this->dispatch('close-modal', 'approved-modal');
     }
@@ -283,9 +510,9 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.admin-seller.items.edit',[
+        return view('livewire.admin-seller.items.edit', [
             'sections' => \App\Models\Section::all(),
-            
+
         ])->layout(Auth::guard('admin')->check() ? 'components.layouts.admin' : 'components.layouts.seller');
     }
 }

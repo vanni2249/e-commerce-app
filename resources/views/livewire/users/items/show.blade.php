@@ -173,7 +173,7 @@
                 <h2 class="text-lg font-bold">Description</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_description !!}
+                {!! $item->en_description??'...' !!}
             </div>
         </x-card>
 
@@ -184,12 +184,14 @@
             </header>
 
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
-                @foreach ($item->en_specifications as $specification)
+                @forelse ($item->en_specifications as $specification)
                     <li class="flex">
                         <span class="w-1/4 text-sm text-gray-600">{{ $specification['label'] }}</span>
                         <span class="font-bold prose">{{ $specification['value'] }}</span>
                     </li>
-                @endforeach
+                @empty
+                    ...
+                @endforelse
             </ul>
         </x-card>
 
@@ -199,7 +201,7 @@
                 <h2 class="text-lg font-bold">Shipping Policy</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_shipping_policy??$item->seller->shipping_policy !!}
+                {!! $item->en_shipping_policy ?? ($item->seller->shipping_policy ?? '...') !!}
             </div>
         </x-card>
 
@@ -209,7 +211,7 @@
                 <h2 class="text-lg font-bold">Return Policy</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_return_policy??$item->seller->return_policy !!}
+                {!! $item->en_return_policy ?? ($item->seller->return_policy ?? '...') !!}
             </div>
         </x-card>
     </div>
