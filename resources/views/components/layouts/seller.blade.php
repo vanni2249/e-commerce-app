@@ -41,6 +41,7 @@
                 $collection = collect([
                     ['title' => 'Dashboard', 'route' => 'sellers.dashboard', 'active' => 'dashboard'],
                     ['title' => 'Items', 'route' => 'sellers.items.index', 'active' => 'items'],
+                    ['title' => 'Products', 'route' => 'sellers.products.index', 'active' => 'products'],
                 ]);
             @endphp
             <ul class="p-4 text-xs font-bold uppercase space-y-1">

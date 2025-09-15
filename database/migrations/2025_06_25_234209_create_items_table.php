@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->ulid('id')->primary();
+            $table->enum('type', ['fbz', 'fbs'])->default('fbz');
             $table->string('number')->unique();
             $table->string('sku')->unique()->nullable();
             $table->foreignId('seller_id')->nullable();

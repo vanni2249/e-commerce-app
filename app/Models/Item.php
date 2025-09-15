@@ -10,6 +10,7 @@ class Item extends Model
 {
     use HasUlids;
     protected $fillable = [
+        'type',
         'number',
         'seller_id',
         'section_id',
