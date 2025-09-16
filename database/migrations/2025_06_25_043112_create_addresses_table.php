@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['postal', 'residencial', 'business'])->default('residencial');
+            $table->string('name')->nullable();
             $table->string('line1');
             $table->string('line2')->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
-            $table->foreignId('state_id')->nullable()->constrained('states')->onDelete('set null');
+            $table->string('state_code')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->boolean('is_default')->default(false);
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('phone')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

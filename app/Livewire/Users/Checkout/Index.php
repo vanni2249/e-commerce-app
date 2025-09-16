@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Users\Checkout;
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Traits\CartSummary;
 use Illuminate\Support\Facades\Auth;
@@ -12,19 +13,41 @@ class Index extends Component
 {
     use CartSummary;
     public $user;
+    public $address;
+    public $addresses;
     public $cart;
+    public $products = [];
     public $summary = [];
 
     public function mount()
     {
         $this->user = Auth::user();
+        $this->address = $this->user->address;
+        $this->addresses = Address::with(['user', 'city', 'state'])
+            ->where('user_id', $this->user->id)
+            ->get();
 
         $this->cart = Cart::where('user_id', $this->user->id)
             ->with('products','products.item')
             ->doesntHave('order')
             ->first();
+        if ($this->cart) {
+            $this->products = $this->cart->products;
+            $this->summary = $this->summary();
+        }
 
         $this->summary = $this->summary();
+    }
+
+    public function setAddress($addressId)
+    {
+        $this->address = $this->user->addresses()->where('id', $addressId)->first();
+
+        $this->products = $this->cart ? $this->cart->products : [];
+
+        $this->summary = $this->summary();
+
+        $this->dispatch('close-modal', 'change-address-modal');
     }
 
     public function makePayment()

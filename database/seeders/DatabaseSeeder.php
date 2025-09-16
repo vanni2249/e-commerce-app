@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Product;
 use App\Models\State;
 use App\Models\User;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             AttributeSeeder::class,
             ProductSeeder::class,
             InventorySeeder::class,
+            AddressSeeder::class,
             // OrderSeeder::class,
             // SaleSeeder::class,
         ]);

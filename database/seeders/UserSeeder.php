@@ -19,13 +19,15 @@ class UserSeeder extends Seeder
           [
             'name' => 'Giovanni Colon',
             'email' => 'vanni2249@gmail.com',
+            'phone' => '7872249249',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
           ],
           [
-            'name' => 'Jane Doe',
+            'name' => 'Angel M. Colon',
             'email' => 'colon.angel1@gmail.com',
+            'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
@@ -33,13 +35,15 @@ class UserSeeder extends Seeder
           [
             'name' => 'Angel F. Colon',
             'email' => 'fabian4126@gmail.com',
+            'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
           ],
           [
-            'name' => 'Regular User',
+            'name' => 'Kariani A Colon Santiago',
             'email' => 'user@email.com',
+            'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
