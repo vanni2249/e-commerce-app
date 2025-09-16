@@ -10,15 +10,15 @@
                 <!-- List items -->
                 <div class="space-y-2">
                     @foreach ($cart->products ?? [] as $product)
-                        <div class="bg-gray-100 rounded-xl flex">
-                            <div class="p-2">
+                        <div class="bg-gray-100 rounded-xl flex p-4 space-x-4">
+                            <div>
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                     class="w-24 md:w-32 lg:w-40  rounded-xl" alt="">
                             </div>
-                            <div class="grow p-2">
+                            <div class="grow">
                                 <header class="md:flex md:justify-between items-start mb-2">
                                     <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
-                                        {{ $product->item->title }}
+                                        {{ $product->item->en_title }}
                                     </h2>
                                     <ul class="md:text-right">
                                         <li class="text-blue-500 font-semibold text-sm md:text-base lg:text-lg">
@@ -57,34 +57,16 @@
                     <h2 class="text-lg font-semibold">Checkout summary</h2>
                 </header>
                 <ul class="text-sm text-gray-600">
-                    <li class="flex justify-between items-center py-1">
-                        <span>Items in Cart</span>
-                        <span class="font-bold">2</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Subtotal</span>
-                        <span>$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Tax</span>
-                        <span>$0.00</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Total</span>
-                        <span class="font-bold">$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Discount</span>
-                        <span class="text-red-600">-$5.00</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Shipping</span>
-                        <span class="text-green-600">Free</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1 border-t border-gray-200 font-bold">
-                        <span>Grand Total</span>
-                        <span>$49.98</span>
-                    </li>
+                    @foreach ($summary as $item)
+                        <li @class([
+                            'flex justify-between items-center py-1',
+                            'border-t border-gray-300 font-bold' => $item['label'] === 'Grand Total',
+                            'text-red-600' => $item['label'] === 'Discount',
+                        ])>
+                            <span>{{ $item['label'] }}</span>
+                            <span class="font-bold">{{ $item['value'] }}</span>
+                        </li>
+                    @endforeach
                 </ul>
                 <footer>
                     <button wire:click="makePayment"

@@ -96,23 +96,15 @@ class Show extends Component
                 'quantity' => $newQuantity,
             ]);
 
-            // goto session to update the counter
-            $this->countProductsInCart();
         } else {
             // If it doesn't exist, add the product to the cart
             $this->cart->products()->attach($this->productId, [
                 'quantity' => $this->quantity,
             ]);
 
-            // goto session to update the counter
-            $this->countProductsInCart();
         }
-    }
 
-    public function countProductsInCart()
-    {
-        // Sum quantities of products in the cart
-        session('counter-products', $this->cart->products()->sum('quantity'));
+        $this->dispatch('update-counter-products');
     }
 
     public function issetUserCart()

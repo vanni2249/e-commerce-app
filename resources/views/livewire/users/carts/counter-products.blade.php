@@ -7,11 +7,19 @@
         </svg>
     </a>
     @if ($count > 0)
-        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-0.5">
-            @if ($count > 99)
-                99+
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full p-2.5">
+            @if ($count > 9)
+                <div class="relative">
+                    <span class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
+                        9+
+                    </span>
+                </div>
             @else
-                {{ $count }}
+                <div class="relative">
+                    <span class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
+                        {{ $count }}
+                    </span>
+                </div>
             @endif
 
         </span>

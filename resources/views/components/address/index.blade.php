@@ -2,11 +2,11 @@
 <ul class="text-gray-600">
     <li class="flex flex-col py-1">
         <span class="text-sm font-bold">Name</span>
-        <span class=" text-gray-500">Geovanni Colon Barrios</span>
+        <span class=" text-gray-500 text-sm">Geovanni Colon Barrios</span>
     </li>
     <li class="flex flex-col py-2">
         <span class="text-sm font-bold">Address</span>
-        <span class=" text-gray-500">
+        <span class=" text-gray-500 text-sm">
             Urbanizacion Villas del Prado,
             <br>
             Calle del Sol 125,
@@ -16,7 +16,7 @@
     </li>
     <li class="flex flex-col py-1">
         <span class="text-sm font-bold">Phone</span>
-        <span class="text-gray-500">+1 (555) 123-4567</span>
+        <span class="text-gray-500 text-sm">+1 (555) 123-4567</span>
     </li>
 </ul>
 @if (request()->segment(1) === 'addresses')

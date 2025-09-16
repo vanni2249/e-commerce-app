@@ -3,14 +3,17 @@
 namespace App\Livewire\Users\Checkout;
 
 use App\Models\Cart;
+use App\Traits\CartSummary;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Index extends Component
 {
+    use CartSummary;
     public $user;
     public $cart;
+    public $summary = [];
 
     public function mount()
     {
@@ -20,6 +23,8 @@ class Index extends Component
             ->with('products','products.item')
             ->doesntHave('order')
             ->first();
+
+        $this->summary = $this->summary();
     }
 
     public function makePayment()
