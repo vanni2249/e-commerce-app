@@ -47,7 +47,10 @@
     <!-- Items -->
     <div class="grid grid-cols-12 gap-4">
         @foreach ($items as $item)
-            <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate/>
+            <div class="col-span-6 md:col-span-3 lg:col-span-2">
+
+                <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate />
+            </div>
         @endforeach
     </div>
 </div>
