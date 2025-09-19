@@ -2,7 +2,7 @@
     <div class="grid grid-cols-12 gap-4">
         <!-- Cart Items -->
         <div class="col-span-12">
-            <x-card class="">
+            <x-card>
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                     <div class="mb-4 md:mb-0">
                         <h2 class="text-lg font-semibold text-green-700">
@@ -15,11 +15,13 @@
                     <div>
 
                         <a href="/"
-                            class="inline-block bg-blue-600 text-white px-4 text-center py-2 rounded hover:bg-blue-600 transition-colors" wire:navigate>
+                            class="inline-block bg-blue-600 text-white px-4 text-center py-2 rounded hover:bg-blue-600 transition-colors"
+                            wire:navigate>
                             Continue Shopping
                         </a>
                         <a href="{{ route('orders.show', ['order' => $order]) }}"
-                            class="inline-block bg-gray-200 text-gray-800 px-4 text-center py-2 rounded hover:bg-gray-300 transition-colors ml-2" wire:navigate>
+                            class="inline-block bg-gray-200 text-gray-800 px-4 text-center py-2 rounded hover:bg-gray-300 transition-colors ml-2"
+                            wire:navigate>
                             View Orders
                         </a>
                     </div>
@@ -28,7 +30,7 @@
         </div>
         <div class="col-span-12 md:col-span-8 order-last md:order-0">
             {{-- @livewire('users.completed.list-items', ['order' => $order]) --}}
-            <x-card class="space-y-4">
+            <x-card>
                 <header class="mb-4">
                     <h2 class="text-lg font-semibold">Items in order</h2>
                 </header>
@@ -42,7 +44,7 @@
                             <div class="grow p-2">
                                 <header class="md:flex md:justify-between items-start mb-2">
                                     <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
-                                        {{ $sale->product->item->title }}
+                                        {{ $sale->product->item->en_title }}
                                     </h2>
                                     <ul class="md:text-right">
                                         <li class="text-blue-500 font-semibold text-sm md:text-base lg:text-lg">
@@ -60,7 +62,7 @@
                                 <div class="flex">
                                     <!-- Quantity Selector -->
                                     <span class="bg-blue-100 rounded text-gray-600 px-2 py-1 text-xs">
-                                        Quantity: {{ rand(1, 5) }}
+                                        Quantity: {{ $sale->quantity }}
                                     </span>
                                 </div>
                             </div>
@@ -76,7 +78,14 @@
                 <header class="mb-4 flex items-center justify-between">
                     <h2 class="text-lg font-semibold">Shipping address</h2>
                 </header>
-                <x-address />
+                <x-address 
+                    name="{{ $order->address->name }}" 
+                    line1="{{ $order->address->line1 }}" 
+                    line2="{{ $order->address->line2 }}"
+                    city="{{ $order->address->city->name }}" 
+                    state="{{ $order->address->state_code }}"
+                    code="{{ $order->address->postal_code }}" 
+                    phone="{{ $order->address->phone }}" />
                 </ul>
             </x-card>
             <x-card>
@@ -84,37 +93,18 @@
                     <h2 class="text-lg font-semibold">Summary</h2>
                 </header>
                 <ul class="text-sm text-gray-600">
-                    <li class="flex justify-between items-center py-1">
-                        <span>Items in Cart</span>
-                        <span class="font-bold">2</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Subtotal</span>
-                        <span>$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Tax</span>
-                        <span>$0.00</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Total</span>
-                        <span class="font-bold">$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Discount</span>
-                        <span class="text-red-600">-$5.00</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1">
-                        <span>Shipping</span>
-                        <span class="text-green-600">Free</span>
-                    </li>
-                    <li class="flex justify-between items-center py-1 border-t border-gray-200 font-bold">
-                        <span>Grand Total</span>
-                        <span>$49.98</span>
-                    </li>
+                    @foreach ($summary as $item)
+                        <li @class([
+                            'flex justify-between items-center py-1',
+                            'border-t border-gray-300 font-bold' => $item['label'] === 'Grand Total',
+                            'text-red-600' => $item['label'] === 'Discount',
+                        ])>
+                            <span>{{ $item['label'] }}</span>
+                            <span class="font-bold">{{ $item['value'] }}</span>
+                        </li>
+                    @endforeach
                 </ul>
             </x-card>
         </div>
     </div>
-    {{-- Nothing in the world is as soft and yielding as water. --}}
 </div>

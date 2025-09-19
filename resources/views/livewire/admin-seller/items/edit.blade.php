@@ -163,14 +163,14 @@
                                 <x-label for="title" value="English" />
                                 <span class="text-xs font-bold text-gray-600">172</span>
                             </div>
-                            <x-textarea wire:model.lazy='en_short_description' class="w-full" />
+                            <x-textarea wire:model.lazy='en_description' class="w-full" />
                         </div>
                         <div class="col-span-2">
                             <div class="flex justify-between items-center">
                                 <x-label for="title" value="Spanish" />
                                 <span class="text-xs font-bold text-gray-600">172</span>
                             </div>
-                            <x-textarea wire:model.lazy='es_short_description' class="w-full" />
+                            <x-textarea wire:model.lazy='es_description' class="w-full" />
                         </div>
                     </div>
                 </div>

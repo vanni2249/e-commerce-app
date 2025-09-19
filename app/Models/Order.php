@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    use HasUlids;
+
     protected $fillable = [
+        'id',
+        'number',
         'user_id',
         'transaction_id',
         'cart_id',
+        'address_id',
     ];
 
     public function user()
@@ -30,5 +36,10 @@ class Order extends Model
     public function sales()
     {
         return $this->hasMany(Sale::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }

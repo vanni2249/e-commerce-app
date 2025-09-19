@@ -49,7 +49,8 @@
                                             </button>
                                         </div>
                                         <!-- Remove Button -->
-                                        <button wire:click="removeItem({{ $product->id }})"
+                                        <button wire:click="removeItemCartModal({{ $product->id }})"
+                                            {{-- wire:click="removeItem({{ $product->id }})" --}}
                                             class="bg-blue-100 text-blue-800 text-xs p-1 rounded hover:bg-blue-300 transition-colors duration-200 cursor-pointer">
                                             <x-icon icon="trash" />
                                         </button>
@@ -59,7 +60,7 @@
                         @endforeach
                         @if ($cart && $cart->products->count() > 0)
                             <div class="flex justify-end items-center mt-4">
-                                <x-button variant="light" size="sm" wire:click="removeCart"
+                                <x-button variant="light" @click="$dispatch('open-modal', 'remove-cart-modal')"
                                     class="text-sm text-gray-500 cursor-pointer hover:text-gray-700 transition-colors duration-200">
                                     Remove all Items
                                 </x-button>
@@ -112,4 +113,30 @@
             </div>
         @endif
     </div>
+
+    <!-- Remove item modal -->
+    <x-modal name="remove-item-modal" title="Remove Item">
+        <p class="text-gray-600">Are you sure you want to remove this item from your cart?</p>
+        <div class="mt-4 flex justify-end space-x-2">
+            <x-button wire:click="removeItem" class="bg-red-500 text-white hover:bg-red-600">
+                Yes, Remove
+            </x-button>
+            <x-button @click="$dispatch('close-modal', 'remove-item-modal')" variant="light">
+                Cancel
+            </x-button>
+        </div>
+    </x-modal>
+
+    <!-- Remove all item and cart modal -->
+    <x-modal name="remove-cart-modal" title="Remove All Items">
+        <p class="text-gray-600">Are you sure you want to remove all items from your cart?</p>
+        <div class="mt-4 flex justify-end space-x-2">
+            <x-button wire:click="removeCart" class="bg-red-500 text-white hover:bg-red-600">
+                Yes, Remove All
+            </x-button>
+            <x-button @click="$dispatch('close-modal', 'remove-cart-modal')" variant="light">
+                Cancel
+            </x-button>
+        </div>
+    </x-modal>
 </div>

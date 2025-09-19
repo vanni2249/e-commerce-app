@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('number')->unique(); // Unique identifier for the transaction
             $table->foreignId('user_id');
             $table->foreignId('cart_id')->nullable(); // Optional, if you want to link to a cart
             $table->decimal('amount', 10, 2);
             $table->string('status'); // e.g., 'success', 'failed'
             $table->string('payment_method'); // e.g., 'stripe', 'paypal'
-            $table->string('transaction_id')->unique(); // Unique identifier for the transaction
+            $table->string('transaction_id')->unique(); // Unique ID from the payment gateway
             $table->timestamps();
         });
     }

@@ -1,12 +1,17 @@
 <div>
     <div class="grid grid-cols-12 gap-4">
-        <x-card class="col-span-full">
-            <header class="flex items-center justify-between">
+        <x-card class="col-span-full bg-white">
+            <header class="flex items-center justify-between mb-2">
                 <h1 class="text-lg font-bold">Your Order</h1>
                 <p class="text-gray-600">
-                    SHP-202510E3456
+                    {{ $order->number }}
                 </p>
             </header>
+            <ul class="flex">
+                <li>
+                    <x-badge color="primary-outline" value="{{ $order->created_at->format('d/M/Y') }}" />
+                </li>
+            </ul>
         </x-card>
         <div class="col-span-full md:col-span-4 space-y-4">
             <!-- Shipping detail -->
@@ -44,7 +49,10 @@
                 <header class="mb-4 flex items-center justify-between">
                     <h2 class="text-lg font-semibold">Shipping address</h2>
                 </header>
-                <x-address />
+                <x-address name="{{ $order->address->name }}" line1="{{ $order->address->line1 }}"
+                    line2="{{ $order->address->line2 }}" city="{{ $order->address->city->name }}"
+                    state="{{ $order->address->state_code }}" code="{{ $order->address->postal_code }}"
+                    phone="{{ $order->address->phone }}" />
                 </ul>
             </x-card>
             <!-- Order summary -->
@@ -52,35 +60,17 @@
                 <header class="mb-4">
                     <h2 class="text-lg font-semibold">Summary</h2>
                 </header>
-                <ul class=" text-gray-600 space-y-1">
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Items in Cart</span>
-                        <span class="text-gray-600">2</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Subtotal</span>
-                        <span class="text-gray-600">$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Tax</span>
-                        <span class="text-gray-600">$0.00</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Total</span>
-                        <span class="font-bold">$49.98</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Discount</span>
-                        <span class="text-red-600">-$5.00</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <span class="text-sm font-bold">Shipping</span>
-                        <span class="text-green-600">Free</span>
-                    </li>
-                    <li class="flex justify-between items-center border-t border-gray-200 font-bold">
-                        <span class="text-sm font-bold">Grand Total</span>
-                        <span>$49.98</span>
-                    </li>
+                <ul class="text-sm text-gray-600">
+                    @foreach ($summary as $item)
+                        <li @class([
+                            'flex justify-between items-center py-1',
+                            'border-t border-gray-300 font-bold' => $item['label'] === 'Grand Total',
+                            'text-red-600' => $item['label'] === 'Discount',
+                        ])>
+                            <span>{{ $item['label'] }}</span>
+                            <span class="font-bold">{{ $item['value'] }}</span>
+                        </li>
+                    @endforeach
                 </ul>
             </x-card>
         </div>
@@ -100,7 +90,7 @@
                             <div class="grow p-2">
                                 <header class="md:flex md:justify-between items-start mb-2">
                                     <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
-                                        {{ $sale->product->item->title }}
+                                        {{ $sale->product->item->en_title }}
                                     </h2>
                                     <ul class="md:text-right">
                                         <li class="text-blue-500 font-semibold text-sm md:text-base lg:text-lg">

@@ -93,6 +93,7 @@
                         @if ($stock > 0)
                             <label for="quantity" class="text-gray-600 text-xs">Quantity:</label>
                             <div>
+                                {{ $stock }}
                                 <select wire:model.live="quantity"
                                     class="bg-blue-100 rounded text-gray-600 px-4 py-2 text-xs cursor-pointer">
                                     @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock); $i++)
@@ -107,23 +108,26 @@
                             <span class="text-gray-500 text-xs">Notify me when available</span>
                         @endif
                         <br>
-                        {{-- product:
-                        {{ $productId }} --}}
                     </div>
                     <!-- Buttons -->
                     <div class="flex items-center space-x-2">
                         <!-- auth -->
                         @auth
-                            <button
-                                class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path
-                                        d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                </svg>
-                            </button>
+                            <!-- Favorite -->
+                            @if ($wishlistAdded)
+                            @else
+                                <button wire:click="addItemToWishlistModal"
+                                    class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                    </svg>
+                                </button>
+                            @endif
                             @if ($stock > 0)
                                 <!-- Add to cart -->
                                 <button
@@ -173,7 +177,7 @@
                 <h2 class="text-lg font-bold">Description</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_description??'...' !!}
+                {!! $item->en_description ?? '...' !!}
             </div>
         </x-card>
 
@@ -215,4 +219,24 @@
             </div>
         </x-card>
     </div>
+    <!-- Create wishlist modal -->
+    <x-modal name="add-item-wishlist-modal" title="Add to wishlist" size="sm">
+        <form wire:submit.prevent="addItemToWishlist">
+            <div class="space-y-4">
+                <x-label for="wishlist" value="Select a wishlist" />
+                @if ($wishlists)
+                    <x-select class="w-full" wire:model.live="wishlist_id" id="wishlist">
+                        @foreach ($wishlists as $wishlist)
+                            <option value="{{ $wishlist->id }}">{{ $wishlist->name }}</option>
+                        @endforeach
+                    </x-select>
+                @endif
+                <div class="flex justify-start space-x-2">
+                    <x-button type="submit" class="grow" variant="primary" wire:loading.attr="disabled">
+                        Add to Wishlist
+                    </x-button>
+                </div>
+            </div>
+        </form>
+    </x-modal>
 </div>

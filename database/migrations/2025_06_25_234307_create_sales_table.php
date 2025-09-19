@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignUlid('order_id')->nullable();
             $table->foreignId('product_id');
             $table->integer('quantity')->default(0);
             $table->decimal('price', 10, 2)->default(0.00);
             $table->decimal('shipping_cost', 10, 2)->default(0.00);
+            $table->decimal('percentage_fee', 5, 2)->default(0.00);
+            $table->decimal('fixed_fee', 10, 2)->default(0.00);
             $table->foreignId('seller_id')->nullable();
             $table->timestamps();
         });

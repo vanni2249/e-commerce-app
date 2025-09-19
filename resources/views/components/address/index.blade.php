@@ -7,11 +7,11 @@
     <li class="flex flex-col py-2">
         <span class="text-sm font-bold">Address</span>
         <span class=" text-gray-500 text-sm">
-            {{ $line1 }},
+            {{ $line1 }}
             <br>
-            {{ $line2 }},
+            {{ $line2 }}
             <br>
-            {{ $city }} {{ $state }}, {{ $code }}
+            {{ $city }} <span class="uppercase">{{ $state }}</span>, {{ $code }}
         </span>
     </li>
     <li class="flex flex-col py-1">

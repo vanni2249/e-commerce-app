@@ -100,7 +100,7 @@
                     @endforeach
                 </ul>
                 <footer>
-                    <button wire:click="makePayment"
+                    <button @click="$dispatch('open-modal', 'make-payment-modal')"
                         class="w-full block text-center bg-blue-600 text-white text-lg py-2 rounded mt-4 hover:bg-blue-600 transition-colors duration-200 cursor-pointer">
                         Make Payment
                     </button>
@@ -108,4 +108,58 @@
             </x-card>
         </div>
     </div>
+
+    <!-- Make a payment modal -->
+    <x-modal name="make-payment-modal" title="Make Payment" size="md">
+        <div class="space-y-4">
+            <form wire:submit.prevent="makePayment">
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- Name -->
+                    <div class="col-span-full">
+                        <x-label for="name" value="Name on Card" />
+                        <x-input id="name" wire:model='name' type="text" class="w-full" placeholder="John Doe" />
+                        @error('name')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <!-- Card number -->
+                    <div class="col-span-full">
+                        <x-label for="cardNumber" value="Card Number" />
+                        <x-input id="cardNumber" wire:model='cardNumber' type="text" class="w-full" placeholder="1234 1234 1234 1234" />
+                        @error('cardNumber')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <!-- Expiration month -->
+                    <div class="col-span-2">
+                        <x-label for="expMonth" value="Expiration Month" />
+                        <x-input id="expMonth" wire:model='expMonth' type="text" class="w-full" placeholder="MM" />
+                        @error('expMonth')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <!-- Expiration year -->
+                    <div class="col-span-2">
+                        <x-label for="expYear" value="Expiration Year" />
+                        <x-input id="expYear" wire:model='expYear' type="text" class="w-full" placeholder="YYYY" />
+                        @error('expYear')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                    <!-- CVC -->
+                    <div class="col-span-full">
+                        <x-label for="cvc" value="CVC" />
+                        <x-input id="cvc" wire:model='cvc' type="text" class="w-full" placeholder="CVC" />
+                        @error('cvc')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
+                    Make Payment
+                </button>
+            </form>
+        </div>
+    </x-modal>
 </div>

@@ -73,6 +73,11 @@ class Item extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function wishlists()
+    {
+        return $this->belongsToMany(Wishlist::class, 'item_wishlist')->withTimestamps();
+    }
+
     public function scopeShow($query)
     {
         return $query->whereNotNull('approved_at')

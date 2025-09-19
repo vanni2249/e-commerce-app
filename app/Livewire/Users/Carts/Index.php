@@ -13,9 +13,7 @@ class Index extends Component
 {
     use CartSummary;
     public $cart;
-    public $products = [];
-    public $stock;
-    public $summary = [];
+    public $product;
 
     public function mount()
     {
@@ -23,42 +21,6 @@ class Index extends Component
             ->with('products', 'products.item')
             ->doesntHave('order')
             ->first();
-
-        if ($this->cart) {
-            $this->products = $this->cart->products;
-            $this->summary = $this->summary();
-        }
-    }
-
-    public function removeCart()
-    {
-        // Remove the cart from the database
-
-        $this->cart->delete();
-
-        $this->redirect('carts', navigate: true);
-    }
-
-    public function removeItem($productId)
-    {
-        // Remove the product from the cart
-        $this->cart->products()->detach($productId);
-
-        // Check if the cart is empty and remove it if necessary
-        if ($this->cart->products->isEmpty()) {
-            $this->removeCart();
-        } else {
-            // Refresh the cart data
-            $this->cart = Cart::where('user_id', Auth::id())
-                ->with('products', 'products.item')
-                ->doesntHave('order')
-                ->first();
-
-            $this->products = $this->cart ? $this->cart->products : [];
-
-            $this->summary = $this->summary();
-            
-        }
     }
 
     public function lessProductQuantity($productId)
@@ -70,18 +32,13 @@ class Index extends Component
                 'quantity' => $product->pivot->quantity - 1,
             ]);
         } elseif ($product && $product->pivot->quantity == 1) {
-            $this->removeItem($productId);
+            $this->product = $productId;
+            $this->removeItem();
             return; // Exit the function to avoid refreshing the cart again
         }
 
-        // Refresh the cart data
-        $this->cart = Cart::where('user_id', Auth::id())
-            ->with('products', 'products.item')
-            ->doesntHave('order')
-            ->first();
-        $this->products = $this->cart ? $this->cart->products : [];
+        $this->dispatch('update-counter-products');
 
-        $this->summary = $this->summary();
     }
 
     public function sumProductQuantity($productId)
@@ -97,63 +54,48 @@ class Index extends Component
             }
         }
 
-        // Refresh the cart data
-        $this->cart = Cart::where('user_id', Auth::id())
-            ->with('products', 'products.item')
-            ->doesntHave('order')
-            ->first();
+        $this->dispatch('update-counter-products');
 
-        $this->products = $this->cart ? $this->cart->products : [];
-        $this->summary = $this->summary();
     }
 
-    // public function summary()
-    // {
-    //     return [
-    //         [
-    //             'label' => 'Items in Cart',
-    //             'value' => $this->cart ? $this->cart->products->sum('pivot.quantity') : 0,
-    //         ],
-    //         [
-    //             'label' => 'Subtotal',
-    //             'value' => $this->cart ? '$' . number_format($this->cart->products->sum(function ($product) {
-    //                 return $product->price * $product->pivot->quantity;
-    //             }), 2) : '$0.00',
-    //         ],
-    //         [
-    //             'label' => 'Shipping',
-    //             'value' => $this->cart ? '$' . number_format($this->cart->products->sum(function ($product) {
-    //                 return $product->shipping_cost * $product->pivot->quantity;
-    //             }), 2) : '$0.00',
-    //         ],
-    //         [
-    //             'label' => 'Total after Tax',
-    //             'value' => $this->cart ? '$' . number_format($this->cart->products->sum(function ($product) {
-    //                 return ($product->price + $product->shipping_cost) * $product->pivot->quantity;
-    //             }), 2) : '$0.00',
-    //         ],
-    //         [
-    //             'label' => 'Tax (10%)',
-    //             'value' => $this->cart ? '$' . number_format($this->cart->products->sum(function ($product) {
-    //                 return (($product->price + $product->shipping_cost) * 0.1) * $product->pivot->quantity;
-    //             }), 2) : '$0.00',
-    //         ],
-    //         [
-    //             'label' => 'Discount',
-    //             'value' => '$0.00',
-    //         ],
-    //         [
-    //             'label' => 'Grand Total',
-    //             'value' => $this->cart ? '$' . number_format($this->cart->products->sum(function ($product) {
-    //                 return (($product->price + $product->shipping_cost) * 1.1) * $product->pivot->quantity;
-    //             }), 2) : '$0.00',
-    //         ]
-    //     ];
-    // }
+    public function removeItemCartModal($productId)
+    {
+        // $this->removeItem($productId);
+        $this->product = $productId;
+
+        $this->dispatch('open-modal','remove-item-modal');
+    }
+
+     public function removeItem()
+    {
+        // Remove the product from the cart
+        $this->cart->products()->detach($this->product);
+
+        // Check if the cart is empty and remove it if necessary
+        if ($this->cart->products->isEmpty()) {
+            $this->removeCart();
+        }else {
+            $this->dispatch('update-counter-products');
+            
+            $this->dispatch('close-modal','remove-item-modal');
+        }
+    }
+
+    public function removeCart()
+    {
+        $this->cart->delete();
+
+        $this->redirect('carts', navigate: true);
+
+    }
 
     #[Layout('components.layouts.customer')]
     public function render()
     {
-        return view('livewire.users.carts.index');
+        return view('livewire.users.carts.index', [
+            'cart' => $this->cart,
+            'products' => $this->cart->products ?? [],
+            'summary' => $this->summary(),
+        ]);
     }
 }

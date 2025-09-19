@@ -27,7 +27,7 @@ trait SaleNumber
      */
     public function generateSaleNumber()
     {
-        return 'SAL-' . Str::upper(Str::random(6)); // Already returns a mix of numbers and letters
+        return 'SL-' . Str::upper(Str::random(6)); // Already returns a mix of numbers and letters
     }
 
     // Verify if the code is unique

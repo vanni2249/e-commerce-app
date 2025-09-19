@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('item_wishlist', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['cart', 'save'])->default('cart');
-            $table->foreignId('user_id');
+            $table->foreignUlid('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('wishlist_id')->constrained('wishlists')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('item_wishlist');
     }
 };

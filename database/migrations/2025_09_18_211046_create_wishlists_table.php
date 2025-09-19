@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['cart', 'save'])->default('cart');
             $table->foreignId('user_id');
+            $table->string('name')->nullable()->default('My Wishlist');
+            $table->text('description')->nullable();
+            $table->boolean('is_default')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('wishlists');
     }
 };
