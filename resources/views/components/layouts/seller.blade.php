@@ -43,6 +43,7 @@
                     ['title' => 'Items', 'route' => 'sellers.items.index', 'active' => 'items'],
                     ['title' => 'Products', 'route' => 'sellers.products.index', 'active' => 'products'],
                     ['title' => 'Orders', 'route' => 'sellers.orders.index', 'active' => 'orders'],
+                    ['title' => 'Sales', 'route' => 'sellers.sales.index', 'active' => 'sales'],
                 ]);
             @endphp
             <ul class="p-4 text-xs font-bold uppercase space-y-1">

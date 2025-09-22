@@ -20,13 +20,15 @@ use App\Livewire\AdminSeller\Products\Show as ProductShow;
 
 use App\Livewire\AdminSeller\Products\Inventories\Index as InventoryIndex;
 use App\Livewire\AdminSeller\Products\Inventories\Show as InventoryShow;
-
-use App\Livewire\AdminSeller\Products\Sales\Index as SaleIndex;
+use App\Livewire\AdminSeller\Products\Sales\Index as ProductSaleIndex;
+use App\Livewire\AdminSeller\Products\Refunds\Index as RefundIndex;
 
 use App\Livewire\AdminSeller\Orders\Index as OrderIndex;
 use App\Livewire\AdminSeller\Orders\Show as OrderShow;
 
-use App\Livewire\AdminSeller\Products\Refunds\Index as RefundIndex;
+use App\Livewire\AdminSeller\Sales\Index as SaleIndex;
+use App\Livewire\AdminSeller\Sales\Show as SaleShow;
+
 
 Route::prefix('/sellers')->name('sellers.')->group(function () {
 
@@ -64,7 +66,7 @@ Route::prefix('/sellers')->name('sellers.')->group(function () {
             });
 
             Route::prefix('/{product}/sales')->name('sales.')->group(function () {
-                Route::get('/', SaleIndex::class)->name('index');
+                Route::get('/', ProductSaleIndex::class)->name('index');
             });
 
             Route::prefix('/{product}/refunds')->name('refunds.')->group(function () {
@@ -75,6 +77,11 @@ Route::prefix('/sellers')->name('sellers.')->group(function () {
         Route::prefix('/orders')->name('orders.')->group(function () {
             Route::get('/', OrderIndex::class)->name('index');
             Route::get('/{order}', OrderShow::class)->name('show');
+        });
+
+        Route::prefix('/sales')->name('sales.')->group(function () {
+            Route::get('/', SaleIndex::class)->name('index');
+            Route::get('/{sale}', SaleShow::class)->name('show');
         });
     });
 });

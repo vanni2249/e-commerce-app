@@ -24,11 +24,16 @@ use App\Livewire\AdminSeller\Products\Show as ProductShow;
 
 use App\Livewire\AdminSeller\Products\Inventories\Index as InventoryIndex;
 use App\Livewire\AdminSeller\Products\Inventories\Show as InventoryShow;
+use App\Livewire\AdminSeller\Products\Sales\Index as ProductSaleIndex;
+use App\Livewire\AdminSeller\Products\Sales\Show as ProductSaleShow;
 
 use App\Livewire\AdminSeller\Orders\Index as OrderIndex;
 use App\Livewire\AdminSeller\Orders\Show as OrderShow;
 
-use App\Livewire\AdminSeller\Products\Sales\Index as SaleIndex;
+use App\Livewire\AdminSeller\Sales\Index as SaleIndex;
+use App\Livewire\AdminSeller\Sales\Show as SaleShow;
+
+
 
 use App\Livewire\AdminSeller\Products\Refunds\Index as RefundIndex;
 
@@ -65,43 +70,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/create', ItemCreate::class)->name('create');
             Route::get('/{item}', ItemShow::class)->name('show');
             Route::get('/{item}/edit', ItemEdit::class)->name('edit');
-            // Route::get('/', function () {
-            //     return view('admin.items.index');
-            // })->name('index');
-            // Route::get('/{item}', [ItemController::class, 'show'])->name('show');
         });
 
         Route::prefix('/products')->name('products.')->group(function () {
 
             Route::get('/', ProductIndex::class)->name('index');
             Route::get('/{product}', ProductShow::class)->name('show');
-            // Route::get('/', function () {
-            //     return view('admin.products.index');
-            // })->name('index');
-
-            // Route::get('/{product}', function ($product) {
-            //     return view('admin.products.show', ['product' => $product]);
-            // })->name('show');
 
             Route::prefix('/{product}/inventories')->name('inventories.')->group(function () {
                 Route::get('/', InventoryIndex::class)->name('index');
                 Route::get('/{inventory}', InventoryShow::class)->name('show');
-                // Route::get('/', function ($product) {
-                //     return view('admin.products.inventories.index', ['product' => $product]);
-                // })->name('index');
-                // Route::get('/create', function ($product) {
-                //     return view('admin.products.inventories.create', ['product' => $product]);
-                // })->name('create');
-                // Route::get('/{inventory}/edit', function ($product, $inventory) {
-                //     return view('admin.products.inventories.edit', ['product' => $product, 'inventory' => $inventory]);
-                // })->name('edit');
             });
 
             Route::prefix('/{product}/sales')->name('sales.')->group(function () {
-                Route::get('/', SaleIndex::class)->name('index');
-                // Route::get('/', function ($product) {
-                //     return view('admin.products.sales.index', ['product' => $product]);
-                // })->name('index');
+                Route::get('/', ProductSaleIndex::class)->name('index');
             });
 
             Route::prefix('/{product}/refunds')->name('refunds.')->group(function () {
@@ -112,24 +94,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('/orders')->name('orders.')->group(function () {
             Route::get('/', OrderIndex::class)->name('index');
             Route::get('/{order}', OrderShow::class)->name('show');
-            // Route::get('/', function () {
-            //     return view('admin.orders.index');
-            // })->name('index');
-
-            // Route::get('/{order}', function ($order) {
-            //     return view('admin.orders.show', ['order' => $order]);
-            // })->name('show');
         });
 
-        // Route::prefix('/sales')->name('sales.')->group(function () {
-        //     Route::get('/', function () {
+        Route::prefix('/sales')->name('sales.')->group(function () {
+            Route::get('/', SaleIndex::class)->name('index');
+            Route::get('/{sale}', SaleShow::class)->name('show');
+            //     Route::get('/', function () {
         //         return view('admin.sales.index');
         //     })->name('index');
 
         //     Route::get('/{sale}', function ($sale) {
         //         return view('admin.sales.show', ['sale' => $sale]);
         //     })->name('show');
-        // });
+        });
 
         // Route::prefix('/refunds')->name('refunds.')->group(function () {
         //     Route::get('/', function () {

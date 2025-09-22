@@ -20,6 +20,7 @@ class SaleSeeder extends Seeder
                 // Random quantity between 1 and 3
                 // Random price between 10.0 and 100.0
                 $order->sales()->create([
+                    'id' => \Illuminate\Support\Str::uuid(),
                     'number' => $this->createSaleNumber(),
                     'product_id' => \App\Models\Product::inRandomOrder()->first()->id,
                     'quantity' => rand(1, 3),

@@ -43,6 +43,7 @@
                     ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
                     ['title' => 'Products', 'route' => 'admin.products.index', 'active' => 'products'],
                     ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
+                    ['title' => 'Sales', 'route' => 'admin.sales.index', 'active' => 'sales'],
                     ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
                 ]);
             @endphp
