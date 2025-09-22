@@ -702,11 +702,17 @@
                                                 ...
                                             @endforelse
                                         </td>
-                                        <td class="p-4">
+                                        <td class="p-4 flex gap-2">
                                             <x-icon-button wire:click="handleProductEditModal({{ $product->id }})"
                                                 icon="edit" />
-                                            <x-icon-button wire:click="handleProductDeleteModal({{ $product->id }})"
-                                                icon="delete" />
+                                            @if ($product->inventories->count() === 0)
+                                                <x-icon-button
+                                                    wire:click="handleProductDeleteModal({{ $product->id }})"
+                                                    icon="delete" />
+                                            @endif
+                                            <x-icon-link
+                                                href="{{ route($admin ? 'admin.products.show' : 'sellers.products.show', ['product' => $product->id]) }}"
+                                                icon="eye" />
                                         </td>
                                     </tr>
                                 @empty
