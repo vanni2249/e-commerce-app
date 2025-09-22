@@ -112,54 +112,87 @@
     <!-- Make a payment modal -->
     <x-modal name="make-payment-modal" title="Make Payment" size="md">
         <div class="space-y-4">
-            <form wire:submit.prevent="makePayment">
+            <x-label for="card-holder-name" value="Card Holder Name" />
+            <x-input class="w-full" id="card-holder-name" type="text" />
+
+            <!-- Stripe Elements Placeholder -->
+            <div id="card-element" class="bg-gray-100 p-4 rounded-xl"></div>
+
+            <button id="card-button" type="button"
+                class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
+                Make Payment
+            </button>
+            {{-- <button id="card-button">
+                Process Payment
+            </button> --}}
+            {{-- <form id="payment-form" wire:ignore>
                 <div class="grid grid-cols-4 gap-4">
                     <!-- Name -->
                     <div class="col-span-full">
                         <x-label for="name" value="Name on Card" />
-                        <x-input id="name" wire:model='name' type="text" class="w-full" placeholder="John Doe" />
-                        @error('name')
-                            <x-error message="{{ $message }}" />
-                        @enderror
+                        <x-input id="cardholder-name" type="text" class="w-full" placeholder="John Doe" />
                     </div>
                     <!-- Card number -->
                     <div class="col-span-full">
                         <x-label for="cardNumber" value="Card Number" />
-                        <x-input id="cardNumber" wire:model='cardNumber' type="text" class="w-full" placeholder="1234 1234 1234 1234" />
-                        @error('cardNumber')
-                            <x-error message="{{ $message }}" />
-                        @enderror
+                        <div id="card-number" type="text" class="w-full" placeholder="1234 1234 1234 1234"></div>
                     </div>
-                    <!-- Expiration month -->
+                    <!-- Expiration -->
                     <div class="col-span-2">
                         <x-label for="expMonth" value="Expiration Month" />
-                        <x-input id="expMonth" wire:model='expMonth' type="text" class="w-full" placeholder="MM" />
-                        @error('expMonth')
-                            <x-error message="{{ $message }}" />
-                        @enderror
-                    </div>
-                    <!-- Expiration year -->
-                    <div class="col-span-2">
-                        <x-label for="expYear" value="Expiration Year" />
-                        <x-input id="expYear" wire:model='expYear' type="text" class="w-full" placeholder="YYYY" />
-                        @error('expYear')
-                            <x-error message="{{ $message }}" />
-                        @enderror
+                        <div id="card-expiry"></div>
                     </div>
                     <!-- CVC -->
                     <div class="col-span-full">
                         <x-label for="cvc" value="CVC" />
-                        <x-input id="cvc" wire:model='cvc' type="text" class="w-full" placeholder="CVC" />
-                        @error('cvc')
-                            <x-error message="{{ $message }}" />
-                        @enderror
+                        <div id="card-cvc"></div>
                     </div>
                 </div>
                 <button type="submit"
                     class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
                     Make Payment
                 </button>
-            </form>
+            </form> --}}
         </div>
     </x-modal>
 </div>
+
+@assets
+    <script src="https://js.stripe.com/v3/"></script>
+@endassets
+
+@script
+    <script>
+        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+
+        cardElement.mount('#card-element');
+
+        const cardHolderName = document.getElementById('card-holder-name');
+        const cardButton = document.getElementById('card-button');
+
+        cardButton.addEventListener('click', async (e) => {
+            const {
+                paymentMethod,
+                error
+            } = await stripe.createPaymentMethod(
+                'card', cardElement, {
+                    billing_details: {
+                        name: cardHolderName.value
+                    }
+                }
+            );
+
+            if (error) {
+                // Display "error.message" to the user...
+                alert(error.message);
+            } else {
+                Livewire.dispatch('makePayment', {
+                    paymentMethod: paymentMethod.id
+                });
+            }
+        });
+    </script>
+@endscript

@@ -32,29 +32,27 @@
                             class=" bg-blue-50 hover:bg-blue-100 block p-4 rounded-lg" wire:navigate>
                             <div class="flex space-x-4 items-start">
                                 <ul class="grow">
-                                    <li class="text-sm font-semibold">Order #{{ $order->number }}</li>
+                                    <li class="font-semibold">{{ $order->number }}</li>
                                     <li class="text-gray-600">
-                                        <span>
+                                        <span class="text-sm">
                                             Placed on:
                                         </span>
                                         <span class="font-medium text-gray-800">
-                                            {{ $order->created_at->format('F d, Y') }}
+                                            {{ $order->created_at->format('M d, Y') }}
                                         </span>
                                     </li>
                                     <li class="">
                                         <span class="font-medium text-gray-800">
-                                            ${{ $order->sales->sum('price') }}
+                                            ${{ number_format($order->transaction->amount, 2) }}
                                         </span>
                                         <span class="px-1"> &middot; </span>
                                         <span class="text-sm text-gray-600">
-                                            {{ $order->sales->count() }}
-                                            Items
+                                            {{ $order->sales->sum('quantity') }}
+                                            Item{{ $order->sales->sum('quantity') > 1 ? 's' : '' }}
                                         </span>
                                     </li>
                                 </ul>
-                                <div class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
-                                    Shipped
-                                </div>
+                                <x-badge value="Completed" color="success" class="shrink-0 mt-1" />
                             </div>
                         </a>
                     @endforeach

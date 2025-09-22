@@ -129,6 +129,8 @@
             </div>
         </footer>
     </div>
+    {{-- Javascript --}}
+    @stack('scripts')
     @livewireScripts
 </body>
 

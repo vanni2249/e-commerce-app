@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'stripe' => [
+        'secret' => env('STRIPE_API_KEY'),
+        'version' => env('STRIPE_API_VERSION', '2023-08-16'),
+    ],
+
 ];

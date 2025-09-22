@@ -4,6 +4,7 @@ namespace App\Livewire\Users\Checkout;
 
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\User;
 use App\Traits\CartSummary;
 use App\Traits\OrderNumber;
 use App\Traits\SaleNumber;
@@ -11,7 +12,10 @@ use App\Traits\TransactionNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Component;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class Index extends Component
 {
@@ -30,8 +34,8 @@ class Index extends Component
     public $expYear;
     public $cvc;
     public $amount;
-    public $paymentMethod = 'stripe';
-    public $status = 'success';
+    public $paymentMethod;
+    public $status;
 
     public function mount()
     {
@@ -42,12 +46,6 @@ class Index extends Component
             ->with('products', 'products.item')
             ->doesntHave('order')
             ->first();
-
-        $this->name = $this->user->name;
-        $this->cardNumber = '4242424242424242';
-        $this->expMonth = (int)date('m');
-        $this->expYear = (int)date('Y') + 1;
-        $this->cvc = '123';
 
         $this->amount = $this->cart ? $this->cart->products->sum(function ($product) {
             return (($product->price + $product->shipping_cost) * 1.1) * $product->pivot->quantity;
@@ -61,31 +59,63 @@ class Index extends Component
         $this->dispatch('close-modal', 'change-address-modal');
     }
 
-    public function makePayment()
+    #[On('makePayment', ['paymentMethod'])]
+    public function makePayment($paymentMethod)
     {
-        // Validate payment details here (omitted for brevity)
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'cardNumber' => 'required|string|max:16',
-            'expMonth' => 'required|integer|min:1|max:12',
-            'expYear' => 'required|integer|min:' . date('Y'),
-            'cvc' => 'required|string|max:4',
-        ]);
+        $this->paymentMethod = $paymentMethod;
+
 
         DB::transaction(function () {
+
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            try {
+                $amountInCents = (int) round($this->amount * 100);
+                // $stripeCharge = $this->user->charge($amountInCents, $this->paymentMethod, [
+                //     'metadata' => [
+                //         'user_id' => $this->user->id,
+                //         'cart_id' => $this->cart->id,
+                //     ],
+                //     'payment_intent_data' => [
+                //         'automatic_payment_methods' => [
+                //             'enabled' => true,
+                //             'allow_redirects' => 'never',
+                //         ],
+                //     ],
+                // ]);
+
+                $paymentIntent = PaymentIntent::create([
+                    'amount' => $amountInCents,
+                    'currency' => 'usd',
+                    'customer' => $this->user->stripe_id,
+                    'payment_method' => $this->paymentMethod,
+                    'off_session' => true,
+                    'confirm' => true,
+                    'automatic_payment_methods' => [
+                        'enabled' => true,
+                        'allow_redirects' => 'never',
+                    ],
+                    'metadata' => [
+                        'user_id' => $this->user->id,
+                        'cart_id' => $this->cart->id,
+                    ],
+                ]);
+            } catch (\Exception $e) {
+                session()->flash('error', 'Error processing order: ' . $e->getMessage());
+                return;
+            }
 
 
             $transaction = $this->user->transactions()->create([
                 'number' => $this->createTransactionNumber(),
                 'cart_id' => $this->cart->id, // Assuming you have a cart session
                 'amount' => $this->amount, // Example amount
-                'status' => $this->status, // Example status
+                'status' => $paymentIntent['status'], // Example status
                 'payment_method' => $this->paymentMethod, // Example payment method
-                'transaction_id' => uniqid('txn_'), // Unique transaction ID
+                'transaction_id' => $paymentIntent['id'], // Unique transaction ID
             ]);
 
             // Check if the transaction was successful
-            if ($transaction->status == 'success') {
+            if ($transaction->status == 'succeeded') {
                 // For example, if you have an Order model:
                 $order = $this->user->orders()->create([
                     'number' => $this->createOrderNumber(),
