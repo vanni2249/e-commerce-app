@@ -40,9 +40,9 @@
             @php
                 $collection = collect([
                     ['title' => 'Dashboard', 'route' => 'admin.dashboard', 'active' => 'dashboard'],
-                    ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
                     ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
                     ['title' => 'Products', 'route' => 'admin.products.index', 'active' => 'products'],
+                    ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
                     ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
                 ]);
             @endphp
@@ -98,22 +98,22 @@
                                             href="{{ route('admin.products.index') }}">Products</x-dropdown-link>
                                         <x-dropdown-link
                                             href="{{ route('admin.orders.index') }}">Orders</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.sales.index') }}">Sales</x-dropdown-link>
-                                        <x-dropdown-link
+                                        {{-- <x-dropdown-link href="{{ route('admin.sales.index') }}">Sales</x-dropdown-link> --}}
+                                        {{-- <x-dropdown-link
                                             href="{{ route('admin.claims.index') }}">Claims</x-dropdown-link>
                                         <x-dropdown-link
                                             href="{{ route('admin.returns.index') }}">Returns</x-dropdown-link>
                                         <x-dropdown-link
                                             href="{{ route('admin.refunds.index') }}">Refunds</x-dropdown-link>
                                         <x-dropdown-link
-                                            href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link>
+                                            href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link> --}}
                                         {{-- <x-dropdown-link href="{{ route('admin.ratings.index') }}">Raitings</x-dropdown-link> --}}
-                                        <x-dropdown-link
+                                        {{-- <x-dropdown-link
                                             href="{{ route('admin.users.index') }}">Users</x-dropdown-link>
                                         <x-dropdown-link
                                             href="{{ route('admin.sellers.index') }}">Sellers</x-dropdown-link>
                                         <x-dropdown-link
-                                            href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link>
+                                            href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link> --}}
                                         {{-- <x-dropdown-link href="{{ route('profile.index') }}">Profile</x-dropdown-link> --}}
                                     </x-slot:content>
                                 </x-dropdown>

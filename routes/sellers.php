@@ -23,6 +23,9 @@ use App\Livewire\AdminSeller\Products\Inventories\Show as InventoryShow;
 
 use App\Livewire\AdminSeller\Products\Sales\Index as SaleIndex;
 
+use App\Livewire\AdminSeller\Orders\Index as OrderIndex;
+use App\Livewire\AdminSeller\Orders\Show as OrderShow;
+
 use App\Livewire\AdminSeller\Products\Refunds\Index as RefundIndex;
 
 Route::prefix('/sellers')->name('sellers.')->group(function () {
@@ -67,6 +70,11 @@ Route::prefix('/sellers')->name('sellers.')->group(function () {
             Route::prefix('/{product}/refunds')->name('refunds.')->group(function () {
                 Route::get('/', RefundIndex::class)->name('index');
             });
+        });
+
+        Route::prefix('/orders')->name('orders.')->group(function () {
+            Route::get('/', OrderIndex::class)->name('index');
+            Route::get('/{order}', OrderShow::class)->name('show');
         });
     });
 });
