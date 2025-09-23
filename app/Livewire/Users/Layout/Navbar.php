@@ -57,11 +57,11 @@ class Navbar extends Component
         $this->validate([
             'search' => 'required|string|min:2|max:255',
         ]);
-        $this->getData();
+        $this->setData();
         $this->redirect(route('items.index', ['search' => $this->search]), navigate: true);
     }
 
-    public function getData() 
+    public function setData() 
     {
         $isset = \App\Models\Search::where('search', $this->search)
             ->where('ip_address', $this->ipAddress)
@@ -75,6 +75,40 @@ class Navbar extends Component
                 $this->store();
             }
     }
+
+    public function services()
+    {
+        return [
+            'New Arrivals',
+            'Best Sellers',
+            'Contact Us',
+            'About Us',
+            'Help Center',
+        ];
+    }
+
+    public function items()
+    {
+        return [
+            [
+                'value' => 'Orders',
+                'url' => route('orders.index'),
+            ],
+            [
+                'value' => 'Favorites',
+                'url' => route('favorites'),
+            ],
+            [
+                'value' => 'Addresses',
+                'url' => route('addresses'),
+            ],
+            [
+                'value' => 'Logout',
+                'url' => route('logout'),
+            ],
+        ];
+    }
+
     public function store()
     {
 
@@ -88,6 +122,9 @@ class Navbar extends Component
 
     public function render()
     {
-        return view('livewire.users.layout.navbar');
+        return view('livewire.users.layout.navbar',[
+            'services' => $this->services(),
+            'items' => $this->items(),
+        ]);
     }
 }

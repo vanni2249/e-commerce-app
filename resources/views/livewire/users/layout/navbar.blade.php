@@ -3,7 +3,62 @@
         <div class="p-4 bg-blue-800">
             <div class="max-w-7xl mx-auto grid grid-cols-2 gap-4">
                 <div class="flex items-center">
-                    <a href="/" class="text-blue-100 font-semibold text-2xl" wire:navigate>Zierra</a>
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-3">
+                        <div class="md:hidden flex">
+                            <x-dropdown align="left" width="48">
+                                <x-slot name="trigger">
+                                    <button class=" text-blue-100 cursor-pointer md:hidden">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-menu-2">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <line x1="4" y1="6" x2="20" y2="6" />
+                                            <line x1="4" y1="12" x2="20" y2="12" />
+                                            <line x1="4" y1="18" x2="20" y2="18" />
+                                        </svg>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <div class="border-b border-gray-200 pb-2">
+                                        <header class="p-2 border-b border-gray-200 mb-4">
+                                            <p class="mt-1 px-2 text-sm text-gray-600">
+                                                Welcome
+                                            </p>
+                                        </header>
+                                        @guest
+                                            <span class="flex space-x-1 px-4 mb-3">
+                                                <a href="{{ route('register') }}"
+                                                    class="font-bold hover:underline">Register</a>
+                                                <span>
+                                                    or
+                                                </span>
+                                                <a href="{{ route('login') }}" class="hover:underline">Login</a>
+                                            </span>
+                                        @endguest
+                                        @auth
+                                            <p class="px-4 mb-3 font-semibold">Hi, {{ Auth::user()->first_name }}</p>
+                                            @foreach ($items as $item)
+                                                <x-dropdown-link href="{{ $item['url'] }}" wire:navigate>
+                                                    {{ $item['value'] }}
+                                                </x-dropdown-link>
+                                            @endforeach
+                                        @endauth
+                                    </div>
+                                    <div class=" py-2">
+                                        @foreach ($services as $service)
+                                            <x-dropdown-link href="">
+                                                {{ $service }}
+                                            </x-dropdown-link>
+                                        @endforeach
+                                    </div>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                        <a href="/" class="text-blue-100 font-semibold text-2xl" wire:navigate>Zierra</a>
+                    </div>
+                    <!-- Search (Desktop) -->
                     <div class="hidden md:flex flex-grow">
                         <form wire:submit.prevent="send" class="w-full">
                             <div class="w-full flex relative">
@@ -54,7 +109,7 @@
                                 d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
                         </svg>
                         @auth
-                            <span class="text-xs font-semibold hidden md:inline pr-2">
+                            <span class="text-xs font-semibold hidden md:inline md:pr-2">
                                 {{ $user->address->city->name ?? '' }}
                             </span>
                         @endauth
@@ -62,7 +117,8 @@
                     <!-- Cart -->
                     <div class="relative">
                         <a href="{{ route('cart') }}"
-                            class="bg-blue-900 hover:bg-blue-950 block text-blue-100 rounded-full p-1.5 cursor-pointer" wire:navigate>
+                            class="bg-blue-900 hover:bg-blue-950 block text-blue-100 rounded-full p-1.5 cursor-pointer"
+                            wire:navigate>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="currentColor"
                                 class="icon icon-tabler icons-tabler-filled icon-tabler-shopping-cart">
@@ -76,13 +132,15 @@
                                 class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full p-2.5">
                                 @if ($count > 9)
                                     <div class="relative">
-                                        <span class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
+                                        <span
+                                            class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
                                             9+
                                         </span>
                                     </div>
                                 @else
                                     <div class="relative">
-                                        <span class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
+                                        <span
+                                            class="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2">
                                             {{ $count }}
                                         </span>
                                     </div>
@@ -122,8 +180,13 @@
         </div>
         <div class="hidden lg:block py-2 bg-blue-900">
             <div class="max-w-7xl mx-auto grid grid-cols-2 gap-4">
-                <div class="flex space-x-4">
-                    <a href="" class="text-blue-100 hover:text-white">Categories</a>
+                <div class="flex space-x-1">
+                    @foreach ($services as $service)
+                        <a href=""
+                            class="text-blue-100 font-bold hover:text-white cursor-pointer hover:bg-blue-800 px-2 rounded-full py-0.5">
+                            {{ $service }}
+                        </a>
+                    @endforeach
                 </div>
                 <div class="flex justify-end text-white">
                     @auth
@@ -146,12 +209,12 @@
                         </x-dropdown>
                     @endauth
                     @guest
-                        <span class="flex space-x-1">
-                            <a href="{{ route('register') }}" class="font-bold">Register</a>
+                        <span class="flex space-x-1 px-4">
+                            <a href="{{ route('register') }}" class="font-bold hover:underline">Register</a>
                             <span>
                                 or
                             </span>
-                            <a href="{{ route('login') }}" class="">Login</a>
+                            <a href="{{ route('login') }}" class="hover:underline">Login</a>
                         </span>
                     @endguest
                     <a href="{{ route('favorites') }}" class="font-semibold hover:bg-blue-800 px-3 rounded-full">My
