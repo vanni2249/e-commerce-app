@@ -1,27 +1,44 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Users\Layout;
 
 use App\Models\Search as ModelsSearch;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-class Search extends Component
+class Navbar extends Component
 {
+    public $user;
+    public $cart;
+    public $count = 10;
+
     #[Url(except: '')]
     public ?string $search = '';
     public $ipAddress;
     public $userAgent;
-    public $user;
     public $showBoxMore = false;
     public $hiddenBoxMore = true;
 
+    #[On('update-counter-products')]
     public function mount()
     {
+        $this->user = Auth::user();
+        $this->cart = ($this->user && $this->user->cart)
+            ? $this->user->cart->where('type', 'cart')->doesntHave('order')->first()
+            : null;
+        if ($this->user && $this->cart) {
+            $this->count = $this->cart->products->sum(function ($product) {
+            return $product->pivot->quantity;
+            });
+        }
+        else {
+            $this->count = 0;
+        }
+
         $this->ipAddress = request()->ip();
         $this->userAgent = request()->header('User-Agent');
-        $this->user = Auth::user();
     }
 
     public function updatingSearch($property)
@@ -68,8 +85,9 @@ class Search extends Component
             'search' => $this->search,
         ]);
     }
+
     public function render()
     {
-        return view('livewire.users.search');
+        return view('livewire.users.layout.navbar');
     }
 }

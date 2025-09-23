@@ -1,6 +1,6 @@
 <div class="space-y-4">
     <!-- Top Nav Menu -->
-    <div class="flex items-center space-x-2">
+    {{-- <div class="flex items-center space-x-2">
         <button
             class="bg-white hidden lg:block hover:bg-blue-100 text-blue-500 flex-auto p-2 rounded-full text-sm mr-2 whitespace-nowrap">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
@@ -28,7 +28,7 @@
             </svg>
         </button>
 
-    </div>
+    </div> --}}
 
     <!-- Hero Section -->
     <div class="p-4 md:p-8 lg:p-12 bg-blue-800 rounded-xl">

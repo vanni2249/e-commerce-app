@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getFirstNameAttribute()
+    {
+        return explode(' ', $this->name)[0];
+    }
 }
