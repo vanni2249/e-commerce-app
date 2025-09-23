@@ -16,6 +16,9 @@ return new class extends Migration
             $table->enum('type', ['fbz', 'fbs'])->default('fbz');
             $table->string('number')->unique();
             $table->string('sku')->unique()->nullable();
+            $table->boolean('is_to_costumer')->default(true);
+            $table->boolean('is_to_business')->default(false);
+            $table->boolean('is_to_invoice')->default(false);
             $table->foreignId('seller_id')->nullable();
             $table->foreignId('section_id');
             $table->longText('en_title')->nullable();

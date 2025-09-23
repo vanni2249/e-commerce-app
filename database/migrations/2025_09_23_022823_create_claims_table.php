@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('refunds', function (Blueprint $table) {
+        Schema::create('claims', function (Blueprint $table) {
             $table->id();
-            $table->morphs('refundable');
-            $table->decimal('amount', 10, 2)->default(0.00);
-            $table->decimal('shipping_cost', 10, 2)->default(0.00);
-            $table->text('reason')->nullable();
+            $table->morphs('claimable');
+            $table->foreignId('claim_category_id')->nullable()->constrained()->onDelete('set null');
+            $table->text('description')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('refunds');
+        Schema::dropIfExists('claims');
     }
 };
