@@ -42,4 +42,14 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
+    public function claims()
+    {
+        return $this->morphMany(Claim::class, 'claimable');
+    }
+
+    public function claim()
+    {
+        return $this->morphOne(Claim::class, 'claimable');
+    }
 }

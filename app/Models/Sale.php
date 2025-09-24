@@ -33,4 +33,14 @@ class Sale extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function claims()
+    {
+        return $this->morphMany(Claim::class, 'claimable');
+    }
+
+    public function claim()
+    {
+        return $this->morphOne(Claim::class, 'claimable');
+    }
 }

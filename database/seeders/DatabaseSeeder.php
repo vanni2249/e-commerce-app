@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             InventorySeeder::class,
             AddressSeeder::class,
+            ClaimCategorySeeder::class,
             // OrderSeeder::class,
             // SaleSeeder::class,
         ]);

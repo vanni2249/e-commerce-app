@@ -67,43 +67,32 @@ class Index extends Component
 
         DB::transaction(function () {
 
-            Stripe::setApiKey(env('STRIPE_SECRET'));
-            try {
-                $amountInCents = (int) round($this->amount * 100);
-                // $stripeCharge = $this->user->charge($amountInCents, $this->paymentMethod, [
-                //     'metadata' => [
-                //         'user_id' => $this->user->id,
-                //         'cart_id' => $this->cart->id,
-                //     ],
-                //     'payment_intent_data' => [
-                //         'automatic_payment_methods' => [
-                //             'enabled' => true,
-                //             'allow_redirects' => 'never',
-                //         ],
-                //     ],
-                // ]);
+            // Stripe::setApiKey(env('STRIPE_SECRET'));
+            // try {
+            //     $amountInCents = (int) round($this->amount * 100);
 
-                $paymentIntent = PaymentIntent::create([
-                    'amount' => $amountInCents,
-                    'currency' => 'usd',
-                    'customer' => $this->user->stripe_id,
-                    'payment_method' => $this->paymentMethod,
-                    'off_session' => true,
-                    'confirm' => true,
-                    'automatic_payment_methods' => [
-                        'enabled' => true,
-                        'allow_redirects' => 'never',
-                    ],
-                    'metadata' => [
-                        'user_id' => $this->user->id,
-                        'cart_id' => $this->cart->id,
-                    ],
-                ]);
-            } catch (\Exception $e) {
-                session()->flash('error', 'Error processing order: ' . $e->getMessage());
-                return;
-            }
+            //     $paymentIntent = PaymentIntent::create([
+            //         'amount' => $amountInCents,
+            //         'currency' => 'usd',
+            //         'customer' => $this->user->stripe_id,
+            //         'payment_method' => $this->paymentMethod,
+            //         'off_session' => true,
+            //         'confirm' => true,
+            //         'automatic_payment_methods' => [
+            //             'enabled' => true,
+            //             'allow_redirects' => 'never',
+            //         ],
+            //         'metadata' => [
+            //             'user_id' => $this->user->id,
+            //             'cart_id' => $this->cart->id,
+            //         ],
+            //     ]);
+            // } catch (\Exception $e) {
+            //     session()->flash('error', 'Error processing order: ' . $e->getMessage());
+            //     return;
+            // }
 
+            $paymentIntent = ['id' => 'pi_123456789', 'status' => 'succeeded'];
 
             $transaction = $this->user->transactions()->create([
                 'number' => $this->createTransactionNumber(),

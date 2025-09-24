@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('replacements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('claim_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('sale_id')->nullable()->constrained()->onDelete('set null');
+            $table->ulid('claim_id')->nullable();
+            $table->ulid('sale_id')->nullable();
+
+            $table->foreign('claim_id')->references('id')->on('claims')->onDelete('set null');
+            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('set null');
             $table->timestamps();
         });
     }

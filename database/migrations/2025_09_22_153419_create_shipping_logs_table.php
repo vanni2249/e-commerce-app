@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('shipping_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('claim_id')->constrained('claims')->onDelete('set null')->nullable();
+            $table->foreignId('shipping_id')->nullable()->constrained('shippings')->onDelete('set null');
             $table->string('status');
             $table->text('details')->nullable();
             $table->timestamps();

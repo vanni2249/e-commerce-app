@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('refunds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('claim_id')->nullable()->constrained()->onDelete('set null');
+            $table->ulid('claim_id')->nullable();
+            $table->foreign('claim_id')->references('id')->on('claims')->onDelete('set null');
             $table->decimal('amount', 10, 2)->default(0.00);
             $table->decimal('shipping_cost', 10, 2)->default(0.00);
             $table->text('reason')->nullable();
