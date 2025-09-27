@@ -37,7 +37,7 @@
                 FREE Shipping On Orders Over $50
             </span>
             <br>
-            <span class="text-gray-300">
+            <span class="text-red-600">
                 Shop now and enjoy exclusive deals on our new arrivals.
             </span>
         </p>
