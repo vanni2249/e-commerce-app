@@ -21,32 +21,35 @@
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
-                                    <div class="border-b border-gray-200 pb-2">
-                                        <header class="p-2 border-b border-gray-200 mb-4">
-                                            <p class="mt-1 px-2 text-sm text-gray-600">
+                                    <div class="border-b border-gray-200">
+                                        <header class=" p-4">
+                                            <p class="text-sm text-gray-600">
                                                 Welcome
                                             </p>
-                                        </header>
-                                        @guest
-                                            <span class="flex space-x-1 px-4 mb-3">
-                                                <a href="{{ route('register') }}"
-                                                    class="font-bold hover:underline">Register</a>
-                                                <span>
-                                                    or
+                                            @guest
+                                                <span class="flex space-x-1">
+                                                    <a href="{{ route('register') }}"
+                                                        class="font-bold hover:underline">Register</a>
+                                                    <span>
+                                                        or
+                                                    </span>
+                                                    <a href="{{ route('login') }}" class="hover:underline">Login</a>
                                                 </span>
-                                                <a href="{{ route('login') }}" class="hover:underline">Login</a>
-                                            </span>
-                                        @endguest
+                                            @endguest
+                                            @auth
+                                                <span class="font-semibold">Hi, {{ Auth::user()->first_name }}</span>
+                                            @endauth
+                                        </header>
+                                    </div>
+                                    <div class=" py-2">
                                         @auth
-                                            <p class="px-4 mb-3 font-semibold">Hi, {{ Auth::user()->first_name }}</p>
+                                            {{-- <p class="px-4 mb-3 font-semibold">Hi, {{ Auth::user()->first_name }}</p> --}}
                                             @foreach ($items as $item)
                                                 <x-dropdown-link href="{{ $item['url'] }}" wire:navigate>
                                                     {{ $item['value'] }}
                                                 </x-dropdown-link>
                                             @endforeach
                                         @endauth
-                                    </div>
-                                    <div class=" py-2">
                                         @foreach ($services as $service)
                                             <x-dropdown-link href="">
                                                 {{ $service }}
