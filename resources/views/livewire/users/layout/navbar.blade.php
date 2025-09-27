@@ -5,10 +5,10 @@
                 <div class="flex items-center">
                     <!-- Logo -->
                     <div class="flex items-center space-x-3">
-                        <div class="md:hidden flex">
+                        <div class="lg:hidden flex">
                             <x-dropdown align="left" width="48">
                                 <x-slot name="trigger">
-                                    <button class=" text-blue-100 cursor-pointer md:hidden">
+                                    <button class=" text-blue-100 cursor-pointer xl:hidden">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -179,11 +179,11 @@
             </div>
         </div>
         <div class="hidden lg:block py-2 bg-blue-900">
-            <div class="max-w-7xl mx-auto grid grid-cols-2 gap-4">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 gap-4">
                 <div class="flex space-x-1">
                     @foreach ($services as $service)
                         <a href=""
-                            class="text-blue-100 font-bold hover:text-white cursor-pointer hover:bg-blue-800 px-2 rounded-full py-0.5">
+                            class="text-blue-100 whitespace-nowrap font-bold hover:text-white cursor-pointer hover:bg-blue-800 px-2 rounded-full py-0.5">
                             {{ $service }}
                         </a>
                     @endforeach
