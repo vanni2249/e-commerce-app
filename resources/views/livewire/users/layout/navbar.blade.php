@@ -1,14 +1,14 @@
 <div>
     <nav>
-        <div class="p-4 bg-blue-800">
-            <div class="max-w-7xl mx-auto grid grid-cols-2 gap-4">
+        <div class=" bg-blue-800">
+            <div class="max-w-7xl mx-auto grid grid-cols-2 p-4 gap-4">
                 <div class="flex items-center">
                     <!-- Logo -->
                     <div class="flex items-center space-x-3">
                         <div class="lg:hidden flex">
                             <x-dropdown align="left" width="48">
                                 <x-slot name="trigger">
-                                    <button class=" text-blue-100 cursor-pointer xl:hidden">
+                                    <button class="bg-blue-900 rounded-full p-1.5 cursor-pointer text-blue-100 cursor-pointer xl:hidden">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -178,8 +178,9 @@
                 </div>
             </div>
         </div>
-        <div class="hidden lg:block py-2 bg-blue-900">
-            <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 gap-4">
+        <!-- Menu button -->
+        <div class="hidden lg:block bg-blue-900">
+            <div class="max-w-7xl mx-auto py-2 px-4 grid grid-cols-2 gap-4">
                 <div class="flex space-x-1">
                     @foreach ($services as $service)
                         <a href=""

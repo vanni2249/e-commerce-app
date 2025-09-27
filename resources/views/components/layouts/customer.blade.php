@@ -23,10 +23,10 @@
     <!-- NavBar -->
     @livewire('users.layout.navbar')
 
-    <div class="h-screen flex flex-col max-w-7xl mx-auto space-y-4 py-4">
+    <div class="h-screen flex flex-col max-w-7xl mx-auto space-y-4 p-4">
         <!-- Page Content -->
         <!-- Main -->
-        <main class="grow px-4 xl:px-0">
+        <main class="grow">
             {{ $slot }}
         </main>
         <!-- Footer -->
