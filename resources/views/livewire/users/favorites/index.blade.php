@@ -8,7 +8,7 @@
                         <x-dropdown align="left">
                             <x-slot name="trigger">
                                 <button
-                                    class="flex items-center space-x-1 text-gray-600 hover:text-gray-900 cursor-pointer">
+                                    class="flex bg-gray-200 rounded-full p-1.5 items-center space-x-1 text-gray-600 hover:text-gray-900 cursor-pointer">
                                     <x-icon icon="filter" />
                                 </button>
                             </x-slot>

@@ -57,11 +57,9 @@
                         </div>
                     </a>
                 @empty
-                    <div>
-                        <p>
-                            You have no orders yet.
-                        </p>
-                    </div>
+                    <x-card>
+                        <p class="text-center text-gray-500">No orders found.</p>
+                    </x-card>
                 @endforelse
             </div>
         </div>
