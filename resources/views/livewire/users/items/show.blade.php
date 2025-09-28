@@ -91,21 +91,21 @@
                     <!-- Quantity Selector -->
                     <div>
                         @if ($stock > 0)
-                            <label for="quantity" class="text-gray-600 text-xs">Quantity:</label>
+                            <label for="quantity" class="text-gray-600 text-sm">Quantity:</label>
                             <div>
                                 {{-- {{ $stock }} --}}
                                 <select wire:model.live="quantity"
-                                    class="bg-blue-100 rounded text-gray-600 px-4 py-2 text-xs cursor-pointer">
+                                    class="bg-blue-100 rounded important text-gray-600 px-4 py-2 text-xs cursor-pointer">
                                     @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock); $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>
-                            <span class="text-gray-500 text-xs">Available: {{ $stock > 10 ? '+10' : $stock }}</span>
+                            <span class="text-gray-500 text-sm">Available: {{ $stock > 10 ? '+10' : $stock }}</span>
                         @else
-                            <span class="text-red-500 text-xs">Out of Stock</span>
+                            <span class="text-red-500 text-sm">Out of Stock</span>
                             <br>
-                            <span class="text-gray-500 text-xs">Notify me when available</span>
+                            <span class="text-gray-500 text-sm">Notify me when available</span>
                         @endif
                         <br>
                     </div>
@@ -187,16 +187,16 @@
                 <h2 class="text-lg font-bold">Specification</h2>
             </header>
 
-            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                 @forelse ($item->en_specifications as $specification)
-                    <li class="flex">
-                        <span class="w-1/4 text-sm text-gray-600">{{ $specification['label'] }}</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class=" text-sm text-gray-600">{{ $specification['label'] }}</span>
                         <span class="font-bold prose">{{ $specification['value'] }}</span>
-                    </li>
+                    </div>
                 @empty
                     ...
                 @endforelse
-            </ul>
+            </div>
         </x-card>
 
         <!-- Shipping policy -->
