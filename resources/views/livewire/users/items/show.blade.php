@@ -7,16 +7,16 @@
                     <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0">
                         <!-- Box Imagen -->
                         <div class="w-full rounded-xl">
-                            <img src="{{ asset('images/1-512.png') }}" class="rounded-xl" alt="">
+                            <img src="{{ asset('images/1-512.png') }}" class="rounded-lg" alt="">
                         </div>
                         <!-- Thumbnails -->
-                        <div class="lg:order-first flex justify-center">
+                        <div class="lg:order-first flex justify-start">
                             <ul
                                 class="flex flex-row pr-2 lg:flex-col space-x-1 lg:space-x-0 lg:space-y-1 overflow-x-auto lg:overflow-y-auto no-scrollbar ">
                                 @for ($i = 0; $i < 6; $i++)
                                     <li class="flex-shrink-0">
                                         <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
-                                            class="rounded-xl w-12 lg:w-24" alt="">
+                                            class="rounded-md w-12 lg:w-24" alt="">
                                     </li>
                                 @endfor
                             </ul>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <!-- Right Side -->
-                <div class="col-span-12 md:col-span-6 lg:col-span-6 space-y-2 md:space-y-4 lg:space-y-6">
+                <div class="col-span-12 md:col-span-6 lg:col-span-6 space-y-4 md:space-y-4 lg:space-y-6 pt-4 md:pt-0">
                     <!-- Title -->
                     <div>
                         <h2 class="text-2xl font-semibold line-clamp-2">
@@ -93,7 +93,7 @@
                         @if ($stock > 0)
                             <label for="quantity" class="text-gray-600 text-xs">Quantity:</label>
                             <div>
-                                {{ $stock }}
+                                {{-- {{ $stock }} --}}
                                 <select wire:model.live="quantity"
                                     class="bg-blue-100 rounded text-gray-600 px-4 py-2 text-xs cursor-pointer">
                                     @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock); $i++)
