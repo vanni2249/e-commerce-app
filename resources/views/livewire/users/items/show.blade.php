@@ -91,21 +91,25 @@
                     <!-- Quantity Selector -->
                     <div>
                         @if ($stock > 0)
-                            <label for="quantity" class="text-gray-600 text-sm">Quantity:</label>
-                            <div>
-                                {{-- {{ $stock }} --}}
-                                <select wire:model.live="quantity"
-                                    class="bg-blue-100 rounded important text-gray-600 px-4 py-2 text-xs cursor-pointer">
-                                    @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock); $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
+                        <label for="quantity" class="text-gray-800 text-sm block mb-2">Quantity</label>
+                            <div class="flex items-center space-x-2">
+                                <div>
+                                    {{-- {{ $stock }} --}}
+                                    <select wire:model.live="quantity"
+                                        class="bg-blue-100 rounded text-gray-800 px-3 py-2 text-sm cursor-pointer"
+                                        @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock) ; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option> @endfor
+                                        </select>
+
+                                </div>
+                                <div class="text-gray-800 text-sm bg-blue-100 p-2 px-4 rounded">
+                                    Available: {{ $stock > 10 ? '+10' : $stock }}
+                                </div>
                             </div>
-                            <span class="text-gray-500 text-sm">Available: {{ $stock > 10 ? '+10' : $stock }}</span>
                         @else
-                            <span class="text-red-500 text-sm">Out of Stock</span>
+                            <span class="text-red-800 text-sm">Out of Stock</span>
                             <br>
-                            <span class="text-gray-500 text-sm">Notify me when available</span>
+                            <span class="text-gray-800 text-sm">Notify me when available</span>
                         @endif
                         <br>
                     </div>
