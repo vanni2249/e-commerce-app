@@ -31,7 +31,7 @@
     </div> --}}
 
     <!-- Hero Section -->
-    <div class="p-4 md:p-8 lg:p-12 bg-blue-800 rounded-xl">
+    <div class="p-8 md:p-12 lg:p-12 bg-blue-800 rounded-xl">
         <p class="text-sm md:text-base text-gray-100">
             <span class="font-bold text-base md:text-lg lg:text-xl">
                 FREE Shipping On Orders Over $50
