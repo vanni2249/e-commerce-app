@@ -47,7 +47,7 @@
     <!-- Items -->
     <div class="">
         <header class="col-span-full mt-8">
-            <h2 class="text-2xl font-semibold text-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900">
                 New Arrivals
             </h2>
         </header>
