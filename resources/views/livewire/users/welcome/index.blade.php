@@ -47,14 +47,14 @@
     <!-- Items -->
     <div class="">
         <header class="col-span-full mt-8">
-            <h2 class="text-lg font-semibold text-gray-900">
+            <h2 class="text-2xl font-semibold text-gray-900">
                 New Arrivals
             </h2>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar py-4">
             @foreach ($items as $item)
                 @for ($i = 0; $i < 2; $i++)
-                    <div class="flex-shrink-0 lg:flex-shrink-1 w-32 sm:w-36 md:w-40 lg:w-1/6">
+                    <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
                         <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item"
                             wire:navigate />
                     </div>
