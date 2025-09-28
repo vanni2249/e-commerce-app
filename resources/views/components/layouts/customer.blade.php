@@ -23,21 +23,16 @@
     <!-- NavBar -->
     @livewire('users.layout.navbar')
 
+    <!-- Page Content -->
     <div class="h-screen flex flex-col max-w-7xl mx-auto space-y-4 p-4">
-        <!-- Page Content -->
         <!-- Main -->
         <main class="grow">
             {{ $slot }}
         </main>
-        <!-- Footer -->
-        <footer class="">
-            <div
-                class="bg-gray-200 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-                <p class="text-sm text-gray-800">&copy; {{ date('Y') }} Your Company. All rights reserved.</p>
-                <a href="#" class="text-sm text-gray-800 hover:text-gray-900">Terms and conditions</a>
-            </div>
-        </footer>
     </div>
+    <!-- Footer -->
+    @livewire('users.layout.footer')
+    
     <!-- Scripts -->
     @stack('scripts')
     @livewireScripts

@@ -46,10 +46,11 @@
 
     <!-- Items -->
     <div class="">
-        <header class="col-span-full mt-8">
+        <header class="col-span-full flex justify-between items-center mt-8 mb-4">
             <h2 class="text-xl font-semibold text-gray-900">
                 New Arrivals
             </h2>
+            <a href="#" class="text-blue-800 font-bold">View all</a>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
