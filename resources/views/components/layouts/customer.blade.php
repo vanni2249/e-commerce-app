@@ -24,7 +24,7 @@
     @livewire('users.layout.navbar')
 
     <!-- Page Content -->
-    <div class="min-h-screen flex flex-col max-w-7xl mx-auto space-y-4 p-4">
+    <div class="min-h-[616px] flex flex-col max-w-7xl mx-auto space-y-4 p-4">
         <!-- Main -->
         <main class="grow">
             {{ $slot }}
