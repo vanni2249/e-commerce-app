@@ -8,7 +8,8 @@
                         <div class="lg:hidden flex">
                             <x-dropdown align="left" width="48">
                                 <x-slot name="trigger">
-                                    <button class="bg-blue-900 rounded-full p-1.5 cursor-pointer text-blue-100 cursor-pointer xl:hidden">
+                                    <button
+                                        class="bg-blue-900 rounded-full p-1.5 cursor-pointer text-blue-100 cursor-pointer xl:hidden">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -28,12 +29,13 @@
                                             </p>
                                             @guest
                                                 <span class="flex space-x-1">
-                                                    <a href="{{ route('register') }}"
-                                                        class="font-bold hover:underline">Register</a>
+                                                    <a href="{{ route('register') }}" class="font-bold hover:underline"
+                                                        wire:navigate>Register</a>
                                                     <span>
                                                         or
                                                     </span>
-                                                    <a href="{{ route('login') }}" class="hover:underline">Login</a>
+                                                    <a href="{{ route('login') }}" class="hover:underline"
+                                                        wire:navigate>Login</a>
                                                 </span>
                                             @endguest
                                             @auth
@@ -43,7 +45,6 @@
                                     </div>
                                     <div class=" py-2">
                                         @auth
-                                            {{-- <p class="px-4 mb-3 font-semibold">Hi, {{ Auth::user()->first_name }}</p> --}}
                                             @foreach ($items as $item)
                                                 <x-dropdown-link href="{{ $item['url'] }}" wire:navigate>
                                                     {{ $item['value'] }}
@@ -112,9 +113,11 @@
                                 d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
                         </svg>
                         @auth
-                            <span class="text-xs font-semibold hidden md:inline md:pr-2">
-                                {{ $user->address->city->name ?? '' }}
-                            </span>
+                            @if ($user->address)
+                                <span class="text-xs font-semibold hidden md:inline md:pr-2">
+                                    {{ $user->address->city->name ?? '' }}
+                                </span>
+                            @endif
                         @endauth
                     </a>
                     <!-- Cart -->
@@ -214,14 +217,16 @@
                     @endauth
                     @guest
                         <span class="flex space-x-1 px-4">
-                            <a href="{{ route('register') }}" class="font-bold hover:underline">Register</a>
+                            <a href="{{ route('register') }}" class="font-bold hover:underline"
+                                wire:navigate>Register</a>
                             <span>
                                 or
                             </span>
-                            <a href="{{ route('login') }}" class="hover:underline">Login</a>
+                            <a href="{{ route('login') }}" class="hover:underline" wire:navigate>Login</a>
                         </span>
                     @endguest
-                    <a href="{{ route('favorites') }}" class="font-semibold hover:bg-blue-800 px-3 rounded-full">My
+                    <a href="{{ route('favorites') }}" class="font-semibold hover:bg-blue-800 px-3 rounded-full"
+                        wire:navigate>My
                         favorites</a>
                     <a href="" class="font-semibold hover:bg-blue-800 px-3 rounded-full">Help & FAQs</a>
                 </div>

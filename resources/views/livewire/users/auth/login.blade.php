@@ -36,7 +36,7 @@
         <div class="mt-6">
             <p class="mt-4 text-xs text-gray-600">
                 Don't have an account?
-                <a href="{{ route('register') }}" class="text-blue-500">
+                <a href="{{ route('register') }}" class="text-blue-500" wire:navigate>
                     Register
                 </a>
             </p>

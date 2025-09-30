@@ -87,7 +87,7 @@
                         <header class="absolute top-2 right-2">
                             <div class="flex space-x-2">
                                 <x-icon-button icon="minus" variant="danger" class=""
-                                    wire:click="removeItemFromWishlistModal({{ $item }})" />
+                                    wire:click="removeItemFromFavoriteModal({{ $item }})" />
                             </div>
                         </header>
                         <x-item :item="$item" href="{{ route('items.show', ['item' => $item]) }}" wire:navigate />
@@ -126,7 +126,7 @@
             {{ $item_id->id ?? '' }}
             <p>Are you sure you want to remove this item from your favorites?</p>
             <div class="mt-4 flex justify-end space-x-2">
-                <x-button variant="secondary" @click="$dispatch('close')">Cancel</x-button>
+                <x-button variant="secondary" @click="$dispatch('close-modal', 'remove-from-favorite-modal')">Cancel</x-button>
                 <x-button variant="danger" wire:click="removeItemFromFavorites">Remove</x-button>
             </div>
         </div>
