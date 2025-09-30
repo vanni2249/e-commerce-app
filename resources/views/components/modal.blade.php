@@ -25,7 +25,7 @@
         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-        <header class="flex justify-between items-center p-2 md:p-4 border-b border-gray-200">
+        <header class="flex justify-between items-center p-4 border-b border-gray-200">
             <h2 class="text-md font-medium text-gray-900">{{ $title }}</h2>
             <button x-on:click="$dispatch('close-modal', '{{ $name }}')" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
