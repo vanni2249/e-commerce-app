@@ -55,7 +55,7 @@
     </x-modal>
 
     <!-- Set Default address modal -->
-    <x-modal name="set-default-address-modal" title="Set Default Address">
+    <x-modal name="set-default-address-modal" title="Set Default Address" size="md">
         <form wire:submit.prevent="setDefaultAddress">
             <p>Are you sure you want to set this address as your default address?</p>
             @if ($address)
@@ -69,14 +69,14 @@
                 <p class="text-red-500">No address selected.</p>
             @endif
             <div class="mt-4 flex justify-end gap-2">
-                <x-button type="button" variant="light" @click="$dispatch('close')">Cancel</x-button>
+                {{-- <x-button type="button" variant="light" @click="$dispatch('close')">Cancel</x-button> --}}
                 <x-button type="submit">Set as Default</x-button>
             </div>
         </form>
     </x-modal>
 
     <!-- Remove address modal -->
-    <x-modal name="remove-address-modal" title="Remove Address">
+    <x-modal name="remove-address-modal" title="Remove Address" size="md">
         <form wire:submit.prevent="removeAddress">
             <p>Are you sure you want to remove this address?</p>
             @if ($address)
@@ -90,7 +90,7 @@
                 <p class="text-red-500">No address selected.</p>
             @endif
             <div class="mt-4 flex justify-end gap-2">
-                <x-button type="button" variant="light" @click="$dispatch('close')">Cancel</x-button>
+                {{-- <x-button wire:ignore type="button" variant="light" @click="$dispatch('close-modal', 'remove-address-modal')">Cancel</x-button> --}}
                 <x-button type="submit" variant="danger">Remove</x-button>
             </div>
         </form>
