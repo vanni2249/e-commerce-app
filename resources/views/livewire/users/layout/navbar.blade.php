@@ -155,32 +155,7 @@
                             </span>
                         @endif
                     </div>
-                    <!-- Search Modal -->
-                    <x-modal name="search-modal" title="Search Products">
-                        <form wire:submit.prevent="send" class="w-full">
-                            <div class="w-full flex relative">
 
-                                <input type="text" wire:model='search' @class([
-                                    'w-full p-2 rounded-l-full border bg-white border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500',
-                                    'border-red-400' => $errors->has('search'),
-                                ])
-                                    placeholder="Search..." />
-                                <button type="submit"
-                                    class="bg-white hover:bg-blue-100 cursor-pointer text-white p-1 rounded-r-full border border-l-0 border-slate-300 px-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-800">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div @class([
-                                'absolute bg-white p-4 font-bold rounded-xl w-full shadow',
-                                'hidden' => $hiddenBoxMore,
-                                'block' => $showBoxMore,
-                            ])>ssss</div>
-                        </form>
-                    </x-modal>
                 </div>
             </div>
         </div>
@@ -233,4 +208,29 @@
             </div>
         </div>
     </nav>
+    <!-- Search Modal -->
+    <x-modal name="search-modal" title="Search Products">
+        <form wire:submit.prevent="send" class="w-full">
+            <div class="w-full flex relative">
+
+                <input type="text" wire:model='search' @class([
+                    'w-full p-2 rounded-l-full border bg-white border-slate-300 focus:outline-none',
+                    'border-red-400' => $errors->has('search'),
+                ]) placeholder="Search..." />
+                <button type="submit"
+                    class="bg-white hover:bg-blue-100 cursor-pointer text-white p-1 rounded-r-full border border-l-0 border-slate-300 px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 text-blue-800">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
+            </div>
+            <div @class([
+                'absolute bg-white p-4 font-bold rounded-xl w-full shadow',
+                'hidden' => $hiddenBoxMore,
+                'block' => $showBoxMore,
+            ])>ssss</div>
+        </form>
+    </x-modal>
 </div>
