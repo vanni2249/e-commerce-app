@@ -31,8 +31,21 @@
                         </x-dropdown>
                     </div>
                 @endif
-                <div>
-                    <h2 class="text-lg font-semibold">Favorites</h2>
+                <div class="flex flex-col">
+                    <h2 class="text-lg font-semibold">
+                        Favorites
+                    </h2>
+                    <span class="text-sm text-gray-500">
+                        <span class="font-semibold text-gray-700">
+                            Show: 
+                        </span>
+                        @if ($favorite_id && $favorite)
+                            {{ $title }}
+                        @else
+                            All
+                        @endif
+
+                    </span>
                 </div>
             </div>
             <x-icon-button @click="$dispatch('open-modal', 'create-favorite-modal')" icon="plus" />

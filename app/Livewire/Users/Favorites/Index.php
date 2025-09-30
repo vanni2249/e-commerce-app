@@ -13,6 +13,7 @@ class Index extends Component
     public $user;
     public $favorites;
     public $favorite;
+    public $title;
     public $name;
     public $description;
     public $is_active = true;
@@ -22,14 +23,12 @@ class Index extends Component
     public function mount()
     {
         $this->user = Auth::user();
-        // $this->favorite_id = $this->user->favorites()->first()?->id;
-        // $this->favorite = $this->user->favorites()->first();
         $this->favorites = $this->user->favorites;
     }
     public function createFavorite()
     {
         $this->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:15',
             'description' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
         ]);
@@ -54,6 +53,8 @@ class Index extends Component
     public function selectedFavorite($favoriteId = null)
     {
         $this->favorite_id = $favoriteId;
+        $this->title = $favoriteId ? Favorite::find($this->favorite_id)->name : null;
+        // dd( $this->favorite);
     }
 
     public function removeItemFromFavoriteModal($itemId)
