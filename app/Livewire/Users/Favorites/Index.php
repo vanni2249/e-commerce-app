@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Users\Favorites;
 
+use App\Models\Favorite;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -10,21 +11,22 @@ use Livewire\Component;
 class Index extends Component
 {
     public $user;
-    public $wishlists;
-    public $wishlist;
+    public $favorites;
+    public $favorite;
     public $name;
     public $description;
     public $is_active = true;
-    public $wishlist_id;
+    public $favorite_id;
     public $item_id;
 
     public function mount()
     {
         $this->user = Auth::user();
-        $this->wishlists = Wishlist::where('user_id', $this->user->id)->with(['items'])->get();
+        // $this->favorite_id = $this->user->favorites()->first()?->id;
+        // $this->favorite = $this->user->favorites()->first();
+        $this->favorites = $this->user->favorites;
     }
-
-    public function createWishlist()
+    public function createFavorite()
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -32,59 +34,62 @@ class Index extends Component
             'is_active' => 'boolean',
         ]);
 
-        $wishlist = Wishlist::create([
+        $favorite = Favorite::create([
             'user_id' => $this->user->id,
             'name' => $this->name,
             'description' => $this->description,
             'is_active' => $this->is_active,
         ]);
 
-        // Refresh the wishlists
-        $this->wishlists = Wishlist::where('user_id', $this->user->id)->with(['items'])->get();
+        // Refresh the favorites
+        $this->favorites = $this->user->favorites;
 
         // Reset form fields
         $this->reset(['name', 'description', 'is_active']);
 
         // Close modal (assuming you have a modal component that listens for this event)
-        $this->dispatch('close-modal', 'create-wishlist-modal');
+        $this->dispatch('close-modal', 'create-favorite-modal');
     }
 
-    public function selectedWishlist($wishlistId = null)
+    public function selectedFavorite($favoriteId = null)
     {
-        $this->wishlist_id = $wishlistId;
+        $this->favorite_id = $favoriteId;
     }
 
-    public function removeItemFromWishlistModal($itemId)
+    public function removeItemFromFavoriteModal($itemId)
     {
         $this->item_id = $itemId['id'];
-        $this->dispatch('open-modal', 'remove-from-wishlist-modal');
+
+        $this->dispatch('open-modal', 'remove-from-favorite-modal');
     }
 
-    public function removeItemFromWishlist()
+    public function removeItemFromFavorites()
     {
-        foreach ($this->wishlists as $wishlist) {
-            $wishlist->items()->detach($this->item_id);
+        foreach ($this->favorites as $favorite) {
+            $favorite->items()->detach($this->item_id);
         }
 
-        // Refresh the wishlists
-        $this->wishlists = Wishlist::where('user_id', $this->user->id)->with(['items'])->get();
+        // Refresh the favorites
+        $this->favorites = Favorite::where('user_id', $this->user->id)->with(['items'])->get();
 
         // Close modal
-        $this->dispatch('close-modal', 'remove-from-wishlist-modal');
+        $this->dispatch('close-modal', 'remove-from-favorite-modal');
     }
 
-    public function editWishlistModal($wishlistId)
+    public function editFavoriteModal($favoriteId = null)
     {
-        $this->wishlist = Wishlist::find($wishlistId);
-        $this->name = $this->wishlist->name;
-        $this->description = $this->wishlist->description;
-        $this->is_active = $this->wishlist->is_active;
-        $this->wishlist_id = $this->wishlist->id;
+        $this->favorite = Favorite::find($favoriteId);
+        $this->name = $this->favorite->name;
+        $this->description = $this->favorite->description;
+        $this->is_active = $this->favorite->is_active;
+        $this->favorite_id = $this->favorite->id;
 
-        $this->dispatch('open-modal', 'edit-wishlist-modal');
+
+        $this->dispatch('close-modal', 'manager-favorites-modal');
+        $this->dispatch('open-modal', 'edit-favorite-modal');
     }
 
-    public function updateWishlist()
+    public function updateFavorite()
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -92,58 +97,59 @@ class Index extends Component
             'is_active' => 'boolean',
         ]);
 
-        $wishlist = Wishlist::find($this->wishlist_id);
-        $wishlist->update([
+        $favorite = Favorite::find($this->favorite_id);
+        $favorite->update([
             'name' => $this->name,
             'description' => $this->description,
             'is_active' => $this->is_active,
         ]);
 
-        // Refresh the wishlists
-        $this->wishlists = Wishlist::where('user_id', $this->user->id)->with(['items'])->get();
+        // Refresh the favorites
+        $this->favorites = Favorite::where('user_id', $this->user->id)->with(['items'])->get();
 
         // Reset form fields
-        $this->reset(['name', 'description', 'is_active', 'wishlist_id']);
+        $this->reset(['name', 'description', 'is_active', 'favorite_id']);
 
         // Close modal
-        $this->dispatch('close-modal', 'edit-wishlist-modal');
+        $this->dispatch('close-modal', 'edit-favorite-modal');
     }
 
-    public function deleteWishlistModal($wishlistId)
+    public function deleteFavoriteModal($favoriteId)
     {
-        $this->wishlist = Wishlist::find($wishlistId);
-        $this->wishlist_id = $this->wishlist->id;
+        $this->favorite = Favorite::find($favoriteId);
+        $this->favorite_id = $this->favorite->id;
 
-        $this->dispatch('open-modal', 'delete-wishlist-modal');
+        $this->dispatch('close-modal', 'manager-favorites-modal');
+        $this->dispatch('open-modal', 'delete-favorite-modal');
     }
 
-    public function deleteWishlist()
+    public function deleteFavorite()
     {
-        $wishlist = Wishlist::find($this->wishlist_id);
-        $wishlist->items()->detach(); // Detach all items
-        $wishlist->delete();
+        $favorite = Favorite::find($this->favorite_id);
+        $favorite->items()->detach(); // Detach all items
+        $favorite->delete();
 
-        // Refresh the wishlists
-        $this->wishlists = Wishlist::where('user_id', $this->user->id)->with(['items'])->get();
+        // Refresh the favorites
+        $this->favorites = Favorite::where('user_id', $this->user->id)->with(['items'])->get();
 
-        // Reset wishlist_id
-        $this->reset('wishlist_id');
+        // Reset favorite_id
+        $this->reset('favorite_id');
 
         // Close modal
-        $this->dispatch('close-modal', 'delete-wishlist-modal');
-        
+        $this->dispatch('close-modal', 'delete-favorite-modal');
+
     }
 
     #[Layout('components.layouts.customer')] 
     public function render()
     {
         return view('livewire.users.favorites.index',[
-            'items' => $this->wishlists->flatMap(function ($wishlist) {
-                if ($this->wishlist_id) {
-                    return $wishlist->items()->where('wishlist_id', $this->wishlist_id)->get();
-                }
-                return $wishlist->items;
-            }),
+           'items' => $this->favorites->flatMap(function ($favorite) {
+               if ($this->favorite_id) {
+                   return $favorite->items()->where('favorite_id', $this->favorite_id)->get();
+               }
+               return $favorite->items;
+           }),
         ]);
     }
 }

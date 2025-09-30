@@ -91,7 +91,7 @@
                     <!-- Quantity Selector -->
                     <div>
                         @if ($stock > 0)
-                        <label for="quantity" class="text-gray-800 text-sm block mb-2">Quantity</label>
+                            <label for="quantity" class="text-gray-800 text-sm block mb-2">Quantity</label>
                             <div class="flex items-center space-x-2">
                                 <div>
                                     {{-- {{ $stock }} --}}
@@ -118,9 +118,19 @@
                         <!-- auth -->
                         @auth
                             <!-- Favorite -->
-                            @if ($wishlistAdded)
+                            @if ($favoriteAdded)
+                                <button wire:click="removeItemFromFavoriteModal"
+                                    class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="currentColor"
+                                        class="icon icon-tabler text-red-600 icons-tabler-filled icon-tabler-heart">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
+                                    </svg>
+                                </button>
                             @else
-                                <button wire:click="addItemToWishlistModal"
+                                <button wire:click="addItemToFavoriteModal"
                                     class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -223,15 +233,15 @@
             </div>
         </x-card>
     </div>
-    <!-- Create wishlist modal -->
-    <x-modal name="add-item-wishlist-modal" title="Add to wishlist" size="sm">
-        <form wire:submit.prevent="addItemToWishlist">
+    <!-- Add item to favorites modal -->
+    <x-modal name="add-item-favorite-modal" title="Add to favorites" size="sm">
+        <form wire:submit.prevent="addItemToFavorites">
             <div class="space-y-4">
-                <x-label for="wishlist" value="Select a wishlist" />
-                @if ($wishlists)
-                    <x-select class="w-full" wire:model.live="wishlist_id" id="wishlist">
-                        @foreach ($wishlists as $wishlist)
-                            <option value="{{ $wishlist->id }}">{{ $wishlist->name }}</option>
+                <x-label for="favorite" value="Select a favorite" />
+                @if ($favorites)
+                    <x-select class="w-full" wire:model.live="favorite_id" id="favorite">
+                        @foreach ($favorites as $favorite)
+                            <option value="{{ $favorite->id }}">{{ $favorite->name }}</option>
                         @endforeach
                     </x-select>
                 @endif
@@ -242,5 +252,20 @@
                 </div>
             </div>
         </form>
+    </x-modal>
+
+    <!-- Remove item from favorites modal -->
+    <x-modal name="remove-item-favorite-modal" title="Remove from favorites" size="sm">
+        <div class="space-y-4">
+            <p>Are you sure you want to remove this item from your favorites?</p>
+            <div class="flex justify-start space-x-2">
+                <x-button wire:click="removeItemFromFavorites" class="grow" variant="danger" wire:loading.attr="disabled">
+                    Remove from Favorites
+                </x-button>
+                <x-button wire:click="$dispatch('close-modal', 'remove-item-favorite-modal')" class="grow" variant="secondary" wire:loading.attr="disabled">
+                    Cancel
+                </x-button>
+            </div>
+        </div>
     </x-modal>
 </div>

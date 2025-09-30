@@ -23,9 +23,9 @@ class Show extends Component
     public $price;
     public $shippingCost;
     public $variants = [];
-    public $wishlists;
-    public $wishlist_id;
-    public $wishlistAdded = false;
+    public $favorites;
+    public $favorite_id;
+    public $favoriteAdded = false;
 
     public function mount($item)
     {
@@ -54,9 +54,11 @@ class Show extends Component
 
         $this->setProductData($this->product);
 
-        $this->wishlists = ($this->user) ? (($this->user->wishlists->isEmpty()) ? null : $this->user->wishlists) : null;
-        $this->wishlist_id = ($this->wishlists && $this->wishlists->isNotEmpty()) ? $this->wishlists->first()->id : null;
-        $this->wishlistAdded = ($this->user && $this->wishlists) ? $this->item->wishlists()->whereIn('wishlist_id', $this->wishlists->pluck('id'))->exists() : false;
+        $this->favorites = ($this->user) ? (($this->user->favorites->isEmpty()) ? null : $this->user->favorites) : null;
+        $this->favorite_id = ($this->favorites && $this->favorites->isNotEmpty()) ? $this->favorites->first()->id : null;
+        $this->favoriteAdded = ($this->user && $this->favorites && $this->item && method_exists($this->item, 'favorites'))
+            ? $this->item->favorites()->whereIn('favorite_id', $this->favorites->pluck('id'))->exists()
+            : false;
     }
 
     public function updated($property, $value)
@@ -143,79 +145,49 @@ class Show extends Component
         ]);
     }
 
-    public function addItemToWishlistModal()
+    public function addItemToFavoriteModal()
     {
-        if ($this->wishlists === null && $this->user) {
-            $wishlist = $this->user->wishlists()->create([
-                'name' => 'My Wishlist',
-                'is_default' => true,
-            ]);
-
-            if ($wishlist) {
-                $this->wishlists =  $this->user->wishlists;
-            }
-
-        }
-
-
-        if ($this->wishlists === null) {
-            $this->addItemToWishlistModal();
-        }else {
-            $this->dispatch('open-modal', 'add-item-wishlist-modal');
-        }
+        $this->dispatch('open-modal', 'add-item-favorite-modal');
 
     }
 
-    public function addItemToWishlist()
+    public function addItemToFavorites()
     {
-        if ($this->wishlist_id && $this->user) {
+        if ($this->favorite_id && $this->user) {
 
-            $wishlist = $this->user->wishlists()->where('id', $this->wishlist_id)->first();
+            $favorite = $this->user->favorites()->where('id', $this->favorite_id)->first();
 
-            if ($wishlist) {
-                // Check if the item is already in the wishlist
-                if (!$this->item->wishlists()->where('wishlist_id', $wishlist->id)->exists()) {
-                    $this->item->wishlists()->attach($wishlist->id);
-                    $this->wishlistAdded = true;
+            if ($favorite) {
+                // Check if the item is already in the favorite
+                if (!$this->item->favorites()->where('favorite_id', $favorite->id)->exists()) {
+                    $this->item->favorites()->attach($favorite->id);
+                    $this->favoriteAdded = true;
                 }
             }
         }
 
-        $this->dispatch('close-modal', 'add-item-wishlist-modal');
+        $this->dispatch('close-modal', 'add-item-favorite-modal');
     }
 
-    // public function createDefaultWishlist()
-    // {
-    //     $wishlist = Wishlist::create([
-    //         'user_id' => $this->user->id,
-    //         'is_default' => true,
-    //     ]);
+    public function removeItemFromFavoriteModal()
+    {
+        $this->dispatch('open-modal', 'remove-item-favorite-modal');
+    }
 
-    //     $this->wishlist = $wishlist;
-    // }
+    public function removeItemFromFavorites()
+    {
+        if ($this->favorite_id && $this->user) {
+            
+            $favorite = $this->user->favorites()->where('id', $this->favorite_id)->first();
+            if ($favorite) {
+                // Check if the item is already in the favorite
+                $this->item->favorites()->detach($favorite->id);
+                $this->favoriteAdded = false;
+            }
+        }
 
-    // public function addItemToWishlist()
-    // {
-    //     if ($this->wishlist) {
-    //         // Add item to wishlist
-    //     } else {
-    //         $this->createWishlist();
-    //     }
-    // }
-    // public function createWishlist()
-    // {
-
-    //     $wishlist = Wishlist::create([
-    //         'user_id' => $this->user->id,
-    //         'is_default' => true,
-    //     ]);
-
-    //     $this->wishlist = $wishlist;
-    //     if ($this->wishlist) {
-    //         $this->addItemToWishlist();
-    //     }
-    // }
-
+        $this->dispatch('close-modal', 'remove-item-favorite-modal');
+    }
 
     #[Layout('components.layouts.customer')]
     public function render()

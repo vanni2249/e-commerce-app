@@ -51,5 +51,12 @@ class UserSeeder extends Seeder
         ];
 
         User::insert($items);
+
+        foreach ($items as $item) {
+            $user = User::where('email', $item['email'])->first();
+            $user->favorites()->create([
+              'is_default' => true,
+            ]);
+        }
     }
 }

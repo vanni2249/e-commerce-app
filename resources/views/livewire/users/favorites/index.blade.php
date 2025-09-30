@@ -3,7 +3,7 @@
     <x-card>
         <header class="flex items-center justify-between">
             <div class="flex items-center space-x-2 ">
-                @if ($wishlists->count() > 0)
+                @if ($favorites->count() > 0)
                     <div class="lg:hidden">
                         <x-dropdown align="left">
                             <x-slot name="trigger">
@@ -13,16 +13,16 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-button wire:click="selectedWishlist({{ null }})">
-                                    All Favorites
+                                <x-dropdown-button wire:click="selectedFavorites({{ null }})">
+                                    All
                                 </x-dropdown-button>
-                                @foreach ($wishlists as $wishlist)
-                                    <x-dropdown-button wire:click="selectedWishlist({{ $wishlist->id }})">
-                                        {{ $wishlist->name }}
+                                @foreach ($favorites as $favorite)
+                                    <x-dropdown-button wire:click="selectedFavorites({{ $favorite->id }})">
+                                        {{ $favorite->name }}
                                     </x-dropdown-button>
                                 @endforeach
                                 <div class="flex justify-center py-2 border-t border-gray-200">
-                                    <button @click="$dispatch('open-modal', 'manager-wishlists-modal')"
+                                    <button @click="$dispatch('open-modal', 'manager-favorites-modal')"
                                         class="text-xs font-semibold cursor-pointer text-blue-500 hover:underline">
                                         Manager
                                     </button>
@@ -33,10 +33,9 @@
                 @endif
                 <div>
                     <h2 class="text-lg font-semibold">Favorites</h2>
-                    <p class="text-sm text-gray-500">Manage your favorite items and wishlists.</p>
                 </div>
             </div>
-            <x-icon-button @click="$dispatch('open-modal', 'create-wishlist-modal')" icon="plus" />
+            <x-icon-button @click="$dispatch('open-modal', 'create-favorite-modal')" icon="plus" />
         </header>
     </x-card>
     <!-- Body -->
@@ -46,34 +45,34 @@
             <x-card class="min-h-64 bg-white">
                 <header class="flex justify-between items-center mb-4">
                     <h3 class="text-md font-semibold">List</h3>
-                    <button @click="$dispatch('open-modal', 'manager-wishlists-modal')"
+                    <button @click="$dispatch('open-modal', 'manager-favorites-modal')"
                         class="text-xs font-semibold cursor-pointer text-blue-500 hover:underline">
                         Manager
                     </button>
                 </header>
-                <!-- List of wishlists -->
+                <!-- List of favorites -->
                 <ul class="space-y-3 text-sm">
-                    <li wire:click="selectedWishlist({{ null }})" @class([
+                    <li wire:click="selectedFavorite({{ null }})" @class([
                         'text-gray-600 cursor-pointer hover:text-gray-900',
-                        'font-bold text-gray-900' => $wishlist_id == null,
+                        'font-bold text-gray-900' => $favorite_id == null,
                     ])>
-                        All Favorites
+                        All
                     </li>
-                    @forelse ($wishlists as $wishlist)
-                        <li wire:click="selectedWishlist({{ $wishlist->id }})" @class([
+                    @forelse ($favorites as $favorite)
+                        <li wire:click="selectedFavorite({{ $favorite->id }})" @class([
                             'text-gray-600 cursor-pointer hover:text-gray-900 flex justify-between',
-                            'font-bold text-gray-900' => $wishlist_id == $wishlist->id,
+                            'font-bold text-gray-900' => $favorite_id == $favorite->id,
                         ])>
                             <span>
-                                {{ $wishlist->name }}
+                                {{ $favorite->name }}
                             </span>
                             <span>
-                                {{ $wishlist->items->count() }}
+                                {{ $favorite->items->count() }}
                             </span>
                         </li>
                     @empty
                         <li>
-                            No wishlists found.
+                            No favorites found.
                         </li>
                     @endforelse
                 </ul>
@@ -105,11 +104,11 @@
         </div>
     </div>
 
-    <!-- Create wishlist modal -->
-    <x-modal name="create-wishlist-modal" title="Create wishlist" size="md">
-        <form wire:submit.prevent="createWishlist">
+    <!-- Create favorite modal -->
+    <x-modal name="create-favorite-modal" title="Create favorite" size="md">
+        <form wire:submit.prevent="createFavorite">
             <div>
-                <x-label for="name" value="Wishlist Name" />
+                <x-label for="name" value="Favorite Name" />
                 <x-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="name" />
                 @error('name')
                     <x-error message="{{ $message }}" />
@@ -122,46 +121,44 @@
     </x-modal>
 
     <!-- Remove item -->
-    <x-modal name="remove-from-wishlist-modal" title="Remove Item" size="md">
+    <x-modal name="remove-from-favorite-modal" title="Remove Item" size="md">
         <div>
             {{ $item_id->id ?? '' }}
-            <p>Are you sure you want to remove this item from your wishlist?</p>
+            <p>Are you sure you want to remove this item from your favorites?</p>
             <div class="mt-4 flex justify-end space-x-2">
                 <x-button variant="secondary" @click="$dispatch('close')">Cancel</x-button>
-                <x-button variant="danger" wire:click="removeItemFromWishlist">Remove</x-button>
+                <x-button variant="danger" wire:click="removeItemFromFavorites">Remove</x-button>
             </div>
         </div>
     </x-modal>
 
-    <!-- Manager wishlists modal -->
-    <x-modal name="manager-wishlists-modal" title="Manage Wishlists" size="md">
+    <!-- Manage favorites modal -->
+    <x-modal name="manager-favorites-modal" title="Manage Favorites" size="md">
         <div class="space-y-4">
-            @forelse ($wishlists as $wishlist)
+            @forelse ($favorites as $favorite)
                 <div class="flex items-center justify-between">
                     <div>
-                        <h4 class="font-semibold">{{ $wishlist->name }}</h4>
-                        <p class="text-sm text-gray-500">{{ $wishlist->items->count() }} items</p>
+                        <h4 class="font-semibold">{{ $favorite->name }}</h4>
+                        <p class="text-sm text-gray-500">{{ $favorite->items->count() }} items</p>
                     </div>
-                    @if ($wishlist->is_default != true)
-                        <div class="space-x-2">
-                            <x-button size="sm"
-                                wire:click="editWishlistModal({{ $wishlist->id }})">Edit</x-button>
-                            <x-button size="sm" variant="danger"
-                                wire:click="deleteWishlistModal({{ $wishlist->id }})">Delete</x-button>
+                    @if ($favorite->is_default != true)
+                        <div class="space-x-1">
+                            <x-icon-button icon="edit" wire:click="editFavoriteModal({{ $favorite->id }})" />
+                            <x-icon-button icon="delete" wire:click="deleteFavoriteModal({{ $favorite->id }})" />
                         </div>
                     @endif
                 </div>
             @empty
-                <p class="text-center text-gray-500">No wishlists found.</p>
+                <p class="text-center text-gray-500">No favorites found.</p>
             @endforelse
         </div>
     </x-modal>
 
-    <!-- Edit wishlist modal -->
-    <x-modal name="edit-wishlist-modal" title="Edit Wishlist" size="md">
-        <form wire:submit.prevent="updateWishlist">
+    <!-- Edit favorites modal -->
+    <x-modal name="edit-favorite-modal" title="Edit Favorites" size="md">
+        <form wire:submit.prevent="updateFavorite">
             <div>
-                <x-label for="name" value="Wishlist Name" />
+                <x-label for="name" value="Favorites Name" />
                 <x-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="name" />
                 @error('name')
                     <x-error message="{{ $message }}" />
@@ -173,13 +170,13 @@
         </form>
     </x-modal>
 
-    <!-- Delete wishlist modal -->
-    <x-modal name="delete-wishlist-modal" title="Delete Wishlist" size="md">
+    <!-- Delete favorite modal -->
+    <x-modal name="delete-favorite-modal" title="Delete Favorite" size="md">
         <div>
-            <p>Are you sure you want to delete this wishlist? This action cannot be undone.</p>
+            <p>Are you sure you want to delete this favorite? This action cannot be undone.</p>
             <div class="mt-4 flex justify-end space-x-2">
-                <x-button variant="secondary" @click="$dispatch('close')">Cancel</x-button>
-                <x-button variant="danger" wire:click="deleteWishlist">Delete</x-button>
+                <x-button variant="secondary" @click="$dispatch('close-modal', 'delete-favorite-modal')">Cancel</x-button>
+                <x-button variant="danger" wire:click="deleteFavorite">Delete</x-button>
             </div>
         </div>
     </x-modal>

@@ -15,7 +15,6 @@ class User extends Authenticatable
     use Billable;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    use HasUlids;
 
     /**
      * The attributes that are mass assignable.
@@ -67,9 +66,9 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
-    public function wishlists()
+    public function favorites()
     {
-        return $this->hasMany(Wishlist::class);
+        return $this->hasMany(Favorite::class);
     }
 
     public function seller()

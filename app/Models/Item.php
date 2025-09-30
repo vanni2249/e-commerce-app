@@ -73,9 +73,9 @@ class Item extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function wishlists()
+    public function favorites()
     {
-        return $this->belongsToMany(Wishlist::class, 'item_wishlist')->withTimestamps();
+        return $this->belongsToMany(Favorite::class, 'favorite_item')->withTimestamps();
     }
 
     public function scopeShow($query)

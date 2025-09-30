@@ -34,6 +34,10 @@ class Register extends Component
 
         event(new Registered(($user = User::create($validated))));
 
+        $user->favorites()->create([
+            'is_default' => true,
+        ]);
+
         Auth::login($user);
 
         $this->redirect(route('welcome', absolute: false), navigate: true);
