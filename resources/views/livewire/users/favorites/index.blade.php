@@ -13,11 +13,11 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-button wire:click="selectedFavorites({{ null }})">
+                                <x-dropdown-button wire:click="selectedFavorite({{ null }})">
                                     All
                                 </x-dropdown-button>
                                 @foreach ($favorites as $favorite)
-                                    <x-dropdown-button wire:click="selectedFavorites({{ $favorite->id }})">
+                                    <x-dropdown-button wire:click="selectedFavorite({{ $favorite->id }})">
                                         {{ $favorite->name }}
                                     </x-dropdown-button>
                                 @endforeach
