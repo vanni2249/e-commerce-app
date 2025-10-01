@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('state_code')->nullable();
             $table->string('postal_code')->nullable();
             $table->boolean('is_default')->default(false);
+            $table->boolean('is_approved')->default(false);
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('phone')->nullable();
             $table->softDeletes();

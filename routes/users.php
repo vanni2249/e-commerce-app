@@ -4,9 +4,12 @@ use App\Http\Middleware\AuthUser;
 use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\GuestSeller;
 use App\Http\Middleware\GuestUser;
+use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+use App\Livewire\Users\Businesses\Register as BusinessRegister;
 
 use App\Livewire\Users\Welcome\Index as WelcomeIndex;
 use App\Livewire\Users\Items\Index as ItemsIndex;
@@ -38,6 +41,9 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
         Route::get('/register', function () {
             return view('users.auth.register');
         })->name('register');
+
+        Route::get('/register/business', BusinessRegister::class)->name('register.business');
+
     });
 
     Route::middleware([AuthUser::class])->group(function () {

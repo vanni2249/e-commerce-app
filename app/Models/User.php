@@ -51,6 +51,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function business()
+    {
+        return $this->hasOne(Business::class);
+    }   
+
     public function address()
     {
         return $this->hasOne(Address::class)->where('is_default', true);

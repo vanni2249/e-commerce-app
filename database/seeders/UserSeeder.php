@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
           ],
           [
             'name' => 'Kariani A Colon Santiago',
-            'email' => 'user@email.com',
+            'email' => 'kariani@gmail.com',
             'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),

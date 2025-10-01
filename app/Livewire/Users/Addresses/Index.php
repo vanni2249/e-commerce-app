@@ -51,7 +51,6 @@ class Index extends Component
             'state_code' => $this->state_code,
             'postal_code' => $this->postal_code,
             'is_default' => $this->is_default ? true : false,
-            'user_id' => $this->user->id,
             'phone' => $this->phone,
         ]);
 

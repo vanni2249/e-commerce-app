@@ -23,6 +23,7 @@ class AddressSeeder extends Seeder
                 'postal_code' => '00926',
                 'phone' => '7875551234',
                 'is_default' => true,
+                'is_approved' => true,
                 'user_id' => 4
             ],
             [
@@ -35,6 +36,7 @@ class AddressSeeder extends Seeder
                 'postal_code' => '00766',
                 'phone' => '7875555678',
                 'is_default' => false,
+                'is_approved' => false,
                 'user_id' => 4
             ],
         ];
