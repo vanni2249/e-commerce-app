@@ -1,4 +1,12 @@
 <div>
+    @if (session('error'))
+        <div class="mb-4">
+            <x-alert variant="danger" title="Warning!">
+                <p>{{ session('error') }}</p>
+            </x-alert>
+        </div>
+        
+    @endif
     <!-- Add New Address Card -->
     <x-card>
         <header class="flex items-center justify-between">
@@ -15,7 +23,10 @@
     <!-- Addresses Grid -->
     <div class="grid grid-cols-12 gap-4 mt-4">
         @forelse ($addresses as $addr)
-            <div @class(['col-span-12 md:col-span-6 lg:col-span-4', 'border border-green-300 rounded-xl' => session('message')])>
+            <div @class([
+                'col-span-12 md:col-span-6 lg:col-span-4',
+                'border border-green-300 rounded-xl' => session('message'),
+            ])>
                 <x-card class="h-full bg-white">
                     <x-address name="{{ $addr->name }}" line1="{{ $addr->line1 }}" line2="{{ $addr->line2 }}"
                         city="{{ $addr->city->name }}" state="{{ $addr->state_code }}" code="{{ $addr->postal_code }}"
@@ -26,8 +37,8 @@
                                 variant="light">Edit</x-button>
                             <x-button wire:click="removeAddressModal({{ $addr->id }})"
                                 variant="light">Delete</x-button>
-                            <x-button wire:click="setDefaultAddressModal({{ $addr->id }})"
-                                variant="light">Set as Default</x-button>
+                            <x-button wire:click="setDefaultAddressModal({{ $addr->id }})" variant="light">Set as
+                                Default</x-button>
                         </footer>
                     @else
                         <footer class="mt-4">
@@ -39,10 +50,10 @@
                 </x-card>
             </div>
         @empty
-            <div class="col-span-12">
-                <span class="text-gray-500">
-                    You have not added any addresses yet. Click the "Add New Address" button to create one.
-                </span>
+            <div class="col-span-full">
+                <x-card>
+                    <p class="text-center text-gray-500">No addresses found. Please add a new address.</p>
+                </x-card>
             </div>
         @endforelse
     </div>

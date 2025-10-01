@@ -42,6 +42,13 @@ class Index extends Component
         $this->user = Auth::user();
         $this->address = $this->user->address;
 
+        if (!$this->address) {
+
+            session()->flash('error', 'Please add an address before proceeding to checkout.');
+
+            return $this->redirect('/addresses', navigate: true);
+        }
+
         $this->cart = Cart::where('user_id', $this->user->id)
             ->with('products', 'products.item')
             ->doesntHave('order')

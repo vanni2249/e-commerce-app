@@ -1,4 +1,4 @@
-@props(['variant'=>'primary','title' => ''])
+@props(['variant'=>'primary','title' => '', 'leftHeader' => false])
 
 @php
     $baseClasses = 'p-4 rounded-md';
@@ -15,14 +15,14 @@
 
 <div {{ $attributes->merge(['class' => $classes]) }}>
     <header class="flex items-center justify-between">
-        <h2 class="text-lg font-bold text-black">{{ $title }}</h2>
-        @if ($leftHeader)
+        <h2 class="text-md font-bold text-black">{{ $title }}</h2>
+        @if (!$leftHeader)
             <div class="ml-4">
                 {{ $leftHeader }}
             </div>
         @endif
     </header>
-    <div>
+    <div class="">
         {{ $slot }}
     </div>
 </div>
