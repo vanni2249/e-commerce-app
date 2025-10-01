@@ -44,7 +44,7 @@ class Index extends Component
 
         if (!$this->address) {
 
-            session()->flash('error', 'Please add an address before proceeding to checkout.');
+            session()->flash('error', 'Please add an address before proceeding to checkout. All addresses must be approved to complete the order.');
 
             return $this->redirect('/addresses', navigate: true);
         }

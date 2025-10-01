@@ -28,7 +28,7 @@ class AddressSeeder extends Seeder
             ],
             [
                 'name'=>'Kariani A Colon',
-                'type' => 'business',
+                'type' => 'residencial',
                 'line1' => 'Bo Sierrita',
                 'line2' => 'Calle Luna #45',
                 'city_id' => 77,
@@ -36,7 +36,7 @@ class AddressSeeder extends Seeder
                 'postal_code' => '00766',
                 'phone' => '7875555678',
                 'is_default' => false,
-                'is_approved' => false,
+                'is_approved' => true,
                 'user_id' => 4
             ],
         ];

@@ -22,7 +22,7 @@
             </div>
         @endif
     </header>
-    <div class="">
+    <div class="text-sm mt-1">
         {{ $slot }}
     </div>
 </div>

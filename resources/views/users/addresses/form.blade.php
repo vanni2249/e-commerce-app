@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-3 gap-2">
 
     <!-- Type -->
     <div class="col-span-full">
@@ -7,7 +7,9 @@
             <option value="">Select Type</option>
             <option value="postal">Postal</option>
             <option value="residencial">Residencial</option>
-            <option value="business">Business</option>
+            @if (Auth::user()->business)
+                <option value="business">Business</option>
+            @endif
         </x-select>
         @error('type')
             <x-error message="{{ $message }}" />

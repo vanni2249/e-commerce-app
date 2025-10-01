@@ -26,7 +26,6 @@ class Index extends Component
     public function mount()
     {
         $this->user = Auth::user();
-        $this->type = 'business';
         $this->name = $this->user->name;
         $this->state_code = 'pr';
         $this->phone = $this->user->phone;

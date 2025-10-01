@@ -5,7 +5,6 @@
                 <p>{{ session('error') }}</p>
             </x-alert>
         </div>
-        
     @endif
     <!-- Add New Address Card -->
     <x-card>
@@ -13,7 +12,7 @@
             <h2 class="text-lg font-semibold">Addresses</h2>
             <x-icon-button @click="$dispatch('open-modal', 'create-address-modal')" icon="plus" />
         </header>
-        <x-modal name="create-address-modal" title="Add New Address">
+        <x-modal name="create-address-modal" title="Add New Address" size="md">
             <form wire:submit.prevent="storeAddress">
                 @include('users.addresses.form')
             </form>
@@ -28,17 +27,21 @@
                 'border border-green-300 rounded-xl' => session('message'),
             ])>
                 <x-card class="h-full bg-white">
-                    <x-address name="{{ $addr->name }}" line1="{{ $addr->line1 }}" line2="{{ $addr->line2 }}"
-                        city="{{ $addr->city->name }}" state="{{ $addr->state_code }}" code="{{ $addr->postal_code }}"
-                        phone="{{ $addr->phone }}" />
+                    <x-address name="{{ $addr->name }}" type="{{ $addr->type }}" line1="{{ $addr->line1 }}"
+                        line2="{{ $addr->line2 }}" city="{{ $addr->city->name }}" state="{{ $addr->state_code }}"
+                        code="{{ $addr->postal_code }}" phone="{{ $addr->phone }}"
+                        is_approved="{{ $addr->is_approved }}" />
                     @if (!$addr->is_default)
                         <footer class="mt-4">
                             <x-button wire:click="updateAddressModal({{ $addr->id }})"
                                 variant="light">Edit</x-button>
                             <x-button wire:click="removeAddressModal({{ $addr->id }})"
                                 variant="light">Delete</x-button>
-                            <x-button wire:click="setDefaultAddressModal({{ $addr->id }})" variant="light">Set as
-                                Default</x-button>
+                            @if ($addr->is_approved)
+                                <x-button wire:click="setDefaultAddressModal({{ $addr->id }})" variant="light">Set
+                                    as
+                                    Default</x-button>
+                            @endif
                         </footer>
                     @else
                         <footer class="mt-4">
@@ -59,7 +62,7 @@
     </div>
     <!-- Pagination -->
     <!-- Update address modal -->
-    <x-modal name="update-address-modal" title="Update Address">
+    <x-modal name="update-address-modal" title="Update Address" size="md">
         <form wire:submit.prevent="updateAddress">
             @include('users.addresses.form')
         </form>
@@ -71,10 +74,10 @@
             <p>Are you sure you want to set this address as your default address?</p>
             @if ($address)
                 <div class="mt-4 p-4 rounded bg-gray-100">
-                    <x-address name="{{ $address->name }}" line1="{{ $address->line1 }}"
+                    <x-address name="{{ $address->name }}" type="{{ $address->type }}" line1="{{ $address->line1 }}"
                         line2="{{ $address->line2 }}" city="{{ $address->city->name }}"
                         state="{{ $address->state_code }}" code="{{ $address->postal_code }}"
-                        phone="{{ $address->phone }}" />
+                        phone="{{ $address->phone }}" is_approved="{{ $address->is_approved }}" />
                 </div>
             @else
                 <p class="text-red-500">No address selected.</p>
@@ -92,10 +95,10 @@
             <p>Are you sure you want to remove this address?</p>
             @if ($address)
                 <div class="mt-4 p-4 rounded bg-gray-100">
-                    <x-address name="{{ $address->name }}" line1="{{ $address->line1 }}"
+                    <x-address name="{{ $address->name }}" type="{{ $addr->type }}" line1="{{ $address->line1 }}"
                         line2="{{ $address->line2 }}" city="{{ $address->city->name }}"
                         state="{{ $address->state_code }}" code="{{ $address->postal_code }}"
-                        phone="{{ $address->phone }}" />
+                        phone="{{ $address->phone }}" is_approved="{{ $address->is_approved }}" />
                 </div>
             @else
                 <p class="text-red-500">No address selected.</p>
