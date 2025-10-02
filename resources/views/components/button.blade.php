@@ -1,4 +1,4 @@
-@props(['type' => 'submit', 'variant' => 'primary', 'size' => 'md', 'disabled' => false, 'label' => null, 'value' => null])
+@props(['type' => 'submit', 'variant' => 'primary', 'size' => 'md', 'label' => null, 'value' => null])
 
 @php
     switch ($variant) {
@@ -107,8 +107,8 @@
     }
 @endphp
 
-<button @disabled($disabled) 
-    {{ $attributes->merge(['type' => 'submit', 'class' => $classes . ' text-center focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150  cursor-pointer' . ($disabled ? ' cursor-not-allowed opacity-50' : '')]) }}>
+<button 
+    {{ $attributes->merge(['type' => 'submit', 'class' => $classes . ' text-center focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150  cursor-pointer']) }}>
     {{ $slot }}
     {{ $label ?? '' }}
     {{ $value ?? '' }}
