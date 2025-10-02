@@ -47,13 +47,20 @@
                         placeholder="Confirm your password" />
                 </div>
                 <!-- Terms and Conditions -->
-                <div class=" flex items-center space-x-2">
-                    <div class="pt-1">
-                        <x-checkbox id="terms" name="terms" value="1" />
+                <div>
+                    <div class=" flex items-center space-x-2">
+                        <div class="pt-1">
+                            <x-checkbox id="terms" wire:model="terms" name="terms" value="1" />
+                        </div>
+                        <a href="#">
+                            <x-label for="terms" value="Accept terms and conditions" />
+                        </a>
                     </div>
-                    <a href="#">
-                        <x-label for="terms" value="Accept terms and conditions" />
-                    </a>
+                    <span class="block">
+                        @error('terms')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </span>
                 </div>
                 <!-- Submit Button -->
                 <div class="mt-8">
