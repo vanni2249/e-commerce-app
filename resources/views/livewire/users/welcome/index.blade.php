@@ -14,21 +14,98 @@
     </div>
 
     <!-- Users -->
-    <div>
-        <header class="col-span-full flex justify-start items-center mb-4 px-1">
-            <h2 class="text-xl font-semibold text-gray-900">
-                Choose your user account
-            </h2>
-        </header>
+    @guest
+        <div>
+            <header class="col-span-full flex justify-start items-center mb-4 px-1">
+                <h2 class="text-xl font-semibold text-gray-900">
+                    Choose your user account
+                </h2>
+            </header>
 
-        <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
-            @for ($i = 0; $i < 3; $i++)
-                <div class="flex-shrink-0 bg-red-500 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4">
-                </div>
-            @endfor
+            <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
+                <a href="{{ route('register') }}"
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition"
+                    wire:navigate>
+                    <header class="flex items-center">
+                        <div class="bg-blue-800 text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-users-group">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                                <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                                <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                            </svg>
+                        </div>
+                        <div class="grow ml-4">
+                            <h2 class="font-bold">Customers</h2>
+                            <p></p>
+                        </div>
 
+                    </header>
+                    <p class="mt-2 text-sm text-gray-700">
+                        All you need to do is add products to your cart and proceed to checkout.
+                    </p>
+                </a>
+                <a href="{{ route('register.business') }}"
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition"
+                    wire:navigate>
+                    <header class="flex items-center">
+                        <div class="bg-blue-800 text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-building-store">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 21l18 0" />
+                                <path
+                                    d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4" />
+                                <path d="M5 21l0 -10.15" />
+                                <path d="M19 21l0 -10.15" />
+                                <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" />
+                            </svg>
+                        </div>
+                        <div class="grow ml-4">
+                            <h2 class="font-bold">Business</h2>
+                            <p></p>
+                        </div>
+
+                    </header>
+                    <p class="mt-2 text-sm text-gray-700">
+                        Are you a business owner? Create an account to manage your products and orders.
+                    </p>
+                </a>
+                <a href="#"
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition">
+                    <header class="flex items-center">
+                        <div class="bg-blue-800 text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-building-warehouse">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 21v-13l9 -4l9 4v13" />
+                                <path d="M13 13h4v8h-10v-6h6" />
+                                <path d="M13 21v-9a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v3" />
+                            </svg>
+                        </div>
+                        <div class="grow ml-4">
+                            <h2 class="font-bold">Sellers</h2>
+                            <p></p>
+                        </div>
+
+                    </header>
+                    <p class="mt-2 text-sm text-gray-700">
+                        Join our seller community and reach a wider audience for your products.
+                    </p>
+                </a>
+            </div>
         </div>
-    </div>
+    @endguest
 
     <!-- Items -->
     <div class="">
