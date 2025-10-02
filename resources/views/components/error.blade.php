@@ -1,3 +1,3 @@
-<small class="text-red-500 text-xs">
+<small {{ $attributes->merge(['class' => 'text-red-500 text-xs']) }}>
     {{ $message }}
 </small>

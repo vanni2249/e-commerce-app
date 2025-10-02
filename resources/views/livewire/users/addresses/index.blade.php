@@ -12,11 +12,7 @@
             <h2 class="text-lg font-semibold">Addresses</h2>
             <x-icon-button @click="$dispatch('open-modal', 'create-address-modal')" icon="plus" />
         </header>
-        <x-modal name="create-address-modal" title="Add New Address" size="md">
-            <form wire:submit.prevent="storeAddress">
-                @include('users.addresses.form')
-            </form>
-        </x-modal>
+
     </x-card>
 
     <!-- Addresses Grid -->
@@ -61,6 +57,15 @@
         @endforelse
     </div>
     <!-- Pagination -->
+
+
+    <!-- Create address modal -->
+    <x-modal name="create-address-modal" title="Add New Address" size="md">
+        <form wire:submit.prevent="storeAddress">
+            @include('users.addresses.form')
+        </form>
+    </x-modal>
+
     <!-- Update address modal -->
     <x-modal name="update-address-modal" title="Update Address" size="md">
         <form wire:submit.prevent="updateAddress">

@@ -1,5 +1,6 @@
 <div>
     <nav>
+        <!-- Top menu bar  -->
         <div class=" bg-blue-800">
             <div class="max-w-7xl mx-auto grid grid-cols-2 p-4 gap-4">
                 <div class="flex items-center">
@@ -91,7 +92,7 @@
                 </div>
                 <!-- Button Mobile Search, Address & Cart -->
                 <div class="flex justify-end items-center space-x-2">
-                    <!-- Search -->
+                    <!-- Mobile button search -->
                     <button @click="$dispatch('open-modal', 'search-modal')"
                         class="bg-blue-900 text-blue-100 rounded-full p-1.5 cursor-pointer md:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -102,7 +103,7 @@
                             <path d="M21 21l-6 -6" />
                         </svg>
                     </button>
-                    <!-- Address -->
+                    <!-- Button address -->
                     <a href="{{ route('addresses') }}"
                         class="bg-blue-900 hover:bg-blue-950 text-blue-100 rounded-full p-1.5 cursor-pointer flex md:space-x-1 items-center"
                         wire:navigate>
@@ -159,7 +160,7 @@
                 </div>
             </div>
         </div>
-        <!-- Menu button -->
+        <!-- Button menu bar-->
         <div class="hidden lg:block bg-blue-900">
             <div class="max-w-7xl mx-auto py-2 px-4 grid grid-cols-2 gap-4">
                 <div class="flex space-x-1">
