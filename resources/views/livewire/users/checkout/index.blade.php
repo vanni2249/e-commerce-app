@@ -47,7 +47,8 @@
             <x-card>
                 <header class="mb-4 flex items-center justify-between">
                     <h2 class="text-lg font-semibold">Shipping address</h2>
-                    <a href="{{ route('addresses',['redirect' => 'checkouts']) }}" class="text-sm text-blue-800 hover:underline" wire:navigate>Change</a>
+                    <a href="{{ route('addresses', ['redirect' => 'checkouts']) }}"
+                        class="text-sm text-blue-800 hover:underline" wire:navigate>Change</a>
                     {{-- <button @click="$dispatch('open-modal', 'change-address-modal')"
                         class="text-blue-500 text-sm hover:underline cursor-pointer">Change</button> --}}
                 </header>
@@ -112,13 +113,23 @@
     <!-- Make a payment modal -->
     <x-modal name="make-payment-modal" title="Make Payment" size="md">
         <div class="space-y-4">
-            <x-label for="card-holder-name" value="Card Holder Name" />
-            <x-input class="w-full" id="card-holder-name" type="text" />
+            <!-- Card Holder Name -->
+            <div>
+                <x-label for="card-holder-name" value="Card Holder Name" />
+                <x-input class="w-full" wire:model="name" id="card-holder-name" type="text"
+                value="{{ $user->name }}" />
+                <small id="card-holder-name-error" class="text-xs text-red-600"></small>
+            </div>
 
             <!-- Stripe Elements Placeholder -->
-            <div id="card-element" class="bg-gray-100 p-4 rounded-xl"></div>
+            <div>
+                <div id="card-element" class="bg-gray-100 border border-gray-300 p-3 rounded"></div>
+                <small id="card-element-error" class="text-red-500"></small>
+            </div>
 
-            <button id="card-button" type="button"
+            <!-- Make Payment Button -->
+            <button id="card-button" type="button" wire:loading.target="makePayment" wire:loading.attr="disabled"
+                wire:loading.class="opacity-50 cursor-not-allowed"
                 class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
                 Make Payment
             </button>
@@ -140,9 +151,27 @@
         cardElement.mount('#card-element');
 
         const cardHolderName = document.getElementById('card-holder-name');
+        const cardElementError = document.getElementById('card-element-error');
+        const cardHolderNameError = document.getElementById('card-holder-name-error');
         const cardButton = document.getElementById('card-button');
 
         cardButton.addEventListener('click', async (e) => {
+
+            // Add opacity-50 and disable the button
+            cardButton.classList.add('opacity-50', 'cursor-not-allowed');
+            cardButton.setAttribute('disabled', 'disabled');
+
+            // Validate that the cardHolderName is not empty
+            if (cardHolderName.value.trim() === '') {
+                // Send error to id error component
+                cardHolderName.classList.add('border-red-600');
+                cardHolderNameError.textContent = 'Card holder name is required.';
+                // Remove opacity-50 and enable the button
+                cardButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                cardButton.removeAttribute('disabled');
+                return;
+            }
+
             const {
                 paymentMethod,
                 error
@@ -155,8 +184,14 @@
             );
 
             if (error) {
-                // Display "error.message" to the user...
-                alert(error.message);
+                // Remove opacity-50 and enable the button
+                cardButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                cardButton.removeAttribute('disabled');
+                // Display "error.message" to the user in card-element-error
+                cardElementError.textContent = error.message;
+                const cardElement = document.getElementById('card-element');
+                cardElement.classList.add('border-red-600');
+                // alert(error.message);
             } else {
                 Livewire.dispatch('makePayment', {
                     paymentMethod: paymentMethod.id

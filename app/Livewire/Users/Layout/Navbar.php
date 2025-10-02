@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Users\Layout;
 
+use App\Models\Cart;
 use App\Models\Search as ModelsSearch;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -25,15 +26,16 @@ class Navbar extends Component
     public function mount()
     {
         $this->user = Auth::user();
-        $this->cart = ($this->user && $this->user->cart)
-            ? $this->user->cart->where('type', 'cart')->doesntHave('order')->first()
-            : null;
+        $this->cart = $this->user ? Cart::where('user_id', $this->user->id)->where('type', 'cart')->doesntHave('order')->first() : null;
+        // $this->cart = ($this->user && $this->user->cart)
+        //     ? $this->user->cart->where('type', 'cart')->doesntHave('order')->first()
+        //     : null;
+            // dd($this->cart);
         if ($this->user && $this->cart) {
             $this->count = $this->cart->products->sum(function ($product) {
-            return $product->pivot->quantity;
+                return $product->pivot->quantity;
             });
-        }
-        else {
+        } else {
             $this->count = 0;
         }
 
@@ -61,19 +63,18 @@ class Navbar extends Component
         $this->redirect(route('items.index', ['search' => $this->search]), navigate: true);
     }
 
-    public function setData() 
+    public function setData()
     {
         $isset = \App\Models\Search::where('search', $this->search)
             ->where('ip_address', $this->ipAddress)
             ->where('created_at', '>=', now()->subMinutes(10))
             ->exists();
 
-            if ($isset || $this->search == '') {
-                return;
-            }
-            else {
-                $this->store();
-            }
+        if ($isset || $this->search == '') {
+            return;
+        } else {
+            $this->store();
+        }
     }
 
     public function services()
@@ -122,7 +123,7 @@ class Navbar extends Component
 
     public function render()
     {
-        return view('livewire.users.layout.navbar',[
+        return view('livewire.users.layout.navbar', [
             'services' => $this->services(),
             'items' => $this->items(),
         ]);

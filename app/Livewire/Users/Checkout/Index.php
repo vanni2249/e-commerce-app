@@ -26,9 +26,9 @@ class Index extends Component
 
 
     public $user;
+    public $name;
     public $address;
     public $cart;
-    public $name;
     public $cardNumber;
     public $expMonth;
     public $expYear;
@@ -40,6 +40,7 @@ class Index extends Component
     public function mount()
     {
         $this->user = Auth::user();
+        $this->name = $this->user->name;
         $this->address = $this->user->address;
 
         if (!$this->address) {
@@ -76,8 +77,11 @@ class Index extends Component
     #[On('makePayment', ['paymentMethod'])]
     public function makePayment($paymentMethod)
     {
+        $this->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        
         $this->paymentMethod = $paymentMethod;
-
 
         DB::transaction(function () {
 
@@ -106,7 +110,7 @@ class Index extends Component
             //     return;
             // }
 
-            $paymentIntent = ['id' => 'pi_123456789', 'status' => 'succeeded'];
+            $paymentIntent = ['id' => uniqid(), 'status' => 'succeeded'];
 
             $transaction = $this->user->transactions()->create([
                 'number' => $this->createTransactionNumber(),
