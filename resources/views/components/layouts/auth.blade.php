@@ -25,7 +25,7 @@
                 <a href="/" class="text-2xl font-bold" wire:navigate>Myapp's</a>
         @endif
     </header>
-    <div class="grow md:mx-auto">
+    <div class="grow sm:mx-auto">
         {{ $slot }}
 
     </div>
