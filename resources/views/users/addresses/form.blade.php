@@ -1,5 +1,4 @@
 <div class="grid grid-cols-3 gap-2">
-
     <!-- Type -->
     <div class="col-span-full">
         <x-label for="type" value="Type" />
@@ -64,20 +63,23 @@
     <div class="col-span-1">
         <x-label for="postal_code" value="Postal Code" />
         <x-input id="postal_code" type="text" class="w-full" wire:model.defer="postal_code" />
-        @error('postal_code')
-            <x-error message="{{ $message }}" />
-        @enderror
     </div>
     <!-- Phone -->
     <div class="col-span-2">
         <x-label for="phone" value="Phone" />
         <x-input id="phone" type="text" class="w-full" wire:model.defer="phone" />
+    </div>
+    <div class="col-span-2 space-y-2 flex flex-col">
+        @error('postal_code')
+            <x-error message="{{ $message }}" />
+        @enderror
         @error('phone')
             <x-error message="{{ $message }}" />
         @enderror
     </div>
     <!-- Button -->
     <div class="col-span-full">
-        <x-button type="submit">Save Address</x-button>
+        <x-button type="submit" wire:loading.remove value="Save Address" />
+        <x-button-loading wire:loading />
     </div>
 </div>

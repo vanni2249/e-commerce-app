@@ -63,15 +63,17 @@ class Index extends Component
             'phone' => $this->phone,
         ]);
 
+
+        if ($this->redirect == 'checkouts') {
+            return $this->redirect('/checkouts', navigate: true);
+        }
+
         // Reset form fields
         $this->reset(['type', 'name', 'line1', 'line2', 'city_id', 'state_code', 'postal_code', 'is_default', 'phone']);
         $this->name = $this->user->name;
         $this->state_code = 'pr';
         $this->phone = $this->user->phone;
 
-        if ($this->redirect == 'checkouts') {
-            return $this->redirect('/checkouts', navigate: true);
-        }
         $this->dispatch('close-modal', 'create-address-modal');
 
         // Send flash message
@@ -121,7 +123,7 @@ class Index extends Component
             'line2' => 'nullable|string|max:255',
             'city_id' => 'required|exists:cities,id',
             'state_code' => 'nullable|string|max:10',
-            'postal_code' => 'required|string|max:20',
+            'postal_code' => 'required|string|min:5|max:20',
             'is_default' => 'sometimes|boolean',
             'phone' => 'required|string|max:20',
         ]);
