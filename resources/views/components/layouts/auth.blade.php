@@ -19,13 +19,16 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-200 font-sans flex flex-col items-center p-4 min-h-screen">
-    <header class="mb-4">
+<body class="bg-gray-200 font-sans flex flex-col p-4 min-h-screen">
+    <header class="mb-4 mx-auto">
         @if(in_array(request()->segment(1), ['login', 'register', 'password/reset']))
                 <a href="/" class="text-2xl font-bold" wire:navigate>Myapp's</a>
         @endif
     </header>
-    {{ $slot }}
+    <div class="grow md:mx-auto">
+        {{ $slot }}
+
+    </div>
     @livewireScripts
 </body>
 
