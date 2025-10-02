@@ -17,6 +17,7 @@ class Address extends Model
         'postal_code',
         'phone',
         'is_default',
+        'is_approved',
     ];
 
     public function user()

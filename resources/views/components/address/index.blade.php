@@ -1,4 +1,14 @@
-@props(['name' => '...', 'type' => '', 'line1' => '...', 'line2' => '...', 'city' => '...', 'state' => '...', 'code' => '...', 'phone' => '...', 'is_approved' => false])
+@props([
+    'name' => '...',
+    'type' => '',
+    'line1' => '...',
+    'line2' => '...',
+    'city' => '...',
+    'state' => '...',
+    'code' => '...',
+    'phone' => '...',
+    'is_approved' => '',
+])
 <header class="flex justify-between items-center">
     <ul class="text-gray-600">
         <li class="flex flex-col py-1">
@@ -8,10 +18,11 @@
 
     </ul>
     @if ($is_approved)
-        <x-badge color="success" class="uppercase" value="{{ $type ?? '' }}"/>
-        
-    @else
-        <x-badge color="danger" class="uppercase" value="Not Approved"/>
+        @if ($is_approved)
+            <x-badge color="success" class="uppercase" value="{{ $type ?? '' }}" />
+        @else
+            <x-badge color="danger" class="uppercase" value="Not Approved" />
+        @endif
     @endif
 </header>
 <ul class="text-gray-600">

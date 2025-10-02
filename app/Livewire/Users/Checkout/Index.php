@@ -46,7 +46,7 @@ class Index extends Component
 
             session()->flash('error', 'Please add an address before proceeding to checkout. All addresses must be approved to complete the order.');
 
-            return $this->redirect('/addresses', navigate: true);
+            return $this->redirect('/addresses?redirect=checkouts', navigate: true);
         }
 
         $this->cart = Cart::where('user_id', $this->user->id)
@@ -64,6 +64,13 @@ class Index extends Component
         $this->address = $this->user->addresses()->where('id', $addressId)->first();
 
         $this->dispatch('close-modal', 'change-address-modal');
+
+        $this->dispatch('reload-payment-form');
+    }
+
+    public function makePaymentModal()
+    {
+        $this->dispatch('open-modal', 'make-payment-modal');
     }
 
     #[On('makePayment', ['paymentMethod'])]

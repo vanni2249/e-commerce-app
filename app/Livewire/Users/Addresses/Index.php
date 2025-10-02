@@ -7,10 +7,13 @@ use App\Models\City;
 use App\Models\State;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
 {
+    #[Url()]
+    public $redirect;
     public $user;
     public $address;
     public $type;
@@ -40,6 +43,12 @@ class Index extends Component
             $this->is_default = true;
         }
 
+        if ($this->redirect == 'checkouts') {
+            // Unset previous default address
+            Address::where('user_id', $this->user->id)->where('is_default', true)->update(['is_default' => false]);
+            $this->is_default = true;
+        }
+
         Address::create([
             'user_id' => $this->user->id,
             'type' => $this->type,
@@ -50,22 +59,23 @@ class Index extends Component
             'state_code' => $this->state_code,
             'postal_code' => $this->postal_code,
             'is_default' => $this->is_default ? true : false,
+            'is_approved' => $this->type === 'business' ? false : true,
             'phone' => $this->phone,
         ]);
 
         // Reset form fields
         $this->reset(['type', 'name', 'line1', 'line2', 'city_id', 'state_code', 'postal_code', 'is_default', 'phone']);
-        $this->type = 'business';
         $this->name = $this->user->name;
         $this->state_code = 'pr';
         $this->phone = $this->user->phone;
 
+        if ($this->redirect == 'checkouts') {
+            return $this->redirect('/checkouts', navigate: true);
+        }
         $this->dispatch('close-modal', 'create-address-modal');
 
         // Send flash message
         session()->flash('notify', 'Address added successfully!');
-
-
     }
 
     public function updateAddressModal($addressId)
@@ -105,7 +115,7 @@ class Index extends Component
     public function validateFunction()
     {
         return $this->validate([
-            'type' => 'required|in:residencial,business',
+            'type' => 'required|in:residencial,business,postal',
             'name' => 'required|string|max:255',
             'line1' => 'required|string|max:255',
             'line2' => 'nullable|string|max:255',
@@ -131,7 +141,11 @@ class Index extends Component
         // Set new default address
         $this->address->update(['is_default' => true]);
 
-        $this->dispatch('close-modal', 'set-default-address-modal');
+        if ($this->redirect == 'checkouts') {
+            return $this->redirect('/checkouts', navigate: true);
+        } else {
+            $this->dispatch('close-modal', 'set-default-address-modal');
+        }
     }
 
     public function removeAddressModal($addressId)

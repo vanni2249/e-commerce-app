@@ -21,7 +21,7 @@
                                         {{ $product->item->en_title }}
                                     </h2>
                                     <ul class="md:text-right">
-                                        <li class="text-blue-500 font-semibold text-sm md:text-base lg:text-lg">
+                                        <li class="text-blue-800 font-semibold text-sm md:text-base lg:text-lg">
                                             ${{ $product->price }}
                                         </li>
                                         <li class="text-xs text-gray-500 whitespace-nowrap">
@@ -47,40 +47,15 @@
             <x-card>
                 <header class="mb-4 flex items-center justify-between">
                     <h2 class="text-lg font-semibold">Shipping address</h2>
-                    <button @click="$dispatch('open-modal', 'change-address-modal')"
-                        class="text-blue-500 text-sm hover:underline cursor-pointer">Change</button>
+                    <a href="{{ route('addresses',['redirect' => 'checkouts']) }}" class="text-sm text-blue-800 hover:underline" wire:navigate>Change</a>
+                    {{-- <button @click="$dispatch('open-modal', 'change-address-modal')"
+                        class="text-blue-500 text-sm hover:underline cursor-pointer">Change</button> --}}
                 </header>
                 <x-address name="{{ $address->name }}" line1="{{ $address->line1 }}" line2="{{ $address->line2 }}"
                     city="{{ $address->city->name }}" state="{{ $address->state_code }}"
                     code="{{ $address->postal_code }}" phone="{{ $address->phone }}" />
 
-                <x-modal name="change-address-modal" title="Change Address" size="md">
 
-                    <div class="space-y-4">
-                        @foreach ($addresses as $addr)
-                            <div @class([
-                                'border p-4 rounded-lg',
-                                'border-gray-300' => $address->id !== $addr->id,
-                                'border-blue-500' => $address->id === $addr->id,
-                            ])>
-                                <x-address name="{{ $addr->name }}" line1="{{ $addr->line1 }}"
-                                    line2="{{ $addr->line2 }}" city="{{ $addr->city->name }}"
-                                    state="{{ $addr->state_code }}" code="{{ $addr->postal_code }}"
-                                    phone="{{ $addr->phone }}" />
-                                @if ($address->id !== $addr->id)
-                                    <button wire:click="setAddress({{ $addr->id }})"
-                                        class="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors duration-200 cursor-pointer">Ship
-                                        to this address</button>
-                                @else
-                                    <span
-                                        class="mt-2 w-full block text-center bg-green-100 text-green-800 py-2 rounded">Current
-                                        Address</span>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-
-                </x-modal>
             </x-card>
             <!-- Checkout Summary -->
             <x-card>
@@ -108,6 +83,31 @@
             </x-card>
         </div>
     </div>
+    <!-- Change address modal -->
+    <x-modal name="change-address-modal" title="Change Address" size="md">
+
+        <div class="space-y-4">
+            @foreach ($addresses as $addr)
+                <div @class([
+                    'border p-4 rounded-lg',
+                    'border-gray-300' => $address->id !== $addr->id,
+                    'border-blue-500' => $address->id === $addr->id,
+                ])>
+                    <x-address name="{{ $addr->name }}" line1="{{ $addr->line1 }}" line2="{{ $addr->line2 }}"
+                        city="{{ $addr->city->name }}" state="{{ $addr->state_code }}"
+                        code="{{ $addr->postal_code }}" phone="{{ $addr->phone }}" />
+                    @if ($address->id !== $addr->id)
+                        <button wire:click="setAddress({{ $addr->id }})"
+                            class="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors duration-200 cursor-pointer">Ship
+                            to this address</button>
+                    @else
+                        <span class="mt-2 w-full block text-center bg-green-100 text-green-800 py-2 rounded">Current
+                            Address</span>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    </x-modal>
 
     <!-- Make a payment modal -->
     <x-modal name="make-payment-modal" title="Make Payment" size="md">
@@ -122,37 +122,6 @@
                 class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
                 Make Payment
             </button>
-            {{-- <button id="card-button">
-                Process Payment
-            </button> --}}
-            {{-- <form id="payment-form" wire:ignore>
-                <div class="grid grid-cols-4 gap-4">
-                    <!-- Name -->
-                    <div class="col-span-full">
-                        <x-label for="name" value="Name on Card" />
-                        <x-input id="cardholder-name" type="text" class="w-full" placeholder="John Doe" />
-                    </div>
-                    <!-- Card number -->
-                    <div class="col-span-full">
-                        <x-label for="cardNumber" value="Card Number" />
-                        <div id="card-number" type="text" class="w-full" placeholder="1234 1234 1234 1234"></div>
-                    </div>
-                    <!-- Expiration -->
-                    <div class="col-span-2">
-                        <x-label for="expMonth" value="Expiration Month" />
-                        <div id="card-expiry"></div>
-                    </div>
-                    <!-- CVC -->
-                    <div class="col-span-full">
-                        <x-label for="cvc" value="CVC" />
-                        <div id="card-cvc"></div>
-                    </div>
-                </div>
-                <button type="submit"
-                    class="w-full block text-center bg-green-600 text-white text-lg py-2 rounded mt-4 hover:bg-green-700 transition-colors duration-200 cursor-pointer">
-                    Make Payment
-                </button>
-            </form> --}}
         </div>
     </x-modal>
 </div>
