@@ -3,7 +3,7 @@
         <x-card class="col-span-full bg-white">
             <div class="grid grid-cols-12 gap-2">
                 <div class="col-span-12 md:col-span-6 lg:col-span-6">
-                    <!-- Main box imagens -->
+                    <!-- Main box images -->
                     <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0">
                         <!-- Box Imagen -->
                         <div class="w-full rounded-xl">
@@ -93,15 +93,46 @@
                         @if ($stock > 0)
                             <label for="quantity" class="text-gray-800 text-sm block mb-2">Quantity</label>
                             <div class="flex items-center space-x-2">
-                                <div>
-                                    {{-- {{ $stock }} --}}
-                                    <select wire:model.live="quantity"
-                                        class="bg-blue-100 rounded text-gray-800 px-3 py-2 text-sm cursor-pointer"
-                                        @for ($i = 1; $i <= ($stock > 10 ? 10 : $stock) ; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option> @endfor
-                                        </select>
-
+                                <!-- Select quantity -->
+                                <div class="flex items-center rounded">
+                                    <!-- Decrement Quantity -->
+                                    <button @class([
+                                        'bg-blue-100 p-2 rounded',
+                                        'opacity-50' => $quantity <= 1,
+                                        'hover:bg-blue-200 cursor-pointer active:bg-blue-300' => $quantity > 1,
+                                    ]) wire:click="decrementQuantity"
+                                        wire:loading.attr="disabled" @disabled($quantity <= 1)>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-minus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M5 12l14 0" />
+                                        </svg>
+                                    </button>
+                                    <!-- Show quantity -->
+                                    <span class="text-gray-800 text-lg font-semibold w-8 text-center">
+                                        {{ $quantity }}
+                                    </span>
+                                    <!-- Increment Quantity -->
+                                    <button @class([
+                                        'bg-blue-100 p-2 rounded ',
+                                        'opacity-50' => $quantity == $stock ? true : false,
+                                        'hover:bg-blue-200 cursor-pointer active:bg-blue-300' =>
+                                            $quantity != $stock ? true : false,
+                                    ]) wire:click="incrementQuantity"
+                                        wire:loading.attr="disabled" @disabled($quantity == $stock ? true : false)>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M12 5l0 14" />
+                                            <path d="M5 12l14 0" />
+                                        </svg>
+                                    </button>
                                 </div>
+                                <!-- Stock -->
                                 <div class="text-gray-800 text-sm bg-blue-100 p-2 px-4 rounded">
                                     Available: {{ $stock > 10 ? '+10' : $stock }}
                                 </div>
@@ -144,10 +175,16 @@
                             @endif
                             @if ($stock > 0)
                                 <!-- Add to cart -->
-                                <button
-                                    class="bg-blue-600 w-full font-bold text-blue-100 text-md p-2 px-4 rounded cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out"
-                                    wire:loading.attr="disabled" wire:click="addToCart">
-                                    Add to Cart
+                                <button @class([
+                                    'bg-blue-600 w-full font-bold text-blue-100 text-md p-2 px-4 rounded cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out',
+                                ]) wire:loading.attr="disabled" wire:loading.class="opacity-50"
+                                    wire:click="addToCart">
+                                    <span wire:loading wire:target="addToCart">
+                                        Loading...
+                                    </span>
+                                    <span wire:target="addToCart" wire:loading.remove>
+                                        Add to Cart
+                                    </span>
                                 </button>
                             @else
                                 <!-- Notify me -->
@@ -163,9 +200,10 @@
                             <!-- Favorite -->
                             <a href="{{ route('login') }}"
                                 class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path
                                         d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
@@ -259,10 +297,12 @@
         <div class="space-y-4">
             <p>Are you sure you want to remove this item from your favorites?</p>
             <div class="flex justify-start space-x-2">
-                <x-button wire:click="removeItemFromFavorites" class="grow" variant="danger" wire:loading.attr="disabled">
+                <x-button wire:click="removeItemFromFavorites" class="grow" variant="danger"
+                    wire:loading.attr="disabled">
                     Remove from Favorites
                 </x-button>
-                <x-button wire:click="$dispatch('close-modal', 'remove-item-favorite-modal')" class="grow" variant="secondary" wire:loading.attr="disabled">
+                <x-button wire:click="$dispatch('close-modal', 'remove-item-favorite-modal')" class="grow"
+                    variant="secondary" wire:loading.attr="disabled">
                     Cancel
                 </x-button>
             </div>

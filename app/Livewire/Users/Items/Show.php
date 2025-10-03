@@ -101,6 +101,20 @@ class Show extends Component
         $this->shippingCost = $this->product->shipping_cost;
     }
 
+    public function incrementQuantity()
+    {
+        if ($this->quantity < $this->stock) {
+            $this->quantity++;
+        }
+    }
+
+    public function decrementQuantity()
+    {
+        if ($this->quantity > 1) {
+            $this->quantity--;
+        }
+    }
+
     public function addToCart()
     {
         // Validate the quantity
@@ -130,6 +144,9 @@ class Show extends Component
                 'quantity' => $this->quantity,
             ]);
         }
+
+        // Reset quantity to 1
+        $this->quantity = 1;
 
         $this->setProductData($this->product);
 
