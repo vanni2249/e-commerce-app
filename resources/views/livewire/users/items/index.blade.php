@@ -20,13 +20,13 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <div class="bg-gray-200 rounded-md p-1 items-center">
-                        <span class="pl-2 uppercase text-xs font-bold text-gray-600 leading-tight">Show</span>
-                        <select wire:model.live="perPage" class="mx-2 rounded-md text-sm">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
+                    <div class="bg-gray-200 rounded-full p-1.5 items-center">
+                        <span class="pl-2 uppercase text-xs font-bold text-blue-800 leading-tight">Show</span>
+                        <select wire:model.live="perPage" class="mx-2 rounded-md text-sm text-blue-800">
+                            <option value="1">10</option>
+                            <option value="2">20</option>
+                            <option value="3">30</option>
+                            <option value="4">40</option>
                         </select>
                     </div>
                     <div class="lg:hidden">
