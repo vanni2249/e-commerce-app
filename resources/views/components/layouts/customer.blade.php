@@ -23,7 +23,12 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <!-- NavBar -->
-    @livewire('users.layout.navbar')
+    <nav class="w-full sticky top-0 z-50">
+        @livewire('users.layout.navbar')
+    </nav>
+
+    <!-- Menu -->
+    @livewire('users.layout.menu')
 
     <!-- Page Content -->
     <div class="min-h-[756px] flex flex-col max-w-7xl mx-auto space-y-4 p-4">
