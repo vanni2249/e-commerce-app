@@ -5,26 +5,16 @@
                 <header class="mb-4">
                     <h2 class="text-lg font-semibold">Filters</h2>
                 </header>
-                @php
-                    $items = ['All Orders', 'Pending', 'Shipped', 'Delivered', 'Cancelled', 'Returns', 'Refunds'];
-                    $active = 'All Orders';
-                    $activeClass = 'text-blue-600 bg-blue-50 block py-2 px-2 rounded';
-                    $inactiveClass = 'text-gray-500 hover:bg-blue-50 hover:text-blue-600 block py-2 px-2 rounded';
-                @endphp
-                <ul class="space-y-1">
-                    @foreach ($items as $item)
-                        <li>
-                            <a href="#"
-                                class="text-sm font-bold  capitalize {{ $active === $item ? $activeClass : $inactiveClass }}">{{ $item }}</a>
-                        </li>
-                    @endforeach
-                </ul>
+                @include('users.orders.filters')
             </x-card>
         </div>
         <div class="col-span-12 lg:col-span-9 space-y-4">
             <x-card>
-                <header class="">
+                <header class="flex justify-between item-center">
                     <h2 class="text-lg font-semibold">Your Orders</h2>
+                    <div class="lg:hidden">
+                        <x-icon-button wire:click="filterOrderModal" icon="filter" />
+                    </div>
                 </header>
             </x-card>
             <div class="space-y-2">
@@ -62,7 +52,18 @@
                     </x-card>
                 @endforelse
             </div>
-        </div>
 
+            @if ($orders->hasPages())
+                <x-card>
+                    {{ $orders->links() }}
+                </x-card>
+                
+            @endif
+        </div>
     </div>
+
+    <!-- Filter modal -->
+    <x-modal name="filter-orders" title="Filter">
+        @include('users.orders.filters')
+    </x-modal>
 </div>

@@ -117,12 +117,9 @@
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
-                @for ($i = 0; $i < 2; $i++)
-                    <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
-                        <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item"
-                            wire:navigate />
-                    </div>
-                @endfor
+                <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
+                    <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate />
+                </div>
             @endforeach
         </div>
     </div>
@@ -154,12 +151,9 @@
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
-                @for ($i = 0; $i < 2; $i++)
-                    <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
-                        <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item"
-                            wire:navigate />
-                    </div>
-                @endfor
+                <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
+                    <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate />
+                </div>
             @endforeach
         </div>
     </div>

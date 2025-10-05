@@ -15,8 +15,8 @@ class Index extends Component
         return view('livewire.users.welcome.index',[
             'categories' => Category::all(),
             'items' => Item::with(['products'])
-            ->show()
-            ->take(12)->get()
+            ->showAccepted()
+            ->take(6)->get()
         ]);
     }
 }
