@@ -3,43 +3,15 @@
     <x-card>
         <header class="flex items-center justify-between">
             <div class="flex items-center space-x-2 ">
-                @if ($favorites->count() > 0)
-                    <div class="lg:hidden">
-                        <x-dropdown align="left">
-                            <x-slot name="trigger">
-                                <button
-                                    class="flex bg-gray-200 rounded-full p-1.5 items-center space-x-1 text-gray-600 hover:text-gray-900 cursor-pointer">
-                                    <x-icon icon="filter" />
-                                </button>
-                            </x-slot>
-                            <x-slot name="content">
-                                <x-dropdown-button wire:click="selectedFavorite({{ null }})">
-                                    All
-                                </x-dropdown-button>
-                                @foreach ($favorites as $favorite)
-                                    <x-dropdown-button wire:click="selectedFavorite({{ $favorite->id }})">
-                                        {{ $favorite->name }}
-                                    </x-dropdown-button>
-                                @endforeach
-                                <div class="flex justify-center py-2 border-t border-gray-200">
-                                    <button @click="$dispatch('open-modal', 'manager-favorites-modal')"
-                                        class="text-xs font-semibold cursor-pointer text-blue-500 hover:underline">
-                                        Manager
-                                    </button>
-                                </div>
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
-                @endif
                 <div class="flex flex-col">
                     <h2 class="text-lg font-semibold">
                         Favorites
                     </h2>
                     <span class="text-sm text-gray-500">
                         <span class="font-semibold text-gray-700">
-                            Show: 
+                            Show:
                         </span>
-                        @if ($favorite_id && $favorite)
+                        @if ($favorite_id)
                             {{ $title }}
                         @else
                             All
@@ -48,47 +20,23 @@
                     </span>
                 </div>
             </div>
-            <x-icon-button @click="$dispatch('open-modal', 'create-favorite-modal')" icon="plus" />
+            <div>
+                <x-icon-button @click="$dispatch('open-modal', 'create-favorite-modal')" icon="plus" />
+                <span class="lg:hidden">
+                    <x-icon-button @click="$dispatch('open-modal', 'filter-favorites-modal')" icon="filter" />
+                </span>
+            </div>
         </header>
     </x-card>
     <!-- Body -->
     <div class="grid grid-cols-12 gap-4 mt-4">
         <!-- Sidebar -->
         <div class="col-span-12 lg:col-span-3 hidden lg:block">
-            <x-card class="min-h-64 bg-white">
-                <header class="flex justify-between items-center mb-4">
-                    <h3 class="text-md font-semibold">List</h3>
-                    <button @click="$dispatch('open-modal', 'manager-favorites-modal')"
-                        class="text-xs font-semibold cursor-pointer text-blue-500 hover:underline">
-                        Manager
-                    </button>
+            <x-card>
+                <header class="mb-4">
+                    <h2 class="text-lg font-semibold">Filters</h2>
                 </header>
-                <!-- List of favorites -->
-                <ul class="space-y-3 text-sm">
-                    <li wire:click="selectedFavorite({{ null }})" @class([
-                        'text-gray-600 cursor-pointer hover:text-gray-900',
-                        'font-bold text-gray-900' => $favorite_id == null,
-                    ])>
-                        All
-                    </li>
-                    @forelse ($favorites as $favorite)
-                        <li wire:click="selectedFavorite({{ $favorite->id }})" @class([
-                            'text-gray-600 cursor-pointer hover:text-gray-900 flex justify-between',
-                            'font-bold text-gray-900' => $favorite_id == $favorite->id,
-                        ])>
-                            <span>
-                                {{ $favorite->name }}
-                            </span>
-                            <span>
-                                {{ $favorite->items->count() }}
-                            </span>
-                        </li>
-                    @empty
-                        <li>
-                            No favorites found.
-                        </li>
-                    @endforelse
-                </ul>
+                @include('users.favorites.filters')
             </x-card>
         </div>
 
@@ -139,7 +87,8 @@
             {{ $item_id->id ?? '' }}
             <p>Are you sure you want to remove this item from your favorites?</p>
             <div class="mt-4 flex justify-end space-x-2">
-                <x-button variant="secondary" @click="$dispatch('close-modal', 'remove-from-favorite-modal')">Cancel</x-button>
+                <x-button variant="secondary"
+                    @click="$dispatch('close-modal', 'remove-from-favorite-modal')">Cancel</x-button>
                 <x-button variant="danger" wire:click="removeItemFromFavorites">Remove</x-button>
             </div>
         </div>
@@ -188,9 +137,15 @@
         <div>
             <p>Are you sure you want to delete this favorite? This action cannot be undone.</p>
             <div class="mt-4 flex justify-end space-x-2">
-                <x-button variant="secondary" @click="$dispatch('close-modal', 'delete-favorite-modal')">Cancel</x-button>
+                <x-button variant="secondary"
+                    @click="$dispatch('close-modal', 'delete-favorite-modal')">Cancel</x-button>
                 <x-button variant="danger" wire:click="deleteFavorite">Delete</x-button>
             </div>
         </div>
+    </x-modal>
+
+    <!-- Filter modal -->
+    <x-modal name="filter-favorites-modal" title="Filters" size="sm">
+        @include('users.favorites.filters')
     </x-modal>
 </div>

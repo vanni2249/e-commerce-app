@@ -54,7 +54,15 @@ class Index extends Component
     {
         $this->favorite_id = $favoriteId;
         $this->title = $favoriteId ? Favorite::find($this->favorite_id)->name : null;
-        // dd( $this->favorite);
+
+        $this->dispatch('close-modal', 'filter-favorites-modal');
+    }
+
+    public function managerFavoritesModal()
+    {
+        $this->dispatch('open-modal', 'manager-favorites-modal');
+
+        $this->dispatch('close-modal', 'filter-favorites-modal');
     }
 
     public function removeItemFromFavoriteModal($itemId)
