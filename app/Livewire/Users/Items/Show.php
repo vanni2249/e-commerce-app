@@ -46,9 +46,10 @@ class Show extends Component
             'products.variants.attribute'
         ])->find($item);
 
-        $this->product = $this->item->products()->first();
+        $this->product = $this->item->products()->first() ?? null;
 
-        if ($this->item->variants) {
+        // dd($this->product);
+        if ($this->product && $this->item->variants) {
             $this->variants = $this->product->variants->pluck('pivot.variant_id')->toArray();
         }
 
@@ -89,7 +90,16 @@ class Show extends Component
     public function setProductData($product)
     {
         $this->product = $product;
-        $this->inventories = $product->inventories()->sum('quantity');
+        if (!$this->product) {
+            $this->inventories = 0;
+            $this->sales = 0;
+            $this->quantitySelectedInCart = 0;
+            $this->stock = 0;
+            $this->price = 0;
+            $this->shippingCost = 0;
+            return;
+        }
+        $this->inventories = $product->inventories()->sum('quantity')??0;
         $this->sales = $product->sales()->sum('quantity');
         $this->quantitySelectedInCart = $this->cart
             ? ($this->cart->products()->where('product_id', $this->product->id)->first()

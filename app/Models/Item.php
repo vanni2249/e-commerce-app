@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Item extends Model
 {
+    use HasFactory;
     use HasUlids;
     protected $fillable = [
         'type',
@@ -78,7 +80,7 @@ class Item extends Model
         return $this->belongsToMany(Favorite::class, 'favorite_item')->withTimestamps();
     }
 
-    public function scopeShow($query)
+    public function scopeShowAccepted($query)
     {
         return $query->whereNotNull('approved_at')
             ->whereNotNull('available_at')

@@ -45,20 +45,30 @@
                     </div>
                     <!-- Price -->
                     <div class="">
-                        <div>
-                            <span class="text-blue-600 text-4xl font-semibold">${{ $price }}</span>
+                        <div class="flex flex-col space-y-2">
+                            <!-- Price -->
+                            @if ($stock > 0)
+                                <span class="text-green-600 text-sm font-semibold">In Stock</span>
+                                <span class="text-blue-600 text-4xl font-semibold">${{ $price }}</span>
+                            @else
+                                <span class="text-red-600 text-sm font-semibold">Out of Stock</span>
+                            @endif
+                            <!-- Before price -->
                             <span class="text-gray-500 line-through ml-2">
                                 {{-- ${{ $price + rand(10, 20) }} --}}
                             </span>
                         </div>
                         <div>
-                            <span class="text-gray-800 text-sm">
-                                @if ($shippingCost > 0)
-                                    + ${{ $shippingCost }} shipping
-                                @else
-                                    Free shipping
-                                @endif
-                            </span>
+                            @if ($stock > 0)
+
+                                <span class="text-gray-800 text-sm">
+                                    @if ($shippingCost > 0)
+                                        + ${{ $shippingCost }} shipping
+                                    @else
+                                        Free shipping
+                                    @endif
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <!-- Description -->
@@ -138,9 +148,7 @@
                                 </div>
                             </div>
                         @else
-                            <span class="text-red-800 text-sm">Out of Stock</span>
-                            <br>
-                            <span class="text-gray-800 text-sm">Notify me when available</span>
+                            <span class="text-green-600 font-bold text-sm">Notify me when available</span>
                         @endif
                         <br>
                     </div>
@@ -177,8 +185,8 @@
                                 <!-- Add to cart -->
                                 <button @class([
                                     'bg-blue-600 w-full font-bold text-blue-100 text-md p-2 px-4 rounded cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out',
-                                ]) wire:loading.attr="disabled" wire:loading.class="opacity-50"
-                                    wire:click="addToCart">
+                                ]) wire:loading.attr="disabled"
+                                    wire:loading.class="opacity-50" wire:click="addToCart">
                                     <span wire:loading wire:target="addToCart">
                                         Loading...
                                     </span>
@@ -240,7 +248,7 @@
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                @forelse ($item->en_specifications as $specification)
+                @forelse (is_array($item->en_specifications) ? $item->en_specifications : [] as $specification)
                     <div class="grid grid-cols-2 gap-2">
                         <span class=" text-sm text-gray-600">{{ $specification['label'] }}</span>
                         <span class="font-bold prose">{{ $specification['value'] }}</span>

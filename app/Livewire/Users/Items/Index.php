@@ -12,6 +12,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $query;
+
     #[Url(except: '')]
     public $search = '';
 
@@ -21,10 +23,58 @@ class Index extends Component
 
     public $perPage = 24;
 
+    // Filters
+    public $filters = [
+        'is_to_customer' => false,
+        'is_to_business' => false,
+        'categories' => [],
+    ];
+
+    public $categories = [];
+
+    public function mount()
+    {
+        // Get query all categories in each items and group
+        // Refactored: Use eager loading and reduce queries for categories
+        $this->categories = Item::query()
+            ->when($this->search, function ($query) {
+                $search = strtolower($this->search);
+                $words = explode(' ', $search);
+                $excludedWordsForJson = ['label', 'value'];
+                $query->where(function ($q) use ($words, $excludedWordsForJson) {
+                    foreach ($words as $word) {
+                        $q->orWhere(function ($sub) use ($word, $excludedWordsForJson) {
+                            $sub->whereRaw('LOWER(en_title) LIKE ?', ['%' . $word . '%'])
+                                ->orWhereRaw('LOWER(en_description) LIKE ?', ['%' . $word . '%'])
+                                ->orWhereRaw('LOWER(en_short_description) LIKE ?', ['%' . $word . '%']);
+                            if (!in_array($word, $excludedWordsForJson)) {
+                                $sub->orWhereRaw('LOWER(en_specifications) LIKE ?', ['%' . $word . '%']);
+                            }
+                        });
+                    }
+                });
+            })
+            ->with('categories:id,en_name') // Only select needed columns
+            ->get()
+            ->pluck('categories')
+            ->flatten()
+            ->unique('id')
+            ->sortBy('en_name')
+            ->values(); // Reset keys for cleaner output
+
+    }
+
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    public function updatingFilters()
+    {
+        $this->resetPage();
+    }
+
 
     #[Layout('components.layouts.customer')]
     public function render()
@@ -52,9 +102,24 @@ class Index extends Component
                         }
                     });
                 })
-                ->show()
+                ->when(!($this->filters['is_to_customer'] && $this->filters['is_to_business']), function ($query) {
+                    $query->where(function ($q) {
+                        if ($this->filters['is_to_customer']) {
+                            $q->orWhere('is_to_customer', true);
+                        }
+                        if ($this->filters['is_to_business']) {
+                            $q->orWhere('is_to_business', true);
+                        }
+                    });
+                })
+                ->when(count($this->filters['categories']), function ($query) {
+                    $query->whereHas('categories', function ($q) {
+                        $q->whereIn('categories.id', $this->filters['categories']);
+                    });
+                })
+                ->showAccepted()
                 ->orderBy($this->sortBy, $this->sortDirection)
-                ->paginate($this->perPage)
+                ->paginate($this->perPage),
         ]);
     }
 }

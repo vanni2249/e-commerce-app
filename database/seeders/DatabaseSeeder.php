@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Item;
 use App\Models\Product;
 use App\Models\State;
 use App\Models\User;
@@ -32,13 +33,22 @@ class DatabaseSeeder extends Seeder
             SectionSeeder::class,
             ItemSeeder::class,
             AttributeSeeder::class,
-            ProductSeeder::class,
-            InventorySeeder::class,
             AddressSeeder::class,
             ClaimCategorySeeder::class,
             BusinessCategorySeeder::class,
             // OrderSeeder::class,
             // SaleSeeder::class,
         ]);
+
+        Item::factory()->count(1000)->create()->each(function ($item) {
+            $categories = \App\Models\Category::inRandomOrder()->take(rand(1, 4))->get();
+            $item->categories()->attach($categories);
+        });
+
+        $this->call([
+            ProductSeeder::class,
+            InventorySeeder::class,
+        ]);
+
     }
 }

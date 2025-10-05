@@ -4,12 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Item;
 use App\Traits\CreateItemNumber;
+use Database\Factories\ItemFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Symfony\Component\Uid\Ulid;
 
 class ItemSeeder extends Seeder
 {
+    protected $model = Item::class;
     use CreateItemNumber;
     /**
      * Run the database seeds.
@@ -224,5 +226,7 @@ class ItemSeeder extends Seeder
         ];
 
         Item::insert($items);
+
+        // Generate additional items using factory
     }
 }
