@@ -24,7 +24,7 @@
 
             <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
                 <a href="{{ route('register') }}"
-                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition"
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4 hover:bg-blue-200 transition"
                     wire:navigate>
                     <header class="flex items-center">
                         <div class="bg-blue-800 text-white p-2 rounded-full">
@@ -52,7 +52,7 @@
                     </p>
                 </a>
                 <a href="{{ route('register.business') }}"
-                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition"
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4 hover:bg-blue-200 transition"
                     wire:navigate>
                     <header class="flex items-center">
                         <div class="bg-blue-800 text-white p-2 rounded-full">
@@ -80,7 +80,7 @@
                     </p>
                 </a>
                 <a href="#"
-                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 rounded-xl lg:w-1/3 p-4 hover:bg-blue-200 transition">
+                    class="flex-shrink-0 bg-blue-100 lg:flex-shrink-1 h-32 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4 hover:bg-blue-200 transition">
                     <header class="flex items-center">
                         <div class="bg-blue-800 text-white p-2 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -113,7 +113,7 @@
             <h2 class="text-xl font-semibold text-gray-900">
                 New Arrivals
             </h2>
-            <a href="#" class="text-blue-800 font-bold">View all</a>
+            <a href="#" class="text-blue-800 font-bold">See all</a>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
@@ -124,17 +124,32 @@
         </div>
     </div>
 
-    <!-- Promoted -->
+    <!-- Suppliers' Picks -->
     <div>
-        <header class="col-span-full flex justify-start items-center mb-4 px-1">
+        <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                Choose your user account
+                Suppliers' Picks
             </h2>
+            <a href="#" class="text-blue-800 font-bold ml-4">See all</a>
         </header>
 
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
-            @for ($i = 0; $i < 2; $i++)
-                <div class="flex-shrink-0 bg-red-500 lg:flex-shrink-1 h-32 w-4/5 md:w-3/5 rounded-xl lg:w-1/2 p-4">
+            @for ($i = 0; $i < 3; $i++)
+                <div class="flex-shrink-0 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4">
+                    <header class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold text-gray-700">
+                            Suppliers' Picks
+                        </h2>
+                        <a href="#" class="text-blue-800 text-sm font-bold ml-4">More details</a>
+                    </header>
+                    <div class="grid grid-cols-2 gap-4">
+                        @for ($x = 0; $x < 4; $x++)
+                            <div class=" bg-blue-100 rounded-lg">
+                                <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
+                                    class="w-full h-full rounded-lg" alt="">
+                            </div>
+                        @endfor
+                    </div>
                 </div>
             @endfor
 
