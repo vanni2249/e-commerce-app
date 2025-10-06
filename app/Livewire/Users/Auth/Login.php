@@ -31,12 +31,23 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
+        // Get user before login attempt to log IP address
+        $user = \App\Models\User::where('email', $this->email)->first();
+
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
+        }
+
+        // Check if ip address belongs to this user else create a new record
+        if ($user) {
+            $user->ipAddresses()->firstOrCreate(
+                ['ip_address' => request()->ip()],
+                ['user_agent' => request()->userAgent()]
+            );
         }
 
         RateLimiter::clear($this->throttleKey());

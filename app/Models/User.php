@@ -51,6 +51,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function ipAddresses()
+    {
+        return $this->hasMany(Ip::class);
+    }
+
     public function business()
     {
         return $this->hasOne(Business::class);

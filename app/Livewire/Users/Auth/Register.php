@@ -41,6 +41,11 @@ class Register extends Component
             'is_default' => true,
         ]);
 
+        $user->ipAddresses()->create([
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         Auth::login($user);
 
         $this->redirect(route('welcome', absolute: false), navigate: true);
