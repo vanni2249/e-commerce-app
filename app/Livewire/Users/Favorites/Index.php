@@ -6,6 +6,7 @@ use App\Models\Favorite;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
@@ -17,8 +18,12 @@ class Index extends Component
     public $name;
     public $description;
     public $is_active = true;
-    public $favorite_id;
+
+    #[Url(except: '', as: 'filter')]
+    public $favorite_id = '';
     public $item_id;
+
+    public $selected;
 
     public function mount()
     {
@@ -50,10 +55,11 @@ class Index extends Component
         $this->dispatch('close-modal', 'create-favorite-modal');
     }
 
-    public function selectedFavorite($favoriteId = null)
+    public function selectedFavorite($favoriteId = '')
     {
         $this->favorite_id = $favoriteId;
         $this->title = $favoriteId ? Favorite::find($this->favorite_id)->name : null;
+        // $this->selected = $this->title ?? null;
 
         $this->dispatch('close-modal', 'filter-favorites-modal');
     }
@@ -146,19 +152,18 @@ class Index extends Component
 
         // Close modal
         $this->dispatch('close-modal', 'delete-favorite-modal');
-
     }
 
-    #[Layout('components.layouts.customer')] 
+    #[Layout('components.layouts.customer')]
     public function render()
     {
-        return view('livewire.users.favorites.index',[
-           'items' => $this->favorites->flatMap(function ($favorite) {
-               if ($this->favorite_id) {
-                   return $favorite->items()->where('favorite_id', $this->favorite_id)->get();
-               }
-               return $favorite->items;
-           }),
+        return view('livewire.users.favorites.index', [
+            'items' => $this->favorites->flatMap(function ($favorite) {
+                if ($this->favorite_id) {
+                    return $favorite->items()->where('favorite_id', $this->favorite_id)->get();
+                }
+                return $favorite->items;
+            }),
         ]);
     }
 }

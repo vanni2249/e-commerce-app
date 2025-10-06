@@ -2,7 +2,7 @@
     <div class="grid grid-cols-12 gap-4">
         <div class="hidden lg:block lg:col-span-3">
             <x-card>
-                <header class="mb-4">
+                <header class="mb-6">
                     <h2 class="text-lg font-semibold">Filters</h2>
                 </header>
                 @include('users.orders.filters')

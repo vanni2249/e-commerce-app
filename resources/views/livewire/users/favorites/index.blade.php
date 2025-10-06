@@ -20,7 +20,7 @@
                     </span>
                 </div>
             </div>
-            <div>
+            <div class="flex items-center space-x-2 lg:space-x-0">
                 <x-icon-button @click="$dispatch('open-modal', 'create-favorite-modal')" icon="plus" />
                 <span class="lg:hidden">
                     <x-icon-button @click="$dispatch('open-modal', 'filter-favorites-modal')" icon="filter" />

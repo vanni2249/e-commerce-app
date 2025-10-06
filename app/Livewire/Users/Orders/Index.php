@@ -5,19 +5,22 @@ namespace App\Livewire\Users\Orders;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
 {
     use \Livewire\WithPagination;
+
     public $filters = [
         'year' => null,
-        'last_month' => false,
-        'last_three_months' => false,
-        'last_six_months' => false,
+        'last-month' => false,
+        'last-three-months' => false,
+        'last-six-months' => false,
     ];
 
-    public $selected;
+    #[Url(except: '')]
+    public $filter = '';
 
     public $years = [];
 
@@ -30,8 +33,7 @@ class Index extends Component
             ->pluck('year')
             ->toArray();
         
-        $this->filters['last_month'] = now()->subMonth()->isSameYear(now()) && now()->subMonth()->isSameMonth(now());
-        $this->selected = 'last_month';
+        $this->filters['last-month'] = now()->subMonth()->isSameYear(now()) && now()->subMonth()->isSameMonth(now());
     }
 
     public function updatingFilters()
@@ -41,13 +43,13 @@ class Index extends Component
 
     public function setLastMonth()
     {
-        $this->filters['last_month'] = now()->subMonth()->isSameYear(now()) && now()->subMonth()->isSameMonth(now());
+        $this->filters['last-month'] = now()->subMonth()->isSameYear(now()) && now()->subMonth()->isSameMonth(now());
         $this->filters = array_merge($this->filters, [
-            'last_three_months' => false,
-            'last_six_months' => false,
+            'last-three-months' => false,
+            'last-six-months' => false,
             'year' => null,
         ]);
-        $this->selected = 'last_month';
+        $this->filter = '';
 
         $this->resetPage();
 
@@ -56,13 +58,13 @@ class Index extends Component
 
     public function setLastThreeMonths()
     {
-        $this->filters['last_three_months'] = now()->subMonths(3)->isSameYear(now()) && now()->subMonths(3)->isSameMonth(now());
+        $this->filters['last-three-months'] = now()->subMonths(3)->isSameYear(now()) && now()->subMonths(3)->isSameMonth(now());
         $this->filters = array_merge($this->filters, [
-            'last_month' => false,
-            'last_six_months' => false,
+            'last-month' => false,
+            'last-six-months' => false,
             'year' => null,
         ]);
-        $this->selected = 'last_three_months';
+        $this->filter = 'last-three-months';
 
         $this->resetPage();
 
@@ -73,11 +75,11 @@ class Index extends Component
     {
         $this->filters['last_6_months'] = now()->subMonths(6)->isSameYear(now()) && now()->subMonths(6)->isSameMonth(now());
         $this->filters = array_merge($this->filters, [
-            'last_month' => false,
-            'last_three_months' => false,
+            'last-month' => false,
+            'last-three-months' => false,
             'year' => null,
         ]);
-        $this->selected = 'last_six_months';
+        $this->filter = 'last-six-months';
 
         $this->resetPage();
 
@@ -88,12 +90,12 @@ class Index extends Component
     {
         $this->filters = array_merge($this->filters, [
             'year' => $year,
-            'last_month' => false,
-            'last_three_months' => false,
-            'last_six_months' => false,
+            'last-month' => false,
+            'last-three-months' => false,
+            'last-six-months' => false,
         ]);
 
-        $this->selected = $year;
+        $this->filter = $year;
 
         $this->resetPage();
 
@@ -114,14 +116,14 @@ class Index extends Component
                 ->when($this->filters['year'], function ($query) {
                     $query->whereYear('created_at', $this->filters['year']);
                 })
-                ->when($this->filters['last_month'], function ($query) {
+                ->when($this->filters['last-month'], function ($query) {
                     $query->whereMonth('created_at', now()->subMonth()->month)
                         ->whereYear('created_at', now()->subMonth()->year);
                 })
-                ->when($this->filters['last_three_months'], function ($query) {
+                ->when($this->filters['last-three-months'], function ($query) {
                     $query->where('created_at', '>=', now()->subMonths(3));
                 })
-                ->when($this->filters['last_six_months'], function ($query) {
+                ->when($this->filters['last-six-months'], function ($query) {
                     $query->where('created_at', '>=', now()->subMonths(6));
                 })
                 ->orderBy('created_at', 'desc')

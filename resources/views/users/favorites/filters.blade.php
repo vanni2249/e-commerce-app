@@ -1,6 +1,6 @@
-<div class="flex min-h-32 lg:min-h-64 flex-col">
+<div class="flex min-h-32 lg:min-h-64 flex-col space-y-6">
     <!-- List of favorites -->
-    <ul class="grow space-y-3 text-sm">
+    <ul class="grow space-y-4 text-sm">
         <li wire:click="selectedFavorite({{ null }})" @class([
             'text-gray-600 cursor-pointer hover:text-gray-900',
             'font-bold text-gray-900' => $favorite_id == null,
@@ -26,7 +26,6 @@
         @endforelse
     </ul>
     <footer class=" text-center">
-
         <button wire:click="managerFavoritesModal"
             class="text-sm font-semibold cursor-pointer text-blue-500 hover:underline">
             Manager
