@@ -107,6 +107,18 @@
         </div>
     @endguest
 
+    <!-- Promotions -->
+    <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
+        @for ($i = 0; $i < 5; $i++)
+            <div class="flex-shrink-0 bg-white xl:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl">
+                <div class="grid grid-cols-1 gap-2 md:gap-4">
+                    <div class=" bg-blue-100 h-[384px] rounded-lg relative">
+                    </div>
+                </div>
+            </div>
+        @endfor
+
+    </div>
     <!-- Items -->
     <div class="">
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
@@ -134,15 +146,18 @@
         </header>
 
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
-            @for ($i = 0; $i < 3; $i++)
-                <div class="flex-shrink-0 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4">
-                    <header class="flex justify-between items-center mb-4">
-                        <h2 class="font-bold text-gray-700">
+            @for ($i = 0; $i < 5; $i++)
+                <div class="flex-shrink-0 space-y-4 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4">
+                    <header class="flex justify-between items-center">
+                        <h2 class="font-bold text-sm text-gray-700">
                             Suppliers' Picks
                         </h2>
-                        <a href="#" class="text-blue-800 text-sm font-bold ml-4">More details</a>
+                        <a href="#" class="text-blue-800 text-xs font-bold ml-4">Details</a>
                     </header>
-                    <div class="grid grid-cols-2 gap-4">
+                    <p class="text-xs text-gray-600">
+                        Lorem ipsum dolor sit amet ison, consectetur adipiscing elit.
+                    </p>
+                    <div class="grid grid-cols-2 gap-2">
                         @for ($x = 0; $x < 4; $x++)
                             <div class=" bg-blue-100 rounded-lg">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
@@ -160,9 +175,9 @@
     <div class="">
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                Recently Viewed
+                Histories
             </h2>
-            <a href="#" class="text-blue-800 font-bold">View all</a>
+            <a href="#" class="text-blue-800 font-bold">See all</a>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
