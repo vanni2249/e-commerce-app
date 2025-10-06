@@ -145,16 +145,16 @@
             <a href="#" class="text-blue-800 font-bold ml-4">See all</a>
         </header>
 
-        <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
+        <div class="flex flex-row space-x-4 pb-4 overflow-x-auto no-scrollbar">
             @for ($i = 0; $i < 5; $i++)
-                <div class="flex-shrink-0 space-y-4 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl p-4">
+                <a href="#" class="flex-shrink-0 space-y-4 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl hover:shadow p-4">
                     <header class="flex justify-between items-center">
                         <h2 class="font-bold text-lg text-gray-800">
                             Suppliers' Picks
                         </h2>
                         {{-- <a href="#" class="text-blue-800 text-sm font-bold ml-4">Details</a> --}}
                     </header>
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm lg:text-sm line-clamp-2 text-gray-600">
                         Lorem ipsum dolor sit amet ison, consectetur adipiscing elit.
                     </p>
                     <div class="grid grid-cols-2 gap-2">
@@ -165,12 +165,12 @@
                             </div>
                         @endfor
                     </div>
-                    <footer class="mt-4">
+                    {{-- <footer class="mt-4">
                         <button class="w-full bg-blue-800 text-white text-sm p-2 rounded hover:bg-blue-900 transition">
                             Shop Now
                         </button>
-                    </footer>
-                </div>
+                    </footer> --}}
+                </a>
             @endfor
 
         </div>
