@@ -51,15 +51,15 @@ class User extends Authenticatable
         ];
     }
 
-    public function ipAddresses()
+    public function histories()
     {
-        return $this->hasMany(Ip::class);
+        return $this->hasMany(History::class);
     }
 
     public function business()
     {
         return $this->hasOne(Business::class);
-    }   
+    }
 
     public function address()
     {
@@ -85,12 +85,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Seller::class);
     }
-    
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
     }
-    
+
     public function orders()
     {
         return $this->hasMany(Order::class);

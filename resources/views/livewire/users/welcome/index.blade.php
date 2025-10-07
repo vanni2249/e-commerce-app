@@ -108,7 +108,7 @@
     @endguest
 
     <!-- Promotions -->
-    <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
+    {{-- <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar">
         @for ($i = 0; $i < 5; $i++)
             <div class="flex-shrink-0 bg-white xl:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl">
                 <div class="grid grid-cols-1 gap-2 md:gap-4">
@@ -118,8 +118,9 @@
             </div>
         @endfor
 
-    </div>
-    <!-- Items -->
+    </div> --}}
+    
+    <!-- New Arrivals -->
     <div class="">
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">

@@ -3,16 +3,21 @@
 namespace App\Livewire\Users\Items;
 
 use App\Models\Cart;
+use App\Models\History;
 use App\Models\Item;
 use App\Models\Wishlist;
+use App\Traits\ItemHistory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Show extends Component
 {
+    use ItemHistory;
     public $user;
     public $item;
+    public $session_id;
     public $cart;
     public $product;
     public $inventories;
@@ -31,6 +36,9 @@ class Show extends Component
     {
         $this->user = Auth::user();
 
+        $this->session_id = session()->getId();
+
+        $this->setHistory();
 
         $this->cart = $this->user ? Cart::where('type', 'cart')->where('user_id', $this->user->id)->doesntHave('order')->first() : null;
 
@@ -61,6 +69,8 @@ class Show extends Component
             ? $this->item->favorites()->whereIn('favorite_id', $this->favorites->pluck('id'))->exists()
             : false;
     }
+
+    
 
     public function updated($property, $value)
     {
@@ -99,7 +109,7 @@ class Show extends Component
             $this->shippingCost = 0;
             return;
         }
-        $this->inventories = $product->inventories()->sum('quantity')??0;
+        $this->inventories = $product->inventories()->sum('quantity') ?? 0;
         $this->sales = $product->sales()->sum('quantity');
         $this->quantitySelectedInCart = $this->cart
             ? ($this->cart->products()->where('product_id', $this->product->id)->first()
@@ -204,7 +214,7 @@ class Show extends Component
     public function removeItemFromFavorites()
     {
         if ($this->favorite_id && $this->user) {
-            
+
             $favorite = $this->user->favorites()->where('id', $this->favorite_id)->first();
             if ($favorite) {
                 // Check if the item is already in the favorite

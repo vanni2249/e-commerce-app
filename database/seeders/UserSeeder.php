@@ -57,6 +57,7 @@ class UserSeeder extends Seeder
             $user->favorites()->create([
               'is_default' => true,
             ]);
+
         }
     }
 }
