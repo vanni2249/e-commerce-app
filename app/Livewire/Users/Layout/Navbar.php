@@ -17,8 +17,8 @@ class Navbar extends Component
 
     #[Url(except: '')]
     public ?string $search = '';
-    public $ipAddress;
-    public $userAgent;
+    public $session_id;
+    public $searchFind;
     public $showBoxMore = false;
     public $hiddenBoxMore = true;
 
@@ -39,8 +39,8 @@ class Navbar extends Component
             $this->count = 0;
         }
 
-        $this->ipAddress = request()->ip();
-        $this->userAgent = request()->header('User-Agent');
+        $this->session_id = session()->getId();
+
     }
 
     public function updatingSearch($property)
@@ -65,16 +65,33 @@ class Navbar extends Component
 
     public function setData()
     {
-        $isset = \App\Models\Search::where('search', $this->search)
-            ->where('ip_address', $this->ipAddress)
-            ->where('created_at', '>=', now()->subMinutes(10))
-            ->exists();
+        $this->searchFind = ModelsSearch::where('search', '=', $this->search)
+            ->where('session_id', $this->session_id)
+            ->where('created_at', '>=', now()->subHour())
+            ->first();
 
-        if ($isset || $this->search == '') {
-            return;
+            // dd($this->searchFind);
+
+        if ($this->searchFind) {
+            $this->update();
         } else {
             $this->store();
         }
+    }
+
+    public function store()
+    {
+
+        ModelsSearch::create([
+            'user_id' => $this->user ? $this->user->id : null,
+            'session_id' => $this->session_id,
+            'search' => $this->search,
+        ]);
+    }
+
+    public function update()
+    {
+        $this->searchFind->increment('quantity');
     }
 
     public function services()
@@ -110,16 +127,6 @@ class Navbar extends Component
         ];
     }
 
-    public function store()
-    {
-
-        ModelsSearch::create([
-            'user_id' => $this->user ? $this->user->id : null,
-            'ip_address' => $this->ipAddress,
-            'user_agent' => $this->userAgent,
-            'search' => $this->search,
-        ]);
-    }
 
     public function render()
     {

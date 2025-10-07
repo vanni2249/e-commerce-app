@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Search extends Model
 {
     protected $fillable = [
-        'search',
         'user_id',
-        'ip_address',
-        'user_agent',
+        'session_id',
+        'search',
+        'quantity',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

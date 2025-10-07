@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('searches', function (Blueprint $table) {
             $table->id();
-            $table->string('search');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->ipAddress('ip_address')->nullable();
-            $table->string('user_agent')->nullable();
+            $table->string('session_id')->nullable();
+            $table->string('search');
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }
