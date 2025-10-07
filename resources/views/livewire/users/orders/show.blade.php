@@ -101,7 +101,7 @@
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                     class="w-ful h-auto rounded-md" alt="">
                             </div>
-                            <div class="col-span-7 lg:col-span-9 flex flex-col space-y-4">
+                            <div class="col-span-8 lg:col-span-9 flex flex-col space-y-4">
                                 <header class="lg:flex lg:justify-between items-start lg:space-x-2">
                                     <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
                                         {{ $sale->product->item->en_title }}
