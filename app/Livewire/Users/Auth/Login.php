@@ -42,14 +42,6 @@ class Login extends Component
             ]);
         }
 
-        // Check if ip address belongs to this user else create a new record
-        if ($user) {
-            $user->ipAddresses()->firstOrCreate(
-                ['ip_address' => request()->ip()],
-                ['user_agent' => request()->userAgent()]
-            );
-        }
-
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
