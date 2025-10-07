@@ -10,7 +10,7 @@
                     <div class="space-y-2">
                         @foreach ($products as $product)
                             <div class="bg-gray-100 rounded-xl flex p-4 space-x-4">
-                                <div class="w-3/4 md:w-3/5 lg:w-1/4">
+                                <div class="w-3/3 md:w-3/5 lg:w-1/4">
                                     <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                         class="w-full h-auto  rounded-md" alt="">
                                 </div>
