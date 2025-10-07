@@ -96,31 +96,28 @@
             <div class="space-y-2">
                 @foreach ($order->sales as $sale)
                     <x-card>
-                        <div class="flex gap-4">
-                            <div class="w-3/4 md:w-3/5 lg:w-1/4">
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-3 lg:col-span-2">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                     class="w-ful h-auto rounded-md" alt="">
                             </div>
-                            <div class="grow">
-                                <header class="md:flex md:justify-between items-start mb-2">
-                                    <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
+                            <div class="col-span-7 lg:col-span-9 flex flex-col space-y-4">
+                                <header class="lg:flex lg:justify-between items-start lg:space-x-2">
+                                    <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
                                         {{ $sale->product->item->en_title }}
                                     </h2>
-                                    <div class="flex items-center space-x-4 mt-2 md:mt-0">
-                                        <ul class="md:text-right">
-                                            <li class="text-blue-800 font-semibold text-sm md:text-base lg:text-lg">
-                                                ${{ $sale->price }}
-                                            </li>
-                                            <li class="text-xs text-gray-500 whitespace-nowrap">
-                                                @if ($sale->shipping_cost > 0)
-                                                    +${{ $sale->shipping_cost }} shipping
-                                                @else
-                                                    Free shipping
-                                                @endif
-                                            </li>
-                                        </ul>
-
-                                    </div>
+                                    <ul class="lg:text-right mt-2 lg:mt-0 space-y-1">
+                                        <li class="text-blue-800 font-semibold text-sm lg:text-base">
+                                            ${{ $sale->price }}
+                                        </li>
+                                        <li class="text-xs text-gray-500 whitespace-nowrap">
+                                            @if ($sale->shipping_cost > 0)
+                                                +${{ $sale->shipping_cost }} shipping
+                                            @else
+                                                Free
+                                            @endif
+                                        </li>
+                                    </ul>
                                 </header>
                                 <div class="flex">
                                     <!-- Quantity Selector -->
@@ -129,7 +126,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div>
+                            <div class="col-span-1 flex justify-end">
                                 <x-dropdown>
                                     <x-slot name="trigger">
                                         <x-icon-button icon="ellipsis-vertical" />

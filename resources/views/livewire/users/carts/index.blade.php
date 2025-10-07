@@ -9,21 +9,21 @@
                     </header>
                     <div class="space-y-2">
                         @foreach ($products as $product)
-                            <div class="bg-gray-100 rounded-xl flex p-4 space-x-4">
-                                <div class="w-3/3 md:w-3/5 lg:w-1/4">
+                            <div class="bg-gray-100 rounded-xl grid grid-cols-12 gap-4 p-4">
+                                <div class="col-span-3 lg:col-span-2">
                                     <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                         class="w-full h-auto  rounded-md" alt="">
                                 </div>
-                                <div class="grow space-y-4">
-                                    <header class="md:flex md:justify-between items-start">
-                                        <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
+                                <div class="col-span-9 lg:col-span-10 flex flex-col space-y-4">
+                                    <header class="lg:flex lg:justify-between items-start lg:space-x-2">
+                                        <h2 class=" text-gray-800 text-base font-semibold line-clamp-2">
                                             {{ $product->item->en_title }}
                                         </h2>
-                                        <ul class="md:text-right">
+                                        <ul class="lg:text-right mt-2 lg:mt-0 space-y-1">
                                             <li class="text-blue-500 font-semibold text-sm md:text-base lg:text-lg">
                                                 ${{ $product->price }}
                                             </li>
-                                            <li class="text-sm text-gray-500 whitespace-nowrap">
+                                            <li class="text-xs text-gray-500 whitespace-nowrap">
                                                 @if ($product->shipping_cost)
                                                     @if ($product->shipping_cost == 0)
                                                         Free Shipping
@@ -50,7 +50,6 @@
                                         </div>
                                         <!-- Remove Button -->
                                         <button wire:click="removeItemCartModal({{ $product->id }})"
-                                            {{-- wire:click="removeItem({{ $product->id }})" --}}
                                             class="bg-blue-100 text-blue-800 text-xs p-1 rounded hover:bg-blue-300 transition-colors duration-200 cursor-pointer">
                                             <x-icon icon="trash" />
                                         </button>
