@@ -97,9 +97,9 @@
                 @foreach ($order->sales as $sale)
                     <x-card>
                         <div class="flex gap-4">
-                            <div class="">
+                            <div class="w-3/4 md:w-3/5 lg:w-1/4">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
-                                    class="w-24 md:w-32  rounded-md" alt="">
+                                    class="w-ful h-auto rounded-md" alt="">
                             </div>
                             <div class="grow">
                                 <header class="md:flex md:justify-between items-start mb-2">
@@ -135,11 +135,8 @@
                                         <x-icon-button icon="ellipsis-vertical" />
                                     </x-slot>
                                     <x-slot name="content">
-                                        <x-dropdown-link href="#">
+                                        <x-dropdown-link href="{{ route('items.show', $sale->product->item->id) }}">
                                             View Product
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="#">
-                                            Buy Again
                                         </x-dropdown-link>
                                         <x-dropdown-button wire:click="claimSaleModal('{{ $sale->id }}')">
                                             Claim Item
@@ -151,7 +148,7 @@
                         <!-- Shipping info -->
 
                         @if (!$order->claim)
-                            <div class="p-4 bg-gray-100 rounded-md mt-4">
+                            {{-- <div class="p-4 bg-gray-100 rounded-md mt-4">
                                 <header class="flex justify-between items-center">
                                     <h3 class="font-semibold text-sm text-gray-800">Shipped via USPS</h3>
                                     <x-badge value="Delivered" color="success" />
@@ -169,7 +166,7 @@
                                         {{ $sale->updated_at->format('M d, Y') }}
                                     </span>
                                 </div>
-                            </div>
+                            </div> --}}
                         @endif
                         @if ($sale->claim)
                             <x-alert variant="warning" title="Item Claim" class="mt-4">

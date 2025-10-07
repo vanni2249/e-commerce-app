@@ -9,7 +9,7 @@
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
                                 <button
-                                    class="bg-blue-900 rounded-full p-1.5 cursor-pointer text-blue-100 cursor-pointer xl:hidden">
+                                    class="bg-blue-900 rounded-full p-1.5 text-blue-100 cursor-pointer xl:hidden">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"

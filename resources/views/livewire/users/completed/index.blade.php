@@ -36,14 +36,14 @@
                 </header>
                 <div class="space-y-2">
                     @foreach ($order->sales as $sale)
-                        <div class="bg-gray-100 rounded-xl flex">
-                            <div class="p-2">
+                        <div class="bg-gray-100 rounded-xl flex space-x-4 p-2 md:p-4">
+                            <div class="w-3/4 md:w-3/5 lg:w-1/4">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
-                                    class="w-24 md:w-32 lg:w-40  rounded-xl" alt="">
+                                    class="w-full h-auto rounded-md" alt="">
                             </div>
-                            <div class="grow p-2">
+                            <div class="grow">
                                 <header class="md:flex md:justify-between items-start mb-2">
-                                    <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
+                                    <h2 class="text-gray-800 text-sm md:text-base line-clamp-2 font-semibold">
                                         {{ $sale->product->item->en_title }}
                                     </h2>
                                     <ul class="md:text-right">

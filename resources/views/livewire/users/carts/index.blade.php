@@ -10,13 +10,13 @@
                     <div class="space-y-2">
                         @foreach ($products as $product)
                             <div class="bg-gray-100 rounded-xl flex p-4 space-x-4">
-                                <div class="">
+                                <div class="w-3/4 md:w-3/5 lg:w-1/4">
                                     <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
-                                        class="w-24 md:w-32 lg:w-40  rounded-lg" alt="">
+                                        class="w-full h-auto  rounded-md" alt="">
                                 </div>
                                 <div class="grow space-y-4">
                                     <header class="md:flex md:justify-between items-start">
-                                        <h2 class="text-gray-800 text-sm md:text-base lg:text-lg font-semibold">
+                                        <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
                                             {{ $product->item->en_title }}
                                         </h2>
                                         <ul class="md:text-right">
