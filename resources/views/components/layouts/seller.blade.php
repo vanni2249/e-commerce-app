@@ -26,47 +26,20 @@
             {{ $slot }}
         </main>
         <footer class=" w-full ">
-            <div>
-                <ul class="p-4 text-sm text-gray-500 flex justify-center items-center">
+            <div class="flex justify-center">
+                <ul class="p-4 text-sm text-gray-500 flex flex-col justify-center items-center">
                     <li class="font-bold">
                         &copy; {{ date('Y') }} Zierra. All rights reserved.
                     </li>
-                    {{-- <li class="text-gray-700 text-xs">
+                    <li class="text-gray-700 text-xs">
                         Hecho con ❤️ en Puerto Rico
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </footer>
     </div>
     @stack('scripts')
     @livewireScripts
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('main-content');
-        const toggleButton = document.getElementById('toggleButton');
-        const closeButtonMobile = document.getElementById('closeButtonMobile');
-
-        toggleButton.addEventListener('click', function() {
-            // Check if is lg screen
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.toggle('lg:w-64');
-                mainContent.classList.toggle('lg:ml-64');
-            } else {
-                sidebar.classList.toggle('w-0');
-                sidebar.classList.toggle('w-64');
-                mainContent.classList.toggle('lg:ml-0');
-            }
-        });
-
-        closeButtonMobile.addEventListener('click', function() {
-            if (window.innerWidth < 1024) {
-                sidebar.classList.add('w-0');
-                sidebar.classList.remove('w-64');
-                mainContent.classList.add('lg:ml-0');
-                mainContent.classList.remove('lg:ml-64');
-            }
-        });
-    </script>
 </body>
 
 </html>
