@@ -51,7 +51,7 @@
                 <button @click="$dispatch('open-modal', 'search-modal')"
                     class="cursor-pointer bg-blue-600 hover:bg-blue-800 text-white p-2 rounded-full lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
+                        stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
@@ -60,11 +60,18 @@
                 <!-- User dropdown btn -->
                 <x-dropdown width="48">
                     <x-slot:trigger>
-                        <button class="cursor-pointer bg-blue-600 hover:bg-blue-800 font-bold text-white p-2 rounded-full">
+                        <button class="cursor-pointer bg-blue-600 hover:bg-blue-800 text-white p-2 rounded-full">
                             {{ $initialName }}
                         </button>
                     </x-slot:trigger>
                     <x-slot:content>
+                        <div class="px-4 pb-1 text-gray-700 text-sm border-b border-gray-200">
+                            <span class="text-xs font-bold">Welcome</span>
+                            <br>
+                            <span>
+                                {{ $admin }}
+                            </span>
+                        </div>
                         <x-dropdown-link href="">Profile</x-dropdown-link>
                         <x-dropdown-link href="{{ route('admin.logout') }}">Logout</x-dropdown-link>
                     </x-slot:content>
