@@ -16,172 +16,59 @@
 </head>
 
 <body class="bg-gray-200 font-sans antialiased flex flex-row min-h-screen">
-    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all py-4 pl-4 overflow-auto">
-        <aside class="bg-black rounded-xl w-full h-full overflow-auto">
-            <header class="h-16 border-b border-gray-800 flex items-center text-white px-6">
-                <div class="flex justify-between items-center w-full">
-                    <div class="flex flex-col">
-                        <span class="text-sm font-semibold text-gray-200">
-                            MyApps
-                        </span>
-                    </div>
-                    <button class="cursor-pointer lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="icon icon-tabler text-gray-400 icons-tabler-outline icon-tabler-x">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </header>
-            @php
-                $collection = collect([
-                    ['title' => 'Dashboard', 'route' => 'admin.dashboard', 'active' => 'dashboard'],
-                    ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
-                    ['title' => 'Products', 'route' => 'admin.products.index', 'active' => 'products'],
-                    ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
-                    ['title' => 'Sales', 'route' => 'admin.sales.index', 'active' => 'sales'],
-                    ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
-                ]);
-            @endphp
-            <ul class="p-4 text-xs font-bold uppercase space-y-1">
-                @foreach ($collection as $item)
-                    <li>
-                        <a href="{{ route($item['route']) }}" @class([
-                            'flex justify-between item-center px-4 py-3 text-gray-200 hover:bg-gray-800 hover:text-white rounded-lg',
-                            'bg-gray-800' => request()->segment(2) === $item['active'],
-                        ]) wire:navigate>
-                            <span>
-                                {{ $item['title'] }}
-                            </span>
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="size-5">
-                                    <path fill-rule="evenodd"
-                                        d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </aside>
+    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all overflow-auto">
+        @livewire('admin.layout.sidebar')
     </div>
 
-    <div id="main-content" class="flex-grow flex max-w-7xl lg:ml-64 mx-auto flex-col">
-        <nav class="p-4">
-            <div class="bg-white p-4 rounded-xl">
-                <div class="grid grid-cols-12 gap-2">
-                    <div class="col-span-6 md:col-span-3">
-                        <div class="flex justify-start space-x-2 items-center">
-                            <!-- Logo -->
-                            <div>
-                                <x-dropdown align="left" width="48">
-                                    <x-slot:trigger>
-                                        <button class="bg-blue-50 block text-blue-500 p-1 rounded-lg cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                fill="currentColor" class="size-5">
-                                                <path fill-rule="evenodd"
-                                                    d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </x-slot:trigger>
-                                    <x-slot:content>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.dashboard') }}">Dashboard</x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('admin.items.index') }}">Items</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.products.index') }}">Products</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.orders.index') }}">Orders</x-dropdown-link>
-                                        {{-- <x-dropdown-link href="{{ route('admin.sales.index') }}">Sales</x-dropdown-link> --}}
-                                        {{-- <x-dropdown-link
-                                            href="{{ route('admin.claims.index') }}">Claims</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.returns.index') }}">Returns</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.refunds.index') }}">Refunds</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.replacements.index') }}">Replacements</x-dropdown-link> --}}
-                                        {{-- <x-dropdown-link href="{{ route('admin.ratings.index') }}">Raitings</x-dropdown-link> --}}
-                                        {{-- <x-dropdown-link
-                                            href="{{ route('admin.users.index') }}">Users</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.sellers.index') }}">Sellers</x-dropdown-link>
-                                        <x-dropdown-link
-                                            href="{{ route('admin.admins.index') }}">Admins</x-dropdown-link> --}}
-                                        {{-- <x-dropdown-link href="{{ route('profile.index') }}">Profile</x-dropdown-link> --}}
-                                    </x-slot:content>
-                                </x-dropdown>
-                            </div>
-                            <a href="{{ route('admin.dashboard') }}" class="text-lg font-semibold text-gray-700">
-                                MyApp's
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Cart Icon -->
-                    <div class="col-span-6 md:col-span-3 md:order-last">
-                        <div class="flex space-x-1 justify-end">
-                            <!-- Cart Icon -->
-                            <x-dropdown width="48">
-                                <x-slot:trigger>
-                                    <button class="bg-blue-50 block text-blue-500 p-1 rounded-lg cursor-pointer">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
-                                    </button>
-                                </x-slot:trigger>
-                                <x-slot:content>
-                                    <x-dropdown-link href="">Profile</x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('admin.logout') }}">Logout</x-dropdown-link>
-                                </x-slot:content>
-                            </x-dropdown>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Search Bar -->
-                    <div class="col-span-12 md:col-span-6">
-                        <div class="flex items-center space-x-1">
-                            <input type="text" class="w-full p-1 border border-gray-300 rounded-lg"
-                                placeholder="Search...">
-                            <button class="bg-blue-50 text-white p-1 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <main class="flex-grow min-h-96">
+    <div id="main-content" class="flex-grow flex lg:ml-64 transition-all flex-col">
+        @livewire('admin.layout.navbar')
+        <main class="flex-grow min-h-96 p-4">
             {{ $slot }}
         </main>
-        <footer class="mx-auto px-4 p-4 w-full ">
-            <div class="bg-gray-300 rounded-xl">
+        <footer class=" w-full ">
+            <div>
                 <ul
-                    class="px-4 py-4 text-sm text-gray-800 flex flex-col justify-center items-center md:flex-row md:justify-between md:items-center space-y-1">
+                    class="p-4 text-sm text-gray-500 flex justify-center items-center">
                     <li class="font-bold">
-                        &copy; {{ date('Y') }} MyApp. All rights reserved.
+                        &copy; {{ date('Y') }} Zierra. All rights reserved.
                     </li>
-                    <li class="text-gray-700 text-xs">
+                    {{-- <li class="text-gray-700 text-xs">
                         Hecho con ❤️ en Puerto Rico
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </footer>
     </div>
     @stack('scripts')
     @livewireScripts
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleButton = document.getElementById('toggleButton');
+        const closeButtonMobile = document.getElementById('closeButtonMobile');
+
+        toggleButton.addEventListener('click', function() {
+            // Check if is lg screen
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.toggle('lg:w-64');
+                mainContent.classList.toggle('lg:ml-64');
+            } else {
+                sidebar.classList.toggle('w-0');
+                sidebar.classList.toggle('w-64');
+                mainContent.classList.toggle('lg:ml-0');
+            }
+        });
+
+        closeButtonMobile.addEventListener('click', function() {
+            if (window.innerWidth < 1024) {
+                sidebar.classList.add('w-0');
+                sidebar.classList.remove('w-64');
+                mainContent.classList.add('lg:ml-0');
+                mainContent.classList.remove('lg:ml-64');
+            }
+        });
+    </script>
 </body>
 
 </html>
