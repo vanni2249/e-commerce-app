@@ -114,5 +114,19 @@
                 mainContent.classList.remove('lg:ml-64');
             }
         });
+
+        // When Screen is < 1024px and click outside close sidebar
+        document.addEventListener('click', function(event) {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnToggleButton = toggleButton.contains(event.target);
+
+            if (!isClickInsideSidebar && !isClickOnToggleButton && window.innerWidth < 1024 && sidebar.classList.contains('w-64')       ) {
+                sidebar.classList.add('w-0');
+                sidebar.classList.remove('w-64');
+                mainContent.classList.add('lg:ml-0');
+                mainContent.classList.remove('lg:ml-64');
+            }
+        }); 
+
     </script>
 @endscript
