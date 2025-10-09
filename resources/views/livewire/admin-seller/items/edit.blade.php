@@ -209,13 +209,13 @@
                             </tr>
                         </x-slot>
                         <x-slot name="body">
-                            @forelse ($en_specifications as $i => $specification)
+                            @forelse ((array) $en_specifications as $i => $specification)
                                 <tr class="hover:bg-gray-50 border-b border-gray-200">
                                     <td class="p-4">
-                                        {{ $specification['label'] }}
+                                        {{ $specification['label']??'...' }}
                                     </td>
                                     <td class="p-4">
-                                        {{ $specification['value'] }}
+                                        {{ $specification['value']??'...' }}
                                     </td>
                                     <td class="p-4 text-right">
                                         <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'
@@ -285,13 +285,13 @@
                             </tr>
                         </x-slot>
                         <x-slot name="body">
-                            @forelse ($es_specifications as $i => $specification)
+                            @forelse ((array)$es_specifications as $i => $specification)
                                 <tr class="hover:bg-gray-50 border-b border-gray-200">
                                     <td class="p-4">
-                                        {{ $specification['label'] }}
+                                        {{ $specification['label']??'...' }}
                                     </td>
                                     <td class="p-4">
-                                        {{ $specification['value'] }}
+                                        {{ $specification['value']??'...' }}
                                     </td>
                                     <td class="p-4 text-right">
                                         <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'

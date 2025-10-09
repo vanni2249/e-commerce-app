@@ -298,7 +298,6 @@ class Edit extends Component
                 return true;
             }
         }
-        return false;
     }
 
     public function countProducts()
