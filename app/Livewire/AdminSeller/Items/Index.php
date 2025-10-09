@@ -55,9 +55,6 @@ class Index extends Component
         } else {
             return $this->redirect('/sellers/items/' . $item->id . '/edit', navigate: true);
         }
-
-
-        $this->redirect(route('admin.items.show', $item->id));
     }
 
     
