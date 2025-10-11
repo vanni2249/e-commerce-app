@@ -11,13 +11,13 @@
             <div class="grid grid-cols-12 gap-2">
                 @foreach ($this->widgets() as $widget)
                     <x-widget :title="$widget['title']" :value="$widget['value']" :icon="$widget['icon']" :lineColor="$widget['lineColor']"
-                        class="col-span-12 md:col-span-6 2xl:col-span-3">
+                        class="col-span-12 md:col-span-6 xl:col-span-3">
                         <x-slot name="right">
 
                         </x-slot>
                         <x-slot name="footer">
-                            <span class="text-sm text-gray-600">
-                                Compared to last month
+                            <span class="text-xs text-gray-600">
+                                {{ $widget['subtitle'] }}
                             </span>
                         </x-slot>
                     </x-widget>
@@ -31,7 +31,7 @@
                         <h2 class="font-bold">Transactions</h2>
                     </header>
                     <ul class="py-4 overflow-auto">
-                        @for ($i = 0; $i < 10; $i++)
+                        @for ($i = 0; $i < 8; $i++)
                             <li class="flex justify-between items-center border-b border-gray-200 py-2">
                                 <div class="flex items-center space-x-2">
                                     <div class="bg-blue-100 p-2 rounded-full">
@@ -61,12 +61,12 @@
                     </ul>
                 </div>
                 <!-- Revenue -->
-                <div class="col-span-1 bg-white p-4 rounded-xl">
+                <div class="col-span-1 row-span-1 bg-white p-4 rounded-xl">
                     <header class="flex justify-between">
                         <h2 class="font-bold">Revenue</h2>
                     </header>
                     <div class="py-4">
-                        <canvas id="revenueChart"></canvas>
+                        <canvas height="150" id="revenueChart"></canvas>
                     </div>
                 </div>
                 <!-- Sale Reports -->
@@ -75,33 +75,36 @@
                         <h2 class="font-bold">Sale Reports</h2>
                     </header>
                     <div class="py-4">
-                        <canvas id="saleReportsChart"></canvas>
+                        <canvas height="150" id="saleReportsChart"></canvas>
                     </div>
                 </div>
             </div>
 
         </div>
         <!-- Right side -->
-        <div class="col-span-12 xl:col-span-3 bg-red-200">
+        <div class="col-span-12 xl:col-span-3">
             <!-- Performance Widgets -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 xl:grid-rows-2 gap-2">
-                <x-card>
-                    <header class="flex justify-between">
-                        <h2 class="font-bold">Total View Performance</h2>
-                    </header>
-                    <div class="py-4">
-                        <canvas id="totalViewPerformanceChart"></canvas>
+            {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2 h-full"> --}}
+                <div class="flex flex-col md:flex-row xl:flex-col gap-2 h-full">
+
+                    <div class="bg-white p-4 rounded-xl md:w-1/2 xl:w-full">
+                        <header class="flex justify-between">
+                            <h2 class="font-bold">Total View Performance</h2>
+                        </header>
+                        <div class="py-4">
+                            <canvas height="600" id="totalViewPerformanceChart"></canvas>
+                        </div>
                     </div>
-                </x-card>
-                <x-card>
-                    <header class="flex justify-between">
-                        <h2 class="font-bold">Total Search Performance</h2>
-                    </header>
-                    <div class="py-4">
-                        <canvas id="totalSearchPerformanceChart"></canvas>
+                    <div class="grow bg-white p-4 rounded-xl md:w-1/2 xl:w-full">
+                        <header class="flex justify-between">
+                            <h2 class="font-bold">Total Search Performance</h2>
+                        </header>
+                        <div class="py-4 w-full">
+                            <canvas height="320" id="totalSearchPerformanceChart"></canvas>
+                        </div>
                     </div>
-                </x-card>
-            </div>
+                </div>
+            {{-- </div> --}}
 
         </div>
     </div>
@@ -178,25 +181,35 @@
             }
         });
 
-        const ctxs = document.getElementById('totalSearchPerformanceChart');
-        const myChart4 = new Chart(ctxs, {
-            type: 'line',
+        const tspc = document.getElementById('totalSearchPerformanceChart');
+            // tspc.canvas.parentNode.style.height = '600px';
+            // alert(tspc.style.height);
+
+        const myChart4 = new Chart(tspc, {
+            type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+                    'October', 'November', 'December'
+                ],
                 datasets: [{
                     label: 'Searches',
-                    data: [28, 48, 40, 19, 86, 27, 90],
+                    data: [28, 48, 40, 19, 86, 27, 90, 34, 65, 23, 87, 21],
                     fill: false,
                     borderColor: 'rgb(153, 102, 255)',
                     tension: 0.1
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                indexAxis: 'y',
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderSkipped: false,
                     }
-                }
+                },
+                responsive: true,
             }
         });
     </script>
