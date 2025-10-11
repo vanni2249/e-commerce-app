@@ -7,9 +7,22 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    public $widgets = [];
+    public function widgets()
+    {
+        return [
+            ['title' => 'Total Sales', 'subtitle' => 'This Month', 'value' => '$24,000', 'icon' => 'sales', 'color' => 'bg-white', 'border' => 'border-gray-300', 'lineColor' => 'green'],
+            ['title' => 'New Orders', 'subtitle' => 'This Week', 'value' => '150', 'icon' => 'orders', 'color' => 'bg-white', 'border' => 'border-gray-300', 'lineColor' => 'blue'],
+            ['title' => 'Products Sold', 'subtitle' => 'This Month', 'value' => '1,200', 'icon' => 'products', 'color' => 'bg-white', 'border' => 'border-gray-300', 'lineColor' => 'orange'],
+            ['title'=> 'Claims', 'subtitle' => 'This Month', 'value' => '25', 'icon' => 'claims', 'color' => 'bg-white', 'border' => 'border-gray-300', 'lineColor' => 'indigo'],
+        ];
+    }
+
     #[Layout('components.layouts.seller')] 
     public function render()
     {
-        return view('livewire.sellers.dashboard.index');
+        return view('livewire.sellers.dashboard.index', [
+            'widgets' => $this->widgets,
+        ]);
     }
 }
