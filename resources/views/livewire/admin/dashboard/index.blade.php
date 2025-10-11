@@ -11,7 +11,7 @@
             <div class="grid grid-cols-12 gap-2">
                 @foreach ($this->widgets() as $widget)
                     <x-widget :title="$widget['title']" :value="$widget['value']" :icon="$widget['icon']" :lineColor="$widget['lineColor']"
-                        class="col-span-12 md:col-span-6 xl:col-span-3">
+                        class="col-span-6 md:col-span-6 xl:col-span-3">
                         <x-slot name="right">
 
                         </x-slot>
