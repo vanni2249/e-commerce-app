@@ -66,7 +66,7 @@
                         <h2 class="font-bold">Revenue</h2>
                     </header>
                     <div class="py-4">
-                        <canvas height="150" id="revenueChart"></canvas>
+                        <canvas height="160" id="revenueChart"></canvas>
                     </div>
                 </div>
                 <!-- Sale Reports -->
@@ -75,7 +75,7 @@
                         <h2 class="font-bold">Sale Reports</h2>
                     </header>
                     <div class="py-4">
-                        <canvas height="150" id="saleReportsChart"></canvas>
+                        <canvas height="160" id="saleReportsChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -85,25 +85,25 @@
         <div class="col-span-12 xl:col-span-3">
             <!-- Performance Widgets -->
             {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2 h-full"> --}}
-                <div class="flex flex-col md:flex-row xl:flex-col gap-2 h-full">
+            <div class="flex flex-col md:flex-row xl:flex-col gap-2 h-full">
 
-                    <div class="bg-white p-4 rounded-xl md:w-1/2 xl:w-full">
-                        <header class="flex justify-between">
-                            <h2 class="font-bold">Total View Performance</h2>
-                        </header>
-                        <div class="py-4">
-                            <canvas height="600" id="totalViewPerformanceChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="grow bg-white p-4 rounded-xl md:w-1/2 xl:w-full">
-                        <header class="flex justify-between">
-                            <h2 class="font-bold">Total Search Performance</h2>
-                        </header>
-                        <div class="py-4 w-full">
-                            <canvas height="320" id="totalSearchPerformanceChart"></canvas>
-                        </div>
+                <div class="bg-white p-4 rounded-xl md:w-1/2 xl:w-full flex flex-col">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Total View Performance</h2>
+                    </header>
+                    <div class="grow py-4 flex justify-center items-center">
+                        <canvas id="totalViewPerformanceChart"></canvas>
                     </div>
                 </div>
+                <div class="grow bg-white p-4 rounded-xl md:w-1/2 xl:w-full flex flex-col">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Total Search Performance</h2>
+                    </header>
+                    <div class="grow py-4 flex justify-center items-center">
+                        <canvas height="344" id="totalSearchPerformanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
             {{-- </div> --}}
 
         </div>
@@ -119,16 +119,22 @@
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 datasets: [{
-                    label: 'Revenue',
                     data: [1200, 1900, 3000, 5000, 2300, 3400, 4200],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
+                    // label: ['Revenue'],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(29, 78, 216)',
+                    ],
                 }]
             },
             options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -145,10 +151,18 @@
                 datasets: [{
                     label: '# of Votes',
                     data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(29, 78, 216)',
+                    ],
                 }]
             },
             options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -157,8 +171,8 @@
             }
         });
 
-        const ctxc = document.getElementById('totalViewPerformanceChart');
-        const myChart3 = new Chart(ctxc, {
+        const tvpc = document.getElementById('totalViewPerformanceChart');
+        const myChart3 = new Chart(tvpc, {
             type: 'doughnut',
             data: {
                 labels: ['Guess', 'Users'],
@@ -167,7 +181,7 @@
                     data: [6, 59, ],
                     backgroundColor: [
                         'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
+                        'rgb(29, 78, 216)',
                     ],
                     hoverOffset: 4
                 }]
@@ -182,34 +196,31 @@
         });
 
         const tspc = document.getElementById('totalSearchPerformanceChart');
-            // tspc.canvas.parentNode.style.height = '600px';
-            // alert(tspc.style.height);
+        // tspc.canvas.parentNode.style.height = '600px';
+        // alert(tspc.style.height);
 
         const myChart4 = new Chart(tspc, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                    'October', 'November', 'December'
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept',
+                    'Oct', 'Nov', 'Dec'
                 ],
                 datasets: [{
                     label: 'Searches',
                     data: [28, 48, 40, 19, 86, 27, 90, 34, 65, 23, 87, 21],
-                    fill: false,
-                    borderColor: 'rgb(153, 102, 255)',
-                    tension: 0.1
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(29, 78, 216)',
+                    ],
                 }]
             },
             options: {
-                indexAxis: 'y',
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                        borderRadius: 10,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderSkipped: false,
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 },
-                responsive: true,
+                indexAxis: 'y',
             }
         });
     </script>
