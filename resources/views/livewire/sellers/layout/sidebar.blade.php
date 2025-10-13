@@ -9,7 +9,7 @@
                         Zierra
                     </span>
                     <span class="text-xs font-bold text-gray-400">
-                        Seller
+                        Seller Manager System
                     </span>
                 </div>
                 <!-- Close sidebar mobile button -->
