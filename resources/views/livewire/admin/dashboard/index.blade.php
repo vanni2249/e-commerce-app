@@ -2,7 +2,65 @@
     <!-- Widget -->
     <header class="flex justify-between items-center px-1">
         <h2 class="text-lg font-semibold">Dashboard</h2>
-        <button class="btn btn-primary">Add Widget</button>
+        <x-dropdown>
+            <x-slot name="trigger">
+                <x-button>
+                    <div class="flex">
+                        <span class="hidden md:inline-block">
+                            Filter By &nbsp;
+                        </span>
+                        @if ($this->filter)
+                            {{ ucfirst($this->filter) }}:
+                        @endif
+                        @switch($this->filter)
+                            @case('day')
+                                {{-- Format day/month/year --}}
+                                {{ \Carbon\Carbon::parse($this->value)->format('M d, Y') }}
+                            @break
+
+                            @case('month')
+                                {{-- Format month/year --}}
+                                {{ \Carbon\Carbon::parse($this->value)->format('M Y') }}
+                            @break
+
+                            @case('year')
+                                {{-- Format year --}}
+                                {{ \Carbon\Carbon::parse($this->value)->format('Y') }}
+                            @break
+
+                            @default
+                        @endswitch
+                        <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </x-button>
+            </x-slot>
+            <x-slot name="content">
+                <div class="text-xs font-bold uppercase px-4 py-2">Days</div>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'day', 'value' => now()->format('Y-m-d')]) }}"
+                    wire:navigate>Today</x-dropdown-link>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'day', 'value' => now()->subDay()->format('Y-m-d')]) }}"
+                    wire:navigate>Yesterday</x-dropdown-link>
+                <div class="text-xs font-bold uppercase px-4 py-2">Months</div>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'month', 'value' => now()->startOfMonth()->format('Y-m-d')]) }}"
+                    wire:navigate>This Month</x-dropdown-link>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'month', 'value' => now()->subMonth()->startOfMonth()->format('Y-m-d')]) }}"
+                    wire:navigate>Past Month</x-dropdown-link>
+                <div class="text-xs font-bold uppercase px-4 py-2">Months</div>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'year', 'value' => now()->startOfYear()->format('Y-m-d')]) }}"
+                    wire:navigate>This year</x-dropdown-link>
+                <x-dropdown-link
+                    href="{{ route('admin.dashboard.filters', ['filter' => 'year', 'value' => now()->subYear()->startOfYear()->format('Y-m-d')]) }}"
+                    wire:navigate>Past year</x-dropdown-link>
+            </x-slot>
+        </x-dropdown>
     </header>
     <div class="grid grid-cols-12 gap-4">
         <!-- Left side -->
@@ -92,7 +150,7 @@
                         <h2 class="font-bold">Total View Performance</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas id="totalViewPerformanceChart"></canvas>
+                        <canvas width="1" height="200" id="totalViewPerformanceChart"></canvas>
                     </div>
                 </div>
                 <div class="grow bg-white p-4 rounded-xl md:w-1/2 xl:w-full flex flex-col">
@@ -100,7 +158,7 @@
                         <h2 class="font-bold">Total Search Performance</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas height="344" id="totalSearchPerformanceChart"></canvas>
+                        <canvas height="352" id="totalSearchPerformanceChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -119,13 +177,15 @@
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                labels: $wire.labels,
                 datasets: [{
-                    data: [1200, 1900, 3000, 5000, 2300, 3400, 4200],
+                    data: $wire.chartData,
                     // label: ['Revenue'],
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
                         'rgb(29, 78, 216)',
+                        'rgb(248, 113, 113)',
+
                     ],
                 }]
             },
@@ -147,13 +207,14 @@
         const myChart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: $wire.labels,
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: $wire.chartData,
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
                         'rgb(29, 78, 216)',
+                        'rgb(248, 113, 113)',
+
                     ],
                 }]
             },
@@ -180,8 +241,9 @@
                     label: 'Views',
                     data: [6, 59, ],
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
+                        'rgb(248, 113, 113)',
                         'rgb(29, 78, 216)',
+
                     ],
                     hoverOffset: 4
                 }]
@@ -196,21 +258,16 @@
         });
 
         const tspc = document.getElementById('totalSearchPerformanceChart');
-        // tspc.canvas.parentNode.style.height = '600px';
-        // alert(tspc.style.height);
 
         const myChart4 = new Chart(tspc, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept',
-                    'Oct', 'Nov', 'Dec'
-                ],
+                labels: $wire.labels,
                 datasets: [{
-                    label: 'Searches',
-                    data: [28, 48, 40, 19, 86, 27, 90, 34, 65, 23, 87, 21],
+                    data: $wire.chartData,
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
                         'rgb(29, 78, 216)',
+                        'rgb(248, 113, 113)',
                     ],
                 }]
             },
@@ -222,6 +279,40 @@
                 },
                 indexAxis: 'y',
             }
+        });
+
+        window.addEventListener('reload-charts', () => {
+            // Destroy old chart if needed
+            if (window.myChart) {
+                window.myChart.destroy();
+            }
+            // Recreate chart with new data
+            const ctx = document.getElementById('revenueChart');
+            window.myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: $wire.labels,
+                    datasets: [{
+                        data: $wire.chartData,
+                        backgroundColor: [
+                            'rgb(29, 78, 216)',
+                            'rgb(248, 113, 113)',
+                        ],
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         });
     </script>
 @endscript

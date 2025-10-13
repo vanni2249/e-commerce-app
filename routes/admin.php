@@ -61,6 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Dashboard
         Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
+        Route::get('/dashboard/filters/{filter}/values/{value}', DashboardIndex::class)->name('dashboard.filters');
 
 
         

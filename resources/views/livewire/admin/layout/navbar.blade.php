@@ -65,7 +65,7 @@
                         </button>
                     </x-slot:trigger>
                     <x-slot:content>
-                        <div class="px-4 pb-1 text-gray-700 text-sm border-b border-gray-200">
+                        <div class="px-4 py-2 text-gray-700 text-sm border-b border-gray-200">
                             <span class="text-xs font-bold">Welcome</span>
                             <br>
                             <span>
