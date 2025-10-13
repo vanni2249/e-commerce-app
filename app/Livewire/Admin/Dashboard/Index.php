@@ -63,22 +63,6 @@ class Index extends Component
         ];
     }
 
-    public function changeLabels()
-    {
-
-        // Get month recently and set total days in month
-        // $month = date('m');
-        // $year = date('Y');
-        // $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        // $this->labels = [];
-        // for ($day = 1; $day <= $daysInMonth; $day++) {
-        //     $this->labels[] = $day;
-        // }
-        // $this->labels = $this->labels;
-
-        $this->dispatch('reload-charts');
-    }
-
     public function labels()
     {
         return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept',

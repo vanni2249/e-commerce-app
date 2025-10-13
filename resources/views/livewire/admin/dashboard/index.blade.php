@@ -82,14 +82,107 @@
                 @endforeach
             </div>
             <!-- Charts -->
-            <div class="grid md:grid-cols-2 grid-rows-2 gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <!-- Transactions -->
-                <div class="row-span-2 bg-white p-4 rounded-xl">
+                <div class="col-span-1 md:col-span-2 bg-white p-4 rounded-xl">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Revenues</h2>
+                    </header>
+                    <div class="py-4">
+                        <canvas style="position: relative; height:50vh; width:80vw" id="revenuesChart"></canvas>
+                    </div>
+
+                </div>
+                <!-- Revenue -->
+                <div class="col-span-1 md:col-span-1 bg-white p-4 rounded-xl">
                     <header class="flex justify-between">
                         <h2 class="font-bold">Transactions</h2>
                     </header>
-                    <ul class="py-4 overflow-auto">
-                        @for ($i = 0; $i < 8; $i++)
+                    <div class="py-4">
+                        <canvas style="position: relative; height:50vh; width:40vmax" id="transactionsChart"></canvas>
+                    </div>
+                </div>
+                <!-- Sale Reports -->
+                <div class="col-span-1 md:col-span-1 bg-white p-4 rounded-xl">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Sale Reports</h2>
+                    </header>
+                    <div class="py-4">
+                        <canvas style="position: relative; height:50vh; width:40vmax" id="saleReportsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Right side -->
+        <div class="col-span-12 xl:col-span-3">
+            <!-- Performance Widgets -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2 h-full">
+
+                <div class="bg-white p-4 rounded-xl flex flex-col">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Total Visitors</h2>
+                    </header>
+                    <div class="grow py-4 flex justify-center items-center">
+                        <canvas style="position: relative; height:20vh; width:9vmax" id="totalViewPerformanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="grow bg-white p-4 rounded-xl flex flex-col">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Total Search</h2>
+                    </header>
+                    <div class="grow py-4 flex justify-center items-center">
+                        <canvas  style="position: relative; height:20vh; width:9vmax" id="totalSearchPerformanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Center side -->
+        <div class="col-span-12">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                <!-- Transactions -->
+                <div class="bg-white p-4 rounded-xl">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Recent Transactions</h2>
+                    </header>
+                    <ul class="py-4">
+                        @for ($i = 0; $i < 5; $i++)
+                            <li class="flex justify-between items-center border-b border-gray-200 py-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="bg-blue-100 p-2 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icon-tabler-shopping-cart">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <circle cx="6" cy="19" r="2"></circle>
+                                            <circle cx="17" cy="19" r="2"></circle>
+                                            <path d="M17 17h-11v-14h-2l3.6 7.59m-.6 2.41h13m-4 -6h5l3 6h-8.5">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Transaction #{{ 1000 + $i }}</p>
+                                        <p class="text-sm text-gray-500 line-clamp-1">Placed on
+                                            {{ now()->subDays($i)->format('M d, Y H:i') }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-800">$ {{ 100 + $i * 10 }}</p>
+                                    <p class="text-sm text-green-500">+{{ 5 + $i }}%</p>
+                                </div>
+                            </li>
+                        @endfor
+                    </ul>
+                </div>
+                <!-- Orders -->
+                <div class="bg-white p-4 rounded-xl">
+                    <header class="flex justify-between">
+                        <h2 class="font-bold">Recent Orders</h2>
+                    </header>
+                    <ul class="py-4">
+                        @for ($i = 0; $i < 5; $i++)
                             <li class="flex justify-between items-center border-b border-gray-200 py-2">
                                 <div class="flex items-center space-x-2">
                                     <div class="bg-blue-100 p-2 rounded-full">
@@ -106,7 +199,7 @@
                                     </div>
                                     <div>
                                         <p class="font-semibold text-gray-800">Order #{{ 1000 + $i }}</p>
-                                        <p class="text-sm text-gray-500">Placed on
+                                        <p class="text-sm text-gray-500 line-clamp-1">Placed on
                                             {{ now()->subDays($i)->format('M d, Y') }}</p>
                                     </div>
                                 </div>
@@ -118,52 +211,42 @@
                         @endfor
                     </ul>
                 </div>
-                <!-- Revenue -->
-                <div class="col-span-1 row-span-1 bg-white p-4 rounded-xl">
+                <!-- Sales -->
+                <div class="bg-white p-4 rounded-xl">
                     <header class="flex justify-between">
-                        <h2 class="font-bold">Revenue</h2>
+                        <h2 class="font-bold">Recent Sales</h2>
                     </header>
-                    <div class="py-4">
-                        <canvas height="160" id="revenueChart"></canvas>
-                    </div>
-                </div>
-                <!-- Sale Reports -->
-                <div class="col-span-1 row-span-1 bg-white p-4 rounded-xl">
-                    <header class="flex justify-between">
-                        <h2 class="font-bold">Sale Reports</h2>
-                    </header>
-                    <div class="py-4">
-                        <canvas height="160" id="saleReportsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- Right side -->
-        <div class="col-span-12 xl:col-span-3">
-            <!-- Performance Widgets -->
-            {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2 h-full"> --}}
-            <div class="flex flex-col md:flex-row xl:flex-col gap-2 h-full">
-
-                <div class="bg-white p-4 rounded-xl md:w-1/2 xl:w-full flex flex-col">
-                    <header class="flex justify-between">
-                        <h2 class="font-bold">Total View Performance</h2>
-                    </header>
-                    <div class="grow py-4 flex justify-center items-center">
-                        <canvas width="1" height="200" id="totalViewPerformanceChart"></canvas>
-                    </div>
-                </div>
-                <div class="grow bg-white p-4 rounded-xl md:w-1/2 xl:w-full flex flex-col">
-                    <header class="flex justify-between">
-                        <h2 class="font-bold">Total Search Performance</h2>
-                    </header>
-                    <div class="grow py-4 flex justify-center items-center">
-                        <canvas height="352" id="totalSearchPerformanceChart"></canvas>
-                    </div>
+                    <ul class="py-4">
+                        @for ($i = 0; $i < 5; $i++)
+                            <li class="flex justify-between items-center border-b border-gray-200 py-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="bg-blue-100 p-2 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icon-tabler-shopping-cart">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <circle cx="6" cy="19" r="2"></circle>
+                                            <circle cx="17" cy="19" r="2"></circle>
+                                            <path d="M17 17h-11v-14h-2l3.6 7.59m-.6 2.41h13m-4 -6h5l3 6h-8.5">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Sale #{{ 1000 + $i }}</p>
+                                        <p class="text-sm text-gray-500 line-clamp-1">Placed on
+                                            {{ now()->subDays($i)->format('M d, Y') }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-800">{{ 1 + $i * 10 }}</p>
+                                    {{-- <p class="text-sm text-green-500">+{{ 5 + $i }}%</p> --}}
+                                </div>
+                            </li>
+                        @endfor
+                    </ul>
                 </div>
             </div>
-            {{-- </div> --}}
-
         </div>
     </div>
 </div>
@@ -173,15 +256,13 @@
 
 @script
     <script>
-        const ctx = document.getElementById('revenueChart');
-        const myChart = new Chart(ctx, {
+        const revenuesCtx = document.getElementById('revenuesChart');
+        const revenuesChart = new Chart(revenuesCtx, {
             type: 'bar',
             data: {
-                // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 labels: $wire.labels,
                 datasets: [{
                     data: $wire.chartData,
-                    // label: ['Revenue'],
                     backgroundColor: [
                         'rgb(29, 78, 216)',
                         'rgb(248, 113, 113)',
@@ -203,6 +284,35 @@
             }
         });
 
+        const ctx = document.getElementById('transactionsChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: $wire.labels,
+                datasets: [{
+                    data: $wire.chartData,
+                    backgroundColor: [
+                        'rgb(29, 78, 216)',
+                        'rgb(248, 113, 113)',
+
+                    ],
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Sale Reports Chart
         const ctx2 = document.getElementById('saleReportsChart');
         const myChart2 = new Chart(ctx2, {
             type: 'bar',
@@ -232,34 +342,9 @@
             }
         });
 
+        // Total View Performance Chart
         const tvpc = document.getElementById('totalViewPerformanceChart');
         const myChart3 = new Chart(tvpc, {
-            type: 'doughnut',
-            data: {
-                labels: ['Guess', 'Users'],
-                datasets: [{
-                    label: 'Views',
-                    data: [6, 59, ],
-                    backgroundColor: [
-                        'rgb(248, 113, 113)',
-                        'rgb(29, 78, 216)',
-
-                    ],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const tspc = document.getElementById('totalSearchPerformanceChart');
-
-        const myChart4 = new Chart(tspc, {
             type: 'bar',
             data: {
                 labels: $wire.labels,
@@ -281,38 +366,28 @@
             }
         });
 
-        window.addEventListener('reload-charts', () => {
-            // Destroy old chart if needed
-            if (window.myChart) {
-                window.myChart.destroy();
-            }
-            // Recreate chart with new data
-            const ctx = document.getElementById('revenueChart');
-            window.myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: $wire.labels,
-                    datasets: [{
-                        data: $wire.chartData,
-                        backgroundColor: [
-                            'rgb(29, 78, 216)',
-                            'rgb(248, 113, 113)',
-                        ],
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        // Total Search Performance Chart
+        const tspc = document.getElementById('totalSearchPerformanceChart');
+        const myChart4 = new Chart(tspc, {
+            type: 'bar',
+            data: {
+                labels: $wire.labels,
+                datasets: [{
+                    data: $wire.chartData,
+                    backgroundColor: [
+                        'rgb(29, 78, 216)',
+                        'rgb(248, 113, 113)',
+                    ],
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
                     }
-                }
-            });
+                },
+                indexAxis: 'y',
+            }
         });
     </script>
 @endscript
