@@ -16,7 +16,7 @@
 </head>
 
 <body class="bg-gray-200 font-sans antialiased flex flex-row min-h-screen">
-    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all overflow-auto">
+    <div id="sidebar" class="fixed h-screen w-0 lg:w-64 transition-all overflow-auto z-50">
         @livewire('admin.layout.sidebar')
     </div>
 

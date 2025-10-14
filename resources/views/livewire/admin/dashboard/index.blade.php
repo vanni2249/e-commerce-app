@@ -118,21 +118,22 @@
         <div class="col-span-12 xl:col-span-3">
             <!-- Performance Widgets -->
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2 h-full">
-
+                <!-- Total Visitors -->
                 <div class="bg-white p-4 rounded-xl flex flex-col">
                     <header class="flex justify-between">
                         <h2 class="font-bold">Total Visitors</h2>
                     </header>
-                    <div class="grow py-4 flex justify-center items-center">
-                        <canvas style="position: relative; height:20vh; width:9vmax" id="totalViewPerformanceChart"></canvas>
+                    <div class="py-4 flex justify-center items-center">
+                        <canvas style="position: relative; height:150px; width:150px" id="totalViewPerformanceChart"></canvas>
                     </div>
                 </div>
-                <div class="grow bg-white p-4 rounded-xl flex flex-col">
+                <!-- Total Search -->
+                <div class=" bg-white p-4 rounded-xl flex flex-col">
                     <header class="flex justify-between">
                         <h2 class="font-bold">Total Search</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas  style="position: relative; height:20vh; width:9vmax" id="totalSearchPerformanceChart"></canvas>
+                        <canvas  style="position: relative; height:150px; width:150px" id="totalSearchPerformanceChart"></canvas>
                     </div>
                 </div>
             </div>

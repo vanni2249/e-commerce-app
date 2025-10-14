@@ -2,7 +2,7 @@
     <!-- Widget -->
     <header class="flex justify-between items-center px-1">
         <h2 class="text-lg font-semibold">Dashboard</h2>
-        <x-dropdown>
+        <x-dropdown class="-z-10">
             <x-slot name="trigger">
                 <x-button>
                     <div class="flex">
@@ -124,7 +124,7 @@
                         <h2 class="font-bold">Total Visitors</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas style="position: relative; height:20vh; width:9vmax" id="totalViewPerformanceChart"></canvas>
+                        <canvas style="position: relative; height:150px; width:150px" id="totalViewPerformanceChart"></canvas>
                     </div>
                 </div>
                 <div class="grow bg-white p-4 rounded-xl flex flex-col">
@@ -132,7 +132,7 @@
                         <h2 class="font-bold">Total Search</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas  style="position: relative; height:20vh; width:9vmax" id="totalSearchPerformanceChart"></canvas>
+                        <canvas  style="position: relative; height:150px; width:150px" id="totalSearchPerformanceChart"></canvas>
                     </div>
                 </div>
             </div>
