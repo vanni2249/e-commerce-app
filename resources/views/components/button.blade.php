@@ -4,7 +4,7 @@
     switch ($variant) {
         case 'primary':
             $classes =
-                ' bg-blue-500 border border-transparent text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900';
+                ' bg-blue-600 border border-transparent text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900';
             break;
 
         case 'primary-outline':
