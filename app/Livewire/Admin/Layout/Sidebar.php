@@ -7,6 +7,12 @@ use Livewire\Component;
 
 class Sidebar extends Component
 {
+    public $segment;
+
+    public function mount()
+    {
+        $this->segment = request()->segment(2);
+    }
 
     public function collection()
     {
@@ -17,6 +23,25 @@ class Sidebar extends Component
             ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
             ['title' => 'Sales', 'route' => 'admin.sales.index', 'active' => 'sales'],
             ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
+            ['title' => 'Sellers', 'route' => 'admin.sellers.index', 'active' => 'sellers'],
+            ['title' => 'Admins', 'route' => 'admin.admins.index', 'active' => 'admins'],
+            // ['title' => 'Users', 'routes' => [
+            //     [
+            //         'title' => 'Customers',
+            //         'route' => 'admin.users.index',
+            //         'active' => 'users'
+            //     ],
+            //     [
+            //         'title' => 'Sellers',
+            //         'route' => 'admin.sellers.index',
+            //         'active' => 'sellers'
+            //     ],
+            //     [
+            //         'title' => 'Admins',
+            //         'route' => 'admin.admins.index',
+            //         'active' => 'admins'
+            //     ],
+            // ], 'active' => 'users', 'buttonId' => 'users-menu-button', 'mainContent' => 'users-menu-content', 'arrowRightId' => 'users-menu-arrow-right', 'arrowDownId' => 'users-menu-arrow-down'],
         ];
     }
 
