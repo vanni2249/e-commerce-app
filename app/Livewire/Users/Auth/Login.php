@@ -34,6 +34,13 @@ class Login extends Component
         // Get user before login attempt to log IP address
         $user = \App\Models\User::where('email', $this->email)->first();
 
+        // If user is_active is false return error
+        if ($user && ! $user->is_active) {
+            throw ValidationException::withMessages([
+                'email' => __('Your account is disabled. Please contact support.'),
+            ]);
+        }   
+
         if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
