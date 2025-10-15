@@ -27,22 +27,23 @@
         </main>
         <footer class=" w-full ">
             <div>
-                <ul
-                    class="p-4 text-sm text-gray-500 flex justify-center items-center">
-                    <li class="font-bold">
-                        &copy; {{ date('Y') }} Zierra. All rights reserved.
-                    </li>
-                    {{-- <li class="text-gray-700 text-xs">
-                        Hecho con ❤️ en Puerto Rico
-                    </li> --}}
-                </ul>
+                <div class="flex justify-center">
+                    <ul class="p-4 text-sm text-gray-500 flex flex-col justify-center items-center">
+                        <li class="font-bold">
+                            &copy; {{ date('Y') }} Zierra. All rights reserved.
+                        </li>
+                        <li class="text-gray-700 text-xs">
+                            Hecho con ❤️ en Puerto Rico
+                        </li>
+                    </ul>
+                </div>
             </div>
         </footer>
     </div>
     @stack('scripts')
     @livewireScripts
 
-    
+
 </body>
 
 </html>
