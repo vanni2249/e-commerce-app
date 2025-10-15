@@ -5,13 +5,15 @@
         <x-dropdown class="-z-10">
             <x-slot name="trigger">
                 <x-button>
-                    <div class="flex">
+                    <div class="flex space-x-0.5">
                         <span class="hidden md:inline-block">
-                            Filter By &nbsp;
+                            Filter By
                         </span>
-                        @if ($this->filter)
-                            {{ ucfirst($this->filter) }}:
-                        @endif
+                        <span>
+                            @if ($this->filter)
+                                {{ ucfirst($this->filter) }}:
+                            @endif
+                        </span>
                         @switch($this->filter)
                             @case('day')
                                 {{-- Format day/month/year --}}
@@ -124,7 +126,8 @@
                         <h2 class="font-bold">Total Visitors</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas style="position: relative; height:150px; width:150px" id="totalViewPerformanceChart"></canvas>
+                        <canvas style="position: relative; height:150px; width:150px"
+                            id="totalViewPerformanceChart"></canvas>
                     </div>
                 </div>
                 <div class="grow bg-white p-4 rounded-xl flex flex-col">
@@ -132,7 +135,8 @@
                         <h2 class="font-bold">Total Search</h2>
                     </header>
                     <div class="grow py-4 flex justify-center items-center">
-                        <canvas  style="position: relative; height:150px; width:150px" id="totalSearchPerformanceChart"></canvas>
+                        <canvas style="position: relative; height:150px; width:150px"
+                            id="totalSearchPerformanceChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -187,8 +191,8 @@
                                 <div class="flex items-center space-x-2">
                                     <div class="bg-blue-100 p-2 rounded-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="icon icon-tabler icon-tabler-shopping-cart">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <circle cx="6" cy="19" r="2"></circle>
@@ -222,8 +226,8 @@
                                 <div class="flex items-center space-x-2">
                                     <div class="bg-blue-100 p-2 rounded-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="icon icon-tabler icon-tabler-shopping-cart">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <circle cx="6" cy="19" r="2"></circle>
