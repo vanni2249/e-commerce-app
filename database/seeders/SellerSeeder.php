@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class SellerSeeder extends Seeder
 {
+    use \App\Traits\SellerNumber;
     /**
      * Run the database seeds.
      */
@@ -17,6 +18,7 @@ class SellerSeeder extends Seeder
     {
         $items = [
           [
+            'number' => $this->createSellerNumber(),
             'user_id' => 1,
             'store_name' => 'Giovanni Store',
             'store_description' => 'Best products in town',
@@ -25,8 +27,11 @@ class SellerSeeder extends Seeder
             'is_active' => true,
             'is_verified' => true,
             'is_vacation_mode' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
           [
+            'number' => $this->createSellerNumber(),
             'user_id' => 2,
             'store_name' => 'Angel\'s Shop',
             'store_description' => 'Quality items for everyone',
@@ -35,8 +40,11 @@ class SellerSeeder extends Seeder
             'is_active' => true,
             'is_verified' => false,
             'is_vacation_mode' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
           [
+            'number' => $this->createSellerNumber(),
             'user_id' => 3,
             'store_name' => 'Fabian\'s Emporium',
             'store_description' => 'Your one-stop shop for all needs',
@@ -45,6 +53,8 @@ class SellerSeeder extends Seeder
             'is_active' => true,
             'is_verified' => true,
             'is_vacation_mode' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
 
         ];

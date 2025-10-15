@@ -33,6 +33,8 @@ class Register extends Component
             'terms' => ['accepted'],
         ]);
 
+        $validated['number'] = app(\App\Traits\UserNumber::class)->createUserNumber();
+
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered(($user = User::create($validated))));

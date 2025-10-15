@@ -10,6 +10,7 @@ use App\Models\User;
 
 class UserSeeder extends Seeder
 {
+    use \App\Traits\UserNumber;
     /**
      * Run the database seeds.
      */
@@ -17,36 +18,48 @@ class UserSeeder extends Seeder
     {
         $items = [
           [
+            'number' => $this->createUserNumber(),
             'name' => 'Giovanni Colon',
             'email' => 'vanni2249@gmail.com',
             'phone' => '7872249249',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
           [
+            'number' => $this->createUserNumber(),
             'name' => 'Angel M. Colon',
             'email' => 'colon.angel1@gmail.com',
             'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
           [
+            'number' => $this->createUserNumber(),
             'name' => 'Angel F. Colon',
             'email' => 'fabian4126@gmail.com',
             'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
           ],
           [
+            'number' => $this->createUserNumber(),
             'name' => 'Kariani A Colon Santiago',
             'email' => 'kariani@gmail.com',
             'phone' => '7875555555',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
           ]  
         ];
 
