@@ -15,12 +15,19 @@ class Seller extends Model
         'contact_phone',
         'is_active',
         'is_verified',
+        'verified_at',
+        'verified_by',
         'is_vacation_mode',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function verifiedBy()
+    {
+        return $this->belongsTo(Admin::class, 'verified_by');
     }
     
     public function items()

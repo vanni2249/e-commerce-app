@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('contact_phone')->nullable();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_verified')->default(false);
+            $table->timestamp('verified_at')->nullable();
+            $table->foreignId('verified_by')->nullable()->constrained('admins')->onDelete('set null');
             $table->boolean('is_vacation_mode')->default(false);
             $table->timestamps();
         });

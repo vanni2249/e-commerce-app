@@ -37,7 +37,7 @@ class SellerSeeder extends Seeder
             'store_description' => 'Quality items for everyone',
             'contact_email' => 'colon.angel1@gmail.com',
             'contact_phone' => '987-654-3210',
-            'is_active' => true,
+            'is_active' => false,
             'is_verified' => false,
             'is_vacation_mode' => false,
             'created_at' => now(),

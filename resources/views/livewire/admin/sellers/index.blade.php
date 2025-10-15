@@ -68,10 +68,14 @@
                             @endif
                         </td>
                         <td class="p-2">
-                            @if ($seller->vacation_mode)
-                                <x-badge color="danger">Yes</x-badge>
+                            @if ($seller->is_active)
+                                @if ($seller->vacation_mode)
+                                    <x-badge color="danger">Yes</x-badge>
+                                @else
+                                    <x-badge color="success">No</x-badge>
+                                @endif
                             @else
-                                <x-badge color="success">No</x-badge>
+                                ...
                             @endif
                         </td>
                         <td class="p-2">
