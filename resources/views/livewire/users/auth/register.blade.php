@@ -64,9 +64,15 @@
                 </div>
                 <!-- Submit Button -->
                 <div class="mt-8">
-                    <x-button type="submit" class="w-full">
+                    <x-button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50"
+                    wire:loading.class.remove='hover:bg-blue-700' class="w-full">
+                    <span wire:loading.remove>
                         {{ __('Register') }}
-                    </x-button>
+                    </span>
+                    <span wire:loading>
+                        Loading...
+                    </span>
+                </x-button>
                 </div>
             </div>
         </form>

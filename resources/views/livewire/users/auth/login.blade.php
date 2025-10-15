@@ -12,7 +12,7 @@
                 <x-input wire:model="email" id="email" class="w-full" type="email" name="email"
                     placeholder="Enter your email" />
                 @error('email')
-                <x-error message="{{ $message }}" />
+                    <x-error message="{{ $message }}" />
                 @enderror
             </div>
             <div class="mt-2">
@@ -20,15 +20,21 @@
                 <x-input wire:model="password" id="password" class="w-full" type="password" name="password"
                     placeholder="Enter your password" />
                 @error('password')
-                <x-error message="{{ $message }}" />
+                    <x-error message="{{ $message }}" />
                 @enderror
             </div>
             <a href="">
                 <p class="mt-2 text-xs text-gray-600">Forgot your password?</p>
             </a>
             <div class="mt-8">
-                <x-button type="submit" class="w-full bg-blue-50">
-                    {{ __('Login') }}
+                <x-button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50"
+                    wire:loading.class.remove='hover:bg-blue-700' class="w-full">
+                    <span wire:loading.remove>
+                        {{ __('Login') }}
+                    </span>
+                    <span wire:loading>
+                        Loading...
+                    </span>
                 </x-button>
             </div>
         </form>
