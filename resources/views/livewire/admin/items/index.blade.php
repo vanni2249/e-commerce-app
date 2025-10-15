@@ -1,5 +1,5 @@
 <div>
-    <div class="px-4">
+    {{-- <div class="px-4"> --}}
         <x-card>
             <header class="flex justify-between items-center mb-4">
                 <h1 class="text-lg font-bold">Items</h1>
@@ -41,5 +41,5 @@
             </header>
             @include('admin-sellers.items.table')
         </x-card>
-    </div>
+    {{-- </div> --}}
 </div>
