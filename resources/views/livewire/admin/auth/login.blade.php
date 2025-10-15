@@ -22,11 +22,17 @@
                 @enderror
             </div>
             <a href="">
-                <p class="mt-2 text-xs text-gray-600">Forgot your password?</p>
+                <p class="mt-2 text-xs text-gray-600 cursor-">Forgot your password?</p>
             </a>
             <div class="mt-8">
-                <x-button type="submit" class="w-full">
-                    {{ __('Login') }}
+                <x-button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50"
+                    wire:loading.class.remove='hover:bg-blue-700' class="w-full">
+                    <span wire:loading.remove>
+                        {{ __('Login') }}
+                    </span>
+                    <span wire:loading>
+                        Loading...
+                    </span>
                 </x-button>
             </div>
         </form>
