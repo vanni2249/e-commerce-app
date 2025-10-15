@@ -26,8 +26,7 @@
             <x-slot name="head">
                 <tr>
                     <th class="p-4">Numbers</th>
-                    <th class="p-4">Date</th>
-                    <th class="p-4">Customer</th>
+                    <th class="p-4">Customer<br/>Date</th>
                     <th class="p-4">Address</th>
                     <th class="p-4">Items</th>
                     <th class="p-4">Products</th>
@@ -47,10 +46,9 @@
                             </a>
                         </td>
                         <td class="p-4">
-                            {{ $order->created_at->format('m/d/Y h:m a') }}
-                        </td>
-                        <td class="p-4">
                             {{ $order->user->name }}
+                            <br>
+                            {{ $order->created_at->format('m/d/Y h:m a') }}
                         </td>
                         <td class="p-4">
                             <span class="capitalize">

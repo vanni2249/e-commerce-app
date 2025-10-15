@@ -40,7 +40,7 @@
                 @forelse ($sales as $sale)
                     <tr class="border-t border-gray-200">
                         <td class="p-1 flex items-center space-x-2">
-                            <img src="" alt="" class="w-16 h-16 object-cover">
+                            <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}" alt="" class="w-16 h-16 object-cover">
                         </td>
                         <td class="p-4">
                             <span>{{ $sale->number }}</span>
