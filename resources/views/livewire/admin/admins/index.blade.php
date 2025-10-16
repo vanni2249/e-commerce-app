@@ -72,7 +72,7 @@
                             @endif --}}
                         </td>
                         <td class="p-2">
-                            {{ $admin->created_at ? $seller->created_at->format('m/d/Y h:i A') : '...' }}
+                            {{ $admin->created_at ? $admin->created_at->format('m/d/Y h:i A') : '...' }}
                         </td>
 
                         <td class="p-2 flex justify-end">
