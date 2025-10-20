@@ -19,7 +19,7 @@
         <div>
             <header class="col-span-full flex justify-start items-center mb-4 px-1">
                 <h2 class="text-xl font-semibold text-gray-900">
-                    Choose your user account
+                    {{__("Choose your user account")}}
                 </h2>
             </header>
 
@@ -43,7 +43,7 @@
                             </svg>
                         </div>
                         <div class="grow ml-4">
-                            <h2 class="font-bold">Customers</h2>
+                            <h2 class="font-bold">{{__("Customers")}}</h2>
                             <p></p>
                         </div>
 
@@ -71,7 +71,7 @@
                             </svg>
                         </div>
                         <div class="grow ml-4">
-                            <h2 class="font-bold">Business</h2>
+                            <h2 class="font-bold">{{__("Business")}}</h2>
                             <p></p>
                         </div>
 
@@ -125,9 +125,9 @@
     <div class="">
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                New Arrivals
+                {{__("New Arrivals")}}
             </h2>
-            <a href="#" class="text-blue-800 font-bold">See all</a>
+            <a href="#" class="text-blue-800 font-bold">{{__("See all")}}</a>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
@@ -142,9 +142,9 @@
     <div>
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                Suppliers' Picks
+                {{__("Suppliers' Picks")}}
             </h2>
-            <a href="#" class="text-blue-800 font-bold ml-4">See all</a>
+            <a href="#" class="text-blue-800 font-bold ml-4">{{__("See all")}}</a>
         </header>
 
         <div class="flex flex-row space-x-4 pb-4 overflow-x-auto no-scrollbar">
@@ -152,7 +152,7 @@
                 <a href="#" class="flex-shrink-0 space-y-4 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl hover:shadow p-4">
                     <header class="flex justify-between items-center">
                         <h2 class="font-bold text-lg text-gray-800">
-                            Suppliers' Picks
+                            {{__("Suppliers' Picks")}}
                         </h2>
                         {{-- <a href="#" class="text-blue-800 text-sm font-bold ml-4">Details</a> --}}
                     </header>
@@ -182,9 +182,9 @@
     <div class="">
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                Histories
+                {{__("Histories")}}
             </h2>
-            <a href="#" class="text-blue-800 font-bold">See all</a>
+            <a href="#" class="text-blue-800 font-bold">{{__("See all")}}</a>
         </header>
         <div class="flex flex-row space-x-4 mb-4 overflow-x-auto no-scrollbar pb-4">
             @foreach ($items as $item)
