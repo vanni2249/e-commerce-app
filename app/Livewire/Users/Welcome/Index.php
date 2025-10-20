@@ -9,14 +9,19 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    #[Layout('components.layouts.customer')] 
+    public $sessionId;
+    public function mount()
+    {
+        $this->sessionId = session()->get('visitor-session');
+    }
+    #[Layout('components.layouts.customer')]
     public function render()
     {
-        return view('livewire.users.welcome.index',[
+        return view('livewire.users.welcome.index', [
             'categories' => Category::all(),
             'items' => Item::with(['products'])
-            ->showAccepted()
-            ->take(6)->get()
+                ->showAccepted()
+                ->take(6)->get()
         ]);
     }
 }

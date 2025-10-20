@@ -5,6 +5,8 @@
 use App\Http\Middleware\LanguageMiddleware;
 use App\Http\Middleware\RedirectAuthUsers;
 use App\Http\Middleware\RedirectGuestUsers;
+use App\Http\Middleware\VisitorMiddleware;
+use App\Models\Visitor;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             LanguageMiddleware::class,
         ]);
+        // $middleware->append([
+        //     // Global middleware here
+        //     VisitorMiddleware::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

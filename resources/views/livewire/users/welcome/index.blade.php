@@ -1,4 +1,5 @@
 <div class="space-y-4">
+    {{ $sessionId }}
     <!-- Hero Section -->
     <div class="p-8 md:p-12 lg:p-12 bg-blue-800 rounded-xl">
         <p class="text-sm md:text-base text-gray-100">

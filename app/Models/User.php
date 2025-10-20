@@ -53,6 +53,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class);
+    }
+
     public function histories()
     {
         return $this->hasMany(History::class);
