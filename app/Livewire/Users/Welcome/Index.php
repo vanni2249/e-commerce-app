@@ -9,10 +9,8 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $sessionId;
     public function mount()
     {
-        $this->sessionId = session()->get('visitor-session');
     }
     #[Layout('components.layouts.customer')]
     public function render()
