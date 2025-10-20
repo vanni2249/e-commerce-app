@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->json('name');
             $table->decimal('percentage', 5, 2)->default(0.00);
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

@@ -22,49 +22,27 @@ class ItemFactory extends Factory
         return [
             'id' => Ulid::generate(),
             'number' => $this->createItemNumber(),
-            'seller_id' => rand(1, 4) == 1 ? null : rand(1, 3),
-            'section_id' => rand(1, 21),
-            'en_title' => fake()->sentence(14),
-            'es_title' => fake()->sentence(14),
-            'en_short_description' => fake()->paragraph(2),
-            'es_short_description' => fake()->paragraph(2),
-            'en_description' => fake()->paragraph(2),
-            'es_description' => fake()->paragraph(2),
-            'en_specifications' => json_encode([
-                [
-                    'label' => 'Duration',
-                    'value' => '60 minutes',
-                ],
-                [
-                    'label' => 'Includes',
-                    'value' => 'Full body massage, facial, aromatherapy',
-                ],
-                [
-                    'label' => 'Suitable for',
-                    'value' => 'All skin types',
-                ],
-            ]),
-            'es_specifications' => json_encode([
-                [
-                    'label' => 'Duración',
-                    'value' => '60 minutos',
-                ],
-                [
-                    'label' => 'Incluye',
-                    'value' => 'Masaje corporal completo, facial, aromaterapia',
-                ],
-                [
-                    'label' => 'Apto para',
-                    'value' => 'Todos los tipos de piel',
-                ],
-            ]),
-            'en_shipping_policy' => fake()->sentence(6),
-            'es_shipping_policy' => fake()->sentence(6),
-            'en_return_policy' => fake()->sentence(6),
-            'es_return_policy' => fake()->sentence(6),
+            'seller_id' => rand(1,5),
+            'section_id' => rand(1, 21), // Use a safe default, ensure this section exists
+            'title' => [
+                'en' => fake()->sentence(14),
+                'es' => fake()->sentence(14),
+            ],
+            'description' => [
+                'en' => fake()->paragraph(12), 
+                'es' => fake()->paragraph(12)
+            ],
+            'shipping_policy' => [
+                'en' => fake()->sentence(6), 
+                'es' => fake()->sentence(6)
+            ],
+            'return_policy' => [
+                'en' => fake()->sentence(6), 
+                'es' => fake()->sentence(6)
+            ],
             'sku' => uniqid(),
-            'is_to_customer' => in_array($rand, [1,2,3]) ? true : false,
-            'is_to_business' => in_array($rand, [2,3,4]) ? true : false,
+            'is_to_customer' => in_array($rand, [1, 2, 3]) ? true : false,
+            'is_to_business' => in_array($rand, [2, 3, 4]) ? true : false,
             'is_active' => true,
             'approved_at' => now(),
             'approved_by' => 1,

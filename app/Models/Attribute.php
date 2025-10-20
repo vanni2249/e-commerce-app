@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Attribute extends Model
 {
-    use HasUlids;
+     use HasTranslations;
+
+    public array $translatable = ['name'];
     protected $fillable = [
-        'en_name',
-        'es_name',
+        'name',
     ];
     
     public function items()

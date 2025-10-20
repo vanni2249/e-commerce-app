@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUlid('item_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
-            $table->string('en_name')->nullable();
-            $table->string('es_name')->nullable();
+            $table->json('name')->nullable();
             $table->string('value')->nullable();
             $table->timestamps();
         });

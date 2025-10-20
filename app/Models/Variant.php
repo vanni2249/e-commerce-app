@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Variant extends Model
 {
+     use HasTranslations;
+
+    public array $translatable = ['name'];
     protected $fillable = [
         'item_id',
         'attribute_id',
-        'en_name',
-        'es_name',
+        'name',
         'value',
     ];
 
@@ -26,6 +29,6 @@ class Variant extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Item::class, 'variant_product', 'variant_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'variant_product', 'variant_id', 'product_id');
     }
 }

@@ -15,7 +15,7 @@ class InventorySeeder extends Seeder
     public function run(): void
     {
         foreach (\App\Models\Product::all() as $product) {
-            for ($i = 0; $i < rand(1, 5); $i++) {
+            for ($i = 0; $i < 1; $i++) {
                 $quantity = rand(1, 100);
                 $product->inventories()->create([
                     'number' => $this->createInventoryNumber(),

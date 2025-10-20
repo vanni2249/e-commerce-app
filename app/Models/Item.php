@@ -6,38 +6,30 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Translatable\HasTranslations;
 
 class Item extends Model
 {
     use HasFactory;
     use HasUlids;
+
+    use HasTranslations;
+
+    public array $translatable = ['title', 'description', 'shipping_policy', 'return_policy'];
     protected $fillable = [
         'type',
         'number',
         'seller_id',
         'section_id',
-        'en_title',
-        'es_title',
-        'en_short_description',
-        'es_short_description',
-        'en_description',
-        'es_description',
-        'en_specifications',
-        'es_specifications',
-        'en_shipping_policy',
-        'es_shipping_policy',
-        'en_return_policy',
-        'es_return_policy',
+        'title',
+        'description',
+        'shipping_policy',
+        'return_policy',
         'is_active',
         'approved_by',
         'approved_at',
         'available_at',
         'sku',
-    ];
-
-    protected $casts = [
-        'en_specifications' => 'array',
-        'es_specifications' => 'array',
     ];
 
     public function seller(): BelongsTo
