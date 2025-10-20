@@ -36,30 +36,32 @@ class Index extends Component
     {
         // Get query all categories in each items and group
         // Refactored: Use eager loading and reduce queries for categories
+        $currentLocale = app()->getLocale();
         $this->categories = Item::query()
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query) use ($currentLocale) {
                 $search = strtolower($this->search);
                 $words = explode(' ', $search);
                 $excludedWordsForJson = ['label', 'value'];
-                $query->where(function ($q) use ($words, $excludedWordsForJson) {
+                $query->where(function ($q) use ($words, $excludedWordsForJson, $currentLocale) {
                     foreach ($words as $word) {
-                        $q->orWhere(function ($sub) use ($word, $excludedWordsForJson) {
-                            $sub->whereRaw('LOWER(en_title) LIKE ?', ['%' . $word . '%'])
-                                ->orWhereRaw('LOWER(en_description) LIKE ?', ['%' . $word . '%'])
-                                ->orWhereRaw('LOWER(en_short_description) LIKE ?', ['%' . $word . '%']);
-                            if (!in_array($word, $excludedWordsForJson)) {
-                                $sub->orWhereRaw('LOWER(en_specifications) LIKE ?', ['%' . $word . '%']);
-                            }
+                        $q->orWhere(function ($sub) use ($word, $excludedWordsForJson, $currentLocale) {
+                            // Search in translatable title field
+                            // $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.{$currentLocale}'))) LIKE ?", ['%' . $word . '%'])
+                            //     ->orWhereRaw("LOWER({$currentLocale}_description) LIKE ?", ['%' . $word . '%'])
+                            //     ->orWhereRaw("LOWER({$currentLocale}_short_description) LIKE ?", ['%' . $word . '%']);
+                            // if (!in_array($word, $excludedWordsForJson)) {
+                            //     $sub->orWhereRaw("LOWER({$currentLocale}_specifications) LIKE ?", ['%' . $word . '%']);
+                            // }
                         });
                     }
                 });
             })
-            ->with('categories:id,en_name') // Only select needed columns
+            ->with('categories:id,name') // Only select needed columns
             ->get()
             ->pluck('categories')
             ->flatten()
             ->unique('id')
-            ->sortBy('en_name')
+            ->sortBy('name')
             ->values(); // Reset keys for cleaner output
 
     }
@@ -85,18 +87,20 @@ class Index extends Component
                 ->when($this->search, function ($query) {
                     $search = strtolower($this->search);
                     $words = explode(' ', $search);
+                    $currentLocale = app()->getLocale();
 
                     $excludedWordsForJson = ['label', 'value'];
-                    $query->where(function ($q) use ($words, $excludedWordsForJson) {
+                    $query->where(function ($q) use ($words, $excludedWordsForJson, $currentLocale) {
                         foreach ($words as $word) {
-                            $q->orWhere(function ($sub) use ($word, $excludedWordsForJson) {
-                                $sub->whereRaw('LOWER(en_title) LIKE ?', ['%' . $word . '%'])
-                                    ->orWhereRaw('LOWER(en_description) LIKE ?', ['%' . $word . '%'])
-                                    ->orWhereRaw('LOWER(en_short_description) LIKE ?', ['%' . $word . '%']);
+                            $q->orWhere(function ($sub) use ($word, $excludedWordsForJson, $currentLocale) {
+                                // Search in translatable title field
+                                $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.{$currentLocale}'))) LIKE ?", ['%' . $word . '%'])
+                                    ->orWhereRaw("LOWER({$currentLocale}_description) LIKE ?", ['%' . $word . '%'])
+                                    ->orWhereRaw("LOWER({$currentLocale}_short_description) LIKE ?", ['%' . $word . '%']);
 
                                 // Solo buscar en JSON si la palabra no está excluida
                                 if (!in_array($word, $excludedWordsForJson)) {
-                                    $sub->orWhereRaw('LOWER(en_specifications) LIKE ?', ['%' . $word . '%']);
+                                    $sub->orWhereRaw("LOWER({$currentLocale}_specifications) LIKE ?", ['%' . $word . '%']);
                                 }
                             });
                         }

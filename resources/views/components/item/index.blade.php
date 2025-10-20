@@ -5,7 +5,7 @@
     </div>
     <div class="flex flex-col p-2 lg:p-2">
         <p class="text-sm font-semibold text-gray-800 line-clamp-2">
-            {!! $item->en_title ?? '' !!}
+            {!! $item->title ?? '' !!}
         </p>
         <div class="flex justify-between items-center mt-2">
             <div>

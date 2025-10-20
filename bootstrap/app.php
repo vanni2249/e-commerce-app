@@ -2,6 +2,7 @@
 
 // use Illuminate\Container\Attributes\Auth;
 
+use App\Http\Middleware\LanguageMiddleware;
 use App\Http\Middleware\RedirectAuthUsers;
 use App\Http\Middleware\RedirectGuestUsers;
 use Illuminate\Foundation\Application;
@@ -17,7 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Register global middleware
+        // Register language middleware to web group (after session middleware)
+        $middleware->web(append: [
+            LanguageMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

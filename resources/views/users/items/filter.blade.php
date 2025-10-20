@@ -36,7 +36,7 @@
                 <div class="flex items-center space-x-2">
                     <input type="checkbox" wire:model.live="filters.categories" name=""
                         value="{{ $category->id }}" id="">
-                    <span class="text-gray-800">{{ $category->en_name }}</span>
+                    <span class="text-gray-800">{{ $category->name }}</span>
                 </div>
                 <div class="text-gray-600 text-sm">
                     {{ $category->items_count }}

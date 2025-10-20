@@ -26,9 +26,9 @@
                 <!-- Right Side -->
                 <div class="col-span-12 md:col-span-6 lg:col-span-6 space-y-4 md:space-y-4 lg:space-y-6 pt-4 md:pt-0">
                     <!-- Title -->
-                    <div>
-                        <h2 class="text-2xl font-semibold line-clamp-2">
-                            {{ $item->en_title }}
+                    <div class="space-y-2">
+                        <h2 class="text-xl font-semibold text-gray-900 line-clamp-2">
+                            {{ $item->title }}
                         </h2>
                         <!-- Rating -->
                         <div class="flex items-center space-x-1">
@@ -71,10 +71,6 @@
                             @endif
                         </div>
                     </div>
-                    <!-- Description -->
-                    <p class="text-gray-600 prose line-clamp-2">
-                        {{ $item->en_short_description }}
-                    </p>
                     <!-- Variants -->
                     <div class="space-y-2">
                         @forelse ($item->attributes as $i => $attribute)
@@ -237,7 +233,7 @@
                 <h2 class="text-lg font-bold">Description</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_description ?? '...' !!}
+                {!! $item->description ?? '...' !!}
             </div>
         </x-card>
 
@@ -248,14 +244,14 @@
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                @forelse (is_array($item->en_specifications) ? $item->en_specifications : [] as $specification)
+                {{-- @forelse (is_array($item->en_specifications) ? $item->en_specifications : [] as $specification)
                     <div class="grid grid-cols-2 gap-2">
                         <span class=" text-sm text-gray-600">{{ $specification['label'] }}</span>
                         <span class="font-bold prose">{{ $specification['value'] }}</span>
                     </div>
                 @empty
                     ...
-                @endforelse
+                @endforelse --}}
             </div>
         </x-card>
 
@@ -265,7 +261,7 @@
                 <h2 class="text-lg font-bold">Shipping Policy</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_shipping_policy ?? ($item->seller->shipping_policy ?? '...') !!}
+                {!! $item->shipping_policy ?? ($item->seller->shipping_policy ?? '...') !!}
             </div>
         </x-card>
 
@@ -275,7 +271,7 @@
                 <h2 class="text-lg font-bold">Return Policy</h2>
             </header>
             <div class="prose max-w-none">
-                {!! $item->en_return_policy ?? ($item->seller->return_policy ?? '...') !!}
+                {!! $item->return_policy ?? ($item->seller->return_policy ?? '...') !!}
             </div>
         </x-card>
     </div>
