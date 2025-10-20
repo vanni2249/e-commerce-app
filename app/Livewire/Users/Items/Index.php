@@ -42,16 +42,12 @@ class Index extends Component
                 $search = strtolower($this->search);
                 $words = explode(' ', $search);
                 $excludedWordsForJson = ['label', 'value'];
-                $query->where(function ($q) use ($words, $excludedWordsForJson, $currentLocale) {
+                $query->where(function ($q) use ($words, $currentLocale) {
                     foreach ($words as $word) {
-                        $q->orWhere(function ($sub) use ($word, $excludedWordsForJson, $currentLocale) {
-                            // Search in translatable title field
-                            // $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.{$currentLocale}'))) LIKE ?", ['%' . $word . '%'])
-                            //     ->orWhereRaw("LOWER({$currentLocale}_description) LIKE ?", ['%' . $word . '%'])
-                            //     ->orWhereRaw("LOWER({$currentLocale}_short_description) LIKE ?", ['%' . $word . '%']);
-                            // if (!in_array($word, $excludedWordsForJson)) {
-                            //     $sub->orWhereRaw("LOWER({$currentLocale}_specifications) LIKE ?", ['%' . $word . '%']);
-                            // }
+                        $q->orWhere(function ($sub) use ($word, $currentLocale) {
+                            $jsonPath = '$."' . $currentLocale . '"';
+                            $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, ?))) LIKE ?", [$jsonPath, '%' . $word . '%'])
+                                ->orWhereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(description, ?))) LIKE ?", [$jsonPath, '%' . $word . '%']);
                         });
                     }
                 });
@@ -89,19 +85,12 @@ class Index extends Component
                     $words = explode(' ', $search);
                     $currentLocale = app()->getLocale();
 
-                    $excludedWordsForJson = ['label', 'value'];
-                    $query->where(function ($q) use ($words, $excludedWordsForJson, $currentLocale) {
+                    $query->where(function ($q) use ($words, $currentLocale) {
                         foreach ($words as $word) {
-                            $q->orWhere(function ($sub) use ($word, $excludedWordsForJson, $currentLocale) {
-                                // Search in translatable title field
-                                $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.{$currentLocale}'))) LIKE ?", ['%' . $word . '%'])
-                                    ->orWhereRaw("LOWER({$currentLocale}_description) LIKE ?", ['%' . $word . '%'])
-                                    ->orWhereRaw("LOWER({$currentLocale}_short_description) LIKE ?", ['%' . $word . '%']);
-
-                                // Solo buscar en JSON si la palabra no está excluida
-                                if (!in_array($word, $excludedWordsForJson)) {
-                                    $sub->orWhereRaw("LOWER({$currentLocale}_specifications) LIKE ?", ['%' . $word . '%']);
-                                }
+                            $q->orWhere(function ($sub) use ($word, $currentLocale) {
+                                $jsonPath = '$."' . $currentLocale . '"';
+                                $sub->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, ?))) LIKE ?", [$jsonPath, '%' . $word . '%'])
+                                    ->orWhereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(description, ?))) LIKE ?", [$jsonPath, '%' . $word . '%']);
                             });
                         }
                     });

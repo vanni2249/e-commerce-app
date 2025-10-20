@@ -229,6 +229,13 @@ class Show extends Component
     #[Layout('components.layouts.customer')]
     public function render()
     {
-        return view('livewire.users.items.show');
+        return view('livewire.users.items.show', [
+            'newArrivals' => Item::with(['products'])
+                ->showAccepted()
+                ->where('id', '!=', $this->item->id)
+                ->latest()
+                ->take(6)
+                ->get(),
+        ]);
     }
 }
