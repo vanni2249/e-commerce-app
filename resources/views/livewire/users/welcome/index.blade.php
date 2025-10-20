@@ -142,7 +142,7 @@
     <div>
         <header class="col-span-full flex justify-between items-center mb-4 px-1">
             <h2 class="text-xl font-semibold text-gray-900">
-                {{__("Suppliers' Picks")}}
+                {{__("Suppliers")}}
             </h2>
             <a href="#" class="text-blue-800 font-bold ml-4">{{__("See all")}}</a>
         </header>
@@ -152,7 +152,7 @@
                 <a href="#" class="flex-shrink-0 space-y-4 bg-white lg:flex-shrink-1 w-4/5 md:w-2/5 lg:w-1/2 rounded-xl hover:shadow p-4">
                     <header class="flex justify-between items-center">
                         <h2 class="font-bold text-lg text-gray-800">
-                            {{__("Suppliers' Picks")}}
+                            {{__("Suppliers")}}
                         </h2>
                         {{-- <a href="#" class="text-blue-800 text-sm font-bold ml-4">Details</a> --}}
                     </header>
