@@ -1,6 +1,6 @@
 <div>
     <!-- Top menu bar  -->
-    <div class=" bg-blue-800 sticky top-0 z-50">
+    <div class=" bg-blue-800 z-50">
         <div class="max-w-7xl mx-auto grid grid-cols-2 p-4 gap-4">
             <div class="flex items-center">
                 <!-- Logo -->

@@ -14,7 +14,7 @@
                     <x-dropdown>
                         <x-slot name="trigger">
                             <span class="font-semibold cursor-pointer hover:bg-blue-800 px-3 rounded-full py-0.5">
-                                Hi,
+                                {{ __('Hi') }},
                                 {{ Auth::user()->first_name }}
                             </span>
                         </x-slot>
