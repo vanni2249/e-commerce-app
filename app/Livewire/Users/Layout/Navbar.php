@@ -97,11 +97,11 @@ class Navbar extends Component
     public function services()
     {
         return [
-            'New Arrivals',
-            'Best Sellers',
-            'Contact Us',
-            'About Us',
-            'Help Center',
+            __('New Arrivals'),
+            __('Best Sellers'),
+            __('Contact Us'),
+            __('About Us'),
+            __('Help Center'),
         ];
     }
 

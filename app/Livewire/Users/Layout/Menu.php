@@ -9,11 +9,11 @@ class Menu extends Component
     public function services()
     {
         return [
-            'New Arrivals',
-            'Best Sellers',
-            'Contact Us',
-            'About Us',
-            'Help Center',
+            __('New Arrivals'),
+            __('Best Sellers'),
+            __('Contact Us'),
+            __('About Us'),
+            __('Help Center'),
         ];
     }
 
@@ -21,19 +21,19 @@ class Menu extends Component
     {
         return [
             [
-                'value' => 'Orders',
+                'value' => __('Orders'),
                 'url' => route('orders.index'),
             ],
             [
-                'value' => 'Favorites',
+                'value' => __('Favorites'),
                 'url' => route('favorites'),
             ],
             [
-                'value' => 'Addresses',
+                'value' => __('Addresses'),
                 'url' => route('addresses'),
             ],
             [
-                'value' => 'Logout',
+                'value' => __('Logout'),
                 'url' => route('logout'),
             ],
         ];

@@ -8,8 +8,7 @@
                     <div class="lg:hidden flex">
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button
-                                    class="bg-blue-900 rounded-full p-1.5 text-blue-100 cursor-pointer xl:hidden">
+                                <button class="bg-blue-900 rounded-full p-1.5 text-blue-100 cursor-pointer xl:hidden">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
@@ -25,17 +24,20 @@
                                 <div class="border-b border-gray-200">
                                     <header class=" p-4">
                                         <p class="text-sm text-gray-600">
-                                            Welcome
+                                            {{ __('Welcome') }}
                                         </p>
                                         @guest
-                                            <span class="flex space-x-1">
-                                                <a href="{{ route('register') }}" class="font-bold hover:underline"
-                                                    wire:navigate>Register</a>
-                                                <span>
-                                                    or
-                                                </span>
+                                            <span class="flex flex-col md:flex-row space-x-1">
+                                                <div>
+
+                                                    <a href="{{ route('register') }}" class="font-bold hover:underline"
+                                                        wire:navigate>{{ __('Register') }}</a>
+                                                    <span>
+                                                        {{ __('or') }}
+                                                    </span>
+                                                </div>
                                                 <a href="{{ route('login') }}" class="hover:underline"
-                                                    wire:navigate>Login</a>
+                                                    wire:navigate>{{ __('Login') }}</a>
                                             </span>
                                         @endguest
                                         @auth
@@ -71,7 +73,7 @@
                                 'ml-4 w-full p-2 rounded-l-full border bg-white border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500',
                                 'border-red-400' => $errors->has('search'),
                             ])
-                                placeholder="Search..." />
+                                placeholder="{{ __('Search...') }}" />
                             <button type="submit"
                                 class="bg-white hover:bg-blue-100 cursor-pointer text-white p-1 rounded-r-full border border-l-0 border-slate-300 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -164,7 +166,8 @@
                 <input type="text" wire:model='search' @class([
                     'w-full p-2 rounded-l-full border bg-white border-slate-300 focus:outline-none',
                     'border-red-400' => $errors->has('search'),
-                ]) placeholder="Search..." />
+                ])
+                    placeholder="{{ __('Search...') }}" />
                 <button type="submit"
                     class="bg-white hover:bg-blue-100 cursor-pointer text-white p-1 rounded-r-full border border-l-0 border-slate-300 px-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

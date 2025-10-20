@@ -25,6 +25,27 @@ use App\Livewire\Users\Profile\Index as ProfileIndex;
 
 
 Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
+    // Set application language guest users
+    Route::get('/language/{locale}', function (string $locale) {
+        if (!in_array($locale, ['en', 'es'])) {
+            abort(400);
+        }
+
+        // Set the locale immediately for this request
+        app()->setLocale($locale);
+
+        // Store the locale in session to persist across requests
+        session()->put('locale', $locale);
+        
+        // Redirect back to the previous page
+        // if there is no previous page, redirect to home
+        $previousUrl = url()->previous();
+        if ($previousUrl === url()->current() || $previousUrl === null) {
+            return redirect('/')->with('success', 'Language changed to ' . $locale);
+        }
+        return redirect($previousUrl)->with('success', 'Language changed to ' . $locale);
+    });
+
     Route::get('/', WelcomeIndex::class)->name('welcome');
 
     Route::prefix('/items')->name('items.')->group(function () {
@@ -32,7 +53,7 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
         Route::get('/{item}', ItemsShow::class)->name('show');
     });
 
-    
+
     Route::middleware([GuestUser::class])->group(function () {
         Route::get('/login', function () {
             return view('users.auth.login');
@@ -56,7 +77,7 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
 
             return redirect('/');
         })->name('logout');
-        
+
         Route::get('/carts', CartIndex::class)->name('cart');
         Route::get('/checkouts', CheckoutIndex::class)->name('checkout');
         Route::get('/completed/orders/{order}', CompletedIndex::class)->name('completed');
