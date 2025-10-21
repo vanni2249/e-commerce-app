@@ -70,7 +70,7 @@ class Show extends Component
             : false;
     }
 
-    
+
 
     public function updated($property, $value)
     {
@@ -123,8 +123,12 @@ class Show extends Component
 
     public function incrementQuantity()
     {
-        if ($this->quantity < $this->stock) {
-            $this->quantity++;
+        if (Auth::check()) {
+            if ($this->quantity < $this->stock) {
+                $this->quantity++;
+            }
+        } else {
+            return $this->redirect('/login', navigate: true);
         }
     }
 

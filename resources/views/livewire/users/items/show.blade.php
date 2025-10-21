@@ -53,7 +53,7 @@
                                 <span class="text-green-600 text-sm font-semibold">{{ __('In Stock') }}</span>
                                 <span class="text-blue-600 text-4xl font-semibold">${{ $price }}</span>
                             @else
-                                <span class="text-red-600 text-sm font-semibold">{{ __("Out of Stock") }}</span>
+                                <span class="text-red-600 text-sm font-semibold">{{ __('Out of Stock') }}</span>
                             @endif
                             <!-- Before price -->
                             <span class="text-gray-500 line-through ml-2">
@@ -67,7 +67,7 @@
                                     @if ($shippingCost > 0)
                                         + ${{ $shippingCost }} {{ __('shipping') }}
                                     @else
-                                        {{ __("Free shipping") }}
+                                        {{ __('Free shipping') }}
                                     @endif
                                 </span>
                             @endif
@@ -99,7 +99,7 @@
                     <!-- Quantity Selector -->
                     <div>
                         @if ($stock > 0)
-                            <label for="quantity" class="text-gray-800 text-sm block mb-2">{{ __("Quantity") }}</label>
+                            <label for="quantity" class="text-gray-800 text-sm block">{{ __('Quantity') }}</label>
                             <div class="flex items-center space-x-2">
                                 <!-- Select quantity -->
                                 <div class="flex items-center rounded">
@@ -142,11 +142,11 @@
                                 </div>
                                 <!-- Stock -->
                                 <div class="text-gray-800 text-sm border border-blue-300 p-2 px-4 rounded">
-                                    {{ __("Available") }}: <b>{{ $stock > 10 ? '+10' : $stock }}</b>
+                                    {{ __('Available') }}: <b>{{ $stock > 10 ? '+10' : $stock }}</b>
                                 </div>
                             </div>
                         @else
-                            <span class="text-green-600 font-bold text-sm">{{ __("Notify me when available") }}</span>
+                            <span class="text-green-600 font-bold text-sm">{{ __('Notify me when available') }}</span>
                         @endif
                         <br>
                     </div>
@@ -158,23 +158,23 @@
                             @if ($stock > 0)
                                 <!-- Add to cart -->
                                 <button @class([
-                                    'bg-yellow-400 w-full font-bold text-gray-900 text-lg p-3 px-4 rounded-full',
+                                    'bg-yellow-400 w-full font-bold text-black text-lg p-3 px-4 rounded-full',
                                     'cursor-pointer hover:bg-yellow-500 transition duration-300 ease-in-out',
                                 ]) wire:loading.attr="disabled"
                                     wire:loading.class="opacity-50" wire:click="addToCart">
                                     <span wire:loading wire:target="addToCart">
-                                        {{ __("Loading") }}...
+                                        {{ __('Loading') }}...
                                     </span>
                                     <span wire:target="addToCart" wire:loading.remove>
-                                        {{ __("Add to Cart") }}
+                                        {{ __('Add to Cart') }}
                                     </span>
                                 </button>
                             @else
                                 <!-- Notify me -->
                                 <button
-                                    class="bg-blue-600 w-full font-bold text-blue-100 text-md p-2 px-4 rounded cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out"
+                                    class="bg-blue-600 w-full font-bold text-blue-100 text-md p-3 px-4 rounded-full cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out"
                                     wire:loading.attr="disabled" wire:click="notifyMe">
-                                    {{ __("Notify me when available") }}
+                                    {{ __('Notify me when available') }}
                                 </button>
                             @endif
                             <!-- Favorite -->
@@ -193,7 +193,7 @@
                                         </svg>
                                     </span>
                                     <span class="font-semibold">
-                                        {{ __("Added to Favorite") }}
+                                        {{ __('Added to Favorite') }}
                                     </span>
                                 </button>
                             @else
@@ -213,33 +213,42 @@
                                         </svg>
                                     </span>
                                     <span class="font-semibold">
-                                        {{ __("Add to Favorite") }}
+                                        {{ __('Add to Favorite') }}
                                     </span>
                                 </button>
                             @endif
                         @endauth
                         <!-- guest -->
                         @guest
-                            <!-- Favorite -->
-                            <a href="{{ route('login') }}"
-                                class=" bg-blue-100 text-blue-500 text-sm p-2 px-4 cursor-pointer hover:bg-blue-200 transition-all duration-300 ease-in-out rounded">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path
-                                        d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                </svg>
-                            </a>
                             <!-- Login -->
-                            <a href="{{ route('login') }}"
-                                class="bg-blue-600 block text-center w-full font-bold text-blue-100 text-md p-2 px-4 rounded cursor-pointer hover:bg-blue-700 transition duration-300 ease-in-out">
+                            <a href="{{ route('login') }}" @class([
+                                'bg-yellow-400 block text-center w-full font-bold text-gray-900 text-md p-2 px-4 rounded-full',
+                                'cursor-pointer hover:bg-yellow-500 transition duration-300 ease-in-out',
+                            ])>
                                 @if ($stock > 0)
-                                    {{ __("Add to Cart") }}
+                                    {{ __('Add to Cart') }}
                                 @else
-                                    {{ __("Notify Me") }}
+                                    {{ __('Notify Me') }}
                                 @endif
+                            </a>
+                            <!-- Favorite -->
+                            <a href="{{ route('login') }}" @class([
+                                'bg-blue-100 text-blue-500 text-sm p-3 px-4 cursor-pointer',
+                                'hover:bg-blue-200 transition-all duration-300 ease-in-out rounded-full flex justify-center',
+                            ])>
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                    </svg>
+                                </span>
+                                <span class="font-semibold">
+                                    {{ __('Add to Favorite') }}
+                                </span>
                             </a>
                         @endguest
                     </div>
@@ -250,7 +259,7 @@
                 <!-- Description -->
                 <div class="bg-gray-100 p-4 rounded-lg">
                     <header class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold">{{ __("Description") }}</h2>
+                        <h2 class="text-lg font-bold">{{ __('Description') }}</h2>
                     </header>
                     <div x-data="{ moreDescription: false }" class="mt-2">
                         <p class="text-gray-700 transition-all cursor-pointer"
@@ -260,14 +269,15 @@
 
                         <button type="button" class="text-sm text-blue-600 mt-2 cursor-pointer font-semibold"
                             @click="moreDescription = !moreDescription">
-                            <span x-text="moreDescription ? '{{ __("Show less") }}' : '{{ __("Show more") }}'"></span>
+                            <span
+                                x-text="moreDescription ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"></span>
                         </button>
                     </div>
                 </div>
                 <!-- Shipping policy -->
                 <div class="bg-gray-100 p-4 rounded-lg">
                     <header class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold">{{ __("Shipping policy") }}</h2>
+                        <h2 class="text-lg font-bold">{{ __('Shipping policy') }}</h2>
                     </header>
                     <div x-data="{ data: false }" class="mt-2">
                         <p class="text-gray-700 transition-all cursor-pointer" :class="{ 'line-clamp-3': !data }"
@@ -276,14 +286,14 @@
 
                         <button type="button" class="text-sm text-blue-600 mt-2 cursor-pointer font-semibold"
                             @click="data = !data">
-                            <span x-text="data ? '{{ __("Show less") }}' : '{{ __("Show more") }}'"></span>
+                            <span x-text="data ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"></span>
                         </button>
                     </div>
                 </div>
                 <!-- Return policy -->
                 <div class="bg-gray-100 p-4 rounded-lg">
                     <header class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold">{{ __("Return policy") }}</h2>
+                        <h2 class="text-lg font-bold">{{ __('Return policy') }}</h2>
                     </header>
                     <div x-data="{ data: false }" class="mt-2">
                         <p class="text-gray-700 transition-all cursor-pointer" :class="{ 'line-clamp-3': !data }"
@@ -292,7 +302,7 @@
 
                         <button type="button" class="text-sm text-blue-600 mt-2 cursor-pointer font-semibold"
                             @click="data = !data">
-                            <span x-text="data ? '{{ __("Show less") }}' : '{{ __("Show more") }}'"></span>
+                            <span x-text="data ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"></span>
                         </button>
                     </div>
                 </div>
