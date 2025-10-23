@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->enum('type', ['fbz', 'fbs'])->default('fbz');
+            $table->foreignId('seller_id')->nullable();
+            $table->foreignId('shop_id')->nullable()->constrained('shops')->onDelete('set null');
+            $table->foreignId('fulfillment_id')->nullable()->constrained('fulfillments')->onDelete('set null');
+            $table->foreignId('section_id');
             $table->string('number')->unique();
             $table->string('sku')->unique()->nullable();
             $table->boolean('is_to_customer')->default(true);
             $table->boolean('is_to_business')->default(false);
-            $table->foreignId('seller_id')->nullable();
-            $table->foreignId('section_id');
             $table->json('title')->nullable();
             $table->json('description')->nullable();
             $table->json('shipping_policy')->nullable();

@@ -21,8 +21,10 @@ class ItemSeeder extends Seeder
         $items = [
             [
                 'id' => Ulid::generate(),
+                'shop_id' => 1,
+                'fulfillment_id' => 1,
                 'number' => $this->createItemNumber(),
-                'seller_id' => rand(1, 5),
+                'seller_id' => rand(1, 4),
                 'section_id' => rand(1, 21),
                 'title' => json_encode([
                     'en' => 'Spa Treatment Package Dove 16 oz',
@@ -50,6 +52,8 @@ class ItemSeeder extends Seeder
             ],
             [
                 'id' => Ulid::generate(),
+                'shop_id' => 1,
+                'fulfillment_id' => 1,
                 'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
@@ -79,6 +83,8 @@ class ItemSeeder extends Seeder
             ],
             [
                 'id' => Ulid::generate(),
+                'shop_id' => 1,
+                'fulfillment_id' => 1,
                 'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
@@ -108,6 +114,8 @@ class ItemSeeder extends Seeder
             ],      
             [
                 'id' => Ulid::generate(),
+                'shop_id' => 1,
+                'fulfillment_id' => 1,
                 'number' => $this->generateItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),

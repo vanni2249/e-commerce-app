@@ -34,4 +34,14 @@ class Seller extends Model
     {
         return $this->hasMany(Item::class, 'seller_id');
     }
+
+    public function shops()
+    {
+        return $this->belongsToMany(Shop::class, 'seller_shop', 'seller_id', 'shop_id')->withPivot('is_active')->withTimestamps();
+    }
+
+    public function fulfillments()
+    {
+        return $this->belongsToMany(Fulfillment::class, 'fulfillment_seller', 'seller_id', 'fulfillment_id')->withPivot('is_active')->withTimestamps();
+    }
 }

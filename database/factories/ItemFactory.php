@@ -21,8 +21,10 @@ class ItemFactory extends Factory
         $rand = rand(1, 4);
         return [
             'id' => Ulid::generate(),
+            'shop_id' => 1,
+            'fulfillment_id' => 1,
             'number' => $this->createItemNumber(),
-            'seller_id' => rand(1,5),
+            'seller_id' => rand(1,4),
             'section_id' => rand(1, 21), // Use a safe default, ensure this section exists
             'title' => [
                 'en' => fake()->sentence(14),

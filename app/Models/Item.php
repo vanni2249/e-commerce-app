@@ -17,10 +17,11 @@ class Item extends Model
 
     public array $translatable = ['title', 'description', 'shipping_policy', 'return_policy'];
     protected $fillable = [
-        'type',
-        'number',
         'seller_id',
+        'shop_id',
+        'fulfillment_id',
         'section_id',
+        'number',
         'title',
         'description',
         'shipping_policy',
@@ -35,6 +36,16 @@ class Item extends Model
     public function seller(): BelongsTo
     {
         return $this->belongsTo(Seller::class, 'seller_id');
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function fulfillment(): BelongsTo
+    {
+        return $this->belongsTo(Fulfillment::class);
     }
 
     public function approvedBy()

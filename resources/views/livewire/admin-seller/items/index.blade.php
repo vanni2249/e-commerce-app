@@ -5,47 +5,7 @@
             <h1 class="text-lg font-bold">Items</h1>
             <!-- Create item -->
             <x-icon-button wire:click="handleCreateItemModal" icon="plus" />
-            <!-- Modal to create -->
-            <x-modal name="create-item-modal" title="Create item" size="md">
-                @if ($sections)
-                    <form wire:submit="store" class="space-y-4">
-                        <!-- If admin is true get sellers -->
-                        @if ($admin)
-                            <div>
-                                <x-label value="Seller" />
-                                <x-select wire:model="seller_id" class="w-full">
-                                    <option value="">Zierra LLC</option>
-                                    @foreach ($sellers as $seller)
-                                        <option value="{{ $seller->id }}">{{ $seller->user->name }}</option>
-                                    @endforeach
 
-                                </x-select>
-                                @error('seller_id')
-                                    <x-error message="{{ $message }}" />
-                                @enderror
-                            </div>
-                        @endif
-                        <div>
-                            <x-label value="Section" />
-                            <x-select wire:model="section_id" class="w-full">
-                                <option value="">Select a section</option>
-                                @foreach ($sections as $section)
-                                    <option value="{{ $section->id }}">{{ $section->name }}</option>
-                                @endforeach
-                            </x-select>
-                            @error('section_id')
-                                <x-error message="{{ $message }}" />
-                            @enderror
-                        </div>
-                        <div>
-                            <x-button type="Submit" label="Create" />
-                        </div>
-                    </form>
-                @endif
-                @foreach ($errors->all() as $item)
-                    {{ $item }}
-                @endforeach
-            </x-modal>
         </header>
         <!-- Table -->
         <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center mb-2">
@@ -71,7 +31,15 @@
             <x-slot name="head">
                 <tr>
                     <th class="p-4"></th>
-                    <th class="p-4">Numbers<br>Section</th>
+                    <th class="p-4">
+                        Numbers
+                        @if ($admin)
+                            <br>
+                            Seller
+                        @endif
+                    </th>
+                    <th class="p-4">Shop<br>Fulfillment</th>
+                    <th class="p-4">Section</th>
                     <th class="p-4">Variants<br />Products</th>
                     <th class="p-4">Status</th>
                     <th class="p-4">Inventories<br>qty</th>
@@ -79,15 +47,13 @@
                     <th class="p-4">Stock</th>
                     <th class="p-4">Avg<br>price</th>
                     <th class="p-4">Gain net</th>
-                    @if ($admin)
-                        <th class="p-4">Seller</th>
-                    @endif
                     <th class="w-14">Action</th>
                 </tr>
             </x-slot>
             <x-slot name="body">
                 @foreach ($items as $item)
                     <tr class="border-t border-gray-200">
+                        <!-- Image -->
                         <td class="px-1 py-1">
                             <a href="{{ route('admin.items.show', $item) }}">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
@@ -97,12 +63,24 @@
                         <!-- Id -->
                         <td class="px-4 py-1">
                             <span>{{ $item->number }}</span>
+                            @if ($admin)
+                                <br>
+                                <span>{{ $item->seller->store_name ?? '...' }}</span>
+                            @endif
+                        </td>
+                        <!-- Shop & Fulfillment -->
+                        <td class="px-4 py-1">
+                            <span>{{ $item->shop->name }}</span>
                             <br>
+                            <span>{{ $item->fulfillment->name }}</span>
+                        </td>
+                        <!-- Section -->
+                        <td class="px-4 py-1">
                             <span>{{ $item->section->name }}</span>
                         </td>
                         <!-- Variants & Products -->
                         <td class="px-4 py-1">
-                            <span class="text-sm">{{ rand(1, 5) }} / {{ $item->products->count() }}</span>
+                            <span class="text-sm">{{ $item->variants->count() }} / {{ $item->products->count() }}</span>
 
                         </td>
                         <!-- status -->
@@ -147,16 +125,6 @@
                         <td class="px-4 py-1">
                             ${{ number_format($item->products->sum(fn($product) => $product->sales->sum(fn($sale) => $sale->quantity * $sale->price)), 2) }}
                         </td>
-                        @if ($admin)
-                            <!-- Seller -->
-                            <td class="px-4 py-1">
-                                @if ($item->seller_id != null)
-                                    {{ $item->seller->user->name ?? 'N/A' }}
-                                @else
-                                    Zierra LLC
-                                @endif
-                            </td>
-                        @endif
                         <td class="text-right p-4">
                             <div class="flex items-center space-x-2">
                                 @if ($this->admin)
@@ -180,8 +148,78 @@
             <!-- Pagination -->
             <div class="mt-4">
                 {{ $items->links() }}
-            </div>  
-            
+            </div>
         @endif
     </x-card>
+
+    <!-- Modal to create -->
+    <x-modal name="create-item-modal" title="Create item" size="md">
+        @if ($sections)
+            <form wire:submit="store" class="space-y-4">
+                <!-- If admin is true get sellers -->
+                @if ($admin)
+                    <div>
+                        <x-label value="Seller" />
+                        <x-select wire:model.live="seller_id" class="w-full">
+                            <option value="">Select a seller</option>
+                            @foreach ($sellers as $seller)
+                                <option value="{{ $seller->id }}">{{ $seller->store_name }}</option>
+                            @endforeach
+
+                        </x-select>
+                        @error('seller_id')
+                            <x-error message="{{ $message }}" />
+                        @enderror
+                    </div>
+                @endif
+                <!-- Shops -->
+                <div>
+                    <x-label value="Shops" />
+                    <x-select :disabled="$seller_id ? false : true" wire:model="shop_id" @class(['w-full'])>
+                        <option value="">Select a shops</option>
+                        @foreach ($shops as $shop)
+                            <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                        @endforeach
+                    </x-select>
+                    @error('shop_id')
+                        <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+
+                <!-- Fulfillment -->
+                <div>
+                    <x-label value="Fulfillment" />
+                    <x-select :disabled="$seller_id ? false : true" wire:model="fulfillment_id" class="w-full">
+                        <option value="">Select a fulfillment</option>
+                        @foreach ($fulfillments as $fulfillment)
+                            <option value="{{ $fulfillment->id }}">{{ $fulfillment->name }}</option>
+                        @endforeach
+                    </x-select>
+                    @error('fulfillment_id')
+                        <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+
+                <!-- Section -->
+                <div>
+                    <x-label value="Section" />
+                    <x-select :disabled="$seller_id ? false : true" wire:model="section_id" class="w-full">
+                        <option value="">Select a section</option>
+                        @foreach ($sections as $section)
+                            <option value="{{ $section->id }}">{{ $section->name }}</option>
+                        @endforeach
+                    </x-select>
+                    @error('section_id')
+                        <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+                <div>
+                    <x-button type="Submit" label="Create" />
+                </div>
+            </form>
+        @endif
+        @foreach ($errors->all() as $item)
+            {{ $item }}
+        @endforeach
+    </x-modal>
 </div>

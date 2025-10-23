@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
+            ShopSeeder::class,
+            FulfillmentSeeder::class,
             SellerSeeder::class,
             CategorySeeder::class,
             SectionSeeder::class,

@@ -11,20 +11,37 @@
             <!-- Information -->
             <div class="col-span-full lg:col-span-4">
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="col-span-full md:col-span-1">
-                        <x-label for="title" value="Section" />
-                        <div class="bg-gray-100 text-gray-600 rounded-md p-2">
-                            {{ $item->section->name ?? 'No section assigned' }}
-                        </div>
-                    </div>
+                    <!-- Seller -->
                     <div class="col-span-full md:col-span-1">
                         <x-label for="title" value="Seller" />
                         <div class="bg-gray-100 text-gray-600 rounded-md p-2">
                             {{ $item->seller->user->name ?? 'Zierra LLC' }}
                         </div>
                     </div>
+                    
+                    <!-- Shop -->
+                    <div class="col-span-full md:col-span-1">
+                        <x-label for="shop" value="Shop" />
+                        <div class="bg-gray-100 text-gray-600 rounded-md p-2">
+                            {{ $item->shop->name ?? 'No shop assigned' }}
+                        </div>
+                    </div>
+                    <!-- Fulfillment -->
+                    <div class="col-span-full md:col-span-1">
+                        <x-label for="fulfillment" value="Fulfillment" />
+                        <div class="bg-gray-100 text-gray-600 rounded-md p-2">
+                            {{ $item->fulfillment->name ?? 'No fulfillment assigned' }}
+                        </div>
+                    </div>
+
+                    <div class="col-span-full md:col-span-1">
+                        <x-label for="title" value="Section" />
+                        <div class="bg-gray-100 text-gray-600 rounded-md p-2">
+                            {{ $item->section->name ?? 'No section assigned' }}
+                        </div>
+                    </div>
                     <div class="col-span-full">
-                        <x-button variant="light" @click="$dispatch('open-modal', 'business-seller-modal')" type="button"
+                        <x-button variant="light" wire:click="handelConfigurationModal" type="button"
                             value="Edit Configuration" />
                     </div>
                 </div>
@@ -32,13 +49,42 @@
         </div>
     </x-card>
 
-    <!-- Business & Seller Modal -->
-    <x-modal name="business-seller-modal" title="Business & Seller" size="lg">
+    <!-- Item Configuration Modal -->
+    <x-modal name="item-configuration-modal" title="Item Configuration" size="lg">
         <form wire:submit.prevent='saveConfiguration'>
             <div class="grid grid-cols-1 gap-4">
-                <div class="col-span-1">
-                    <x-label for="business" value="Business" />
-                    <x-select wire:model.lazy="section_id" class="w-full">
+                <!-- Shops -->
+                <div>
+                    <x-label value="Shops" />
+                    <x-select wire:model="shop_id" @class(['w-full'])>
+                        <option value="">Select a shops</option>
+                        @foreach ($shops as $shop)
+                            <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                        @endforeach
+                    </x-select>
+                    @error('shop_id')
+                        <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+
+                <!-- Fulfillment -->
+                <div>
+                    <x-label value="Fulfillment" />
+                    <x-select wire:model="fulfillment_id" class="w-full">
+                        <option value="">Select a fulfillment</option>
+                        @foreach ($fulfillments as $fulfillment)
+                            <option value="{{ $fulfillment->id }}">{{ $fulfillment->name }}</option>
+                        @endforeach
+                    </x-select>
+                    @error('fulfillment_id')
+                        <x-error message="{{ $message }}" />
+                    @enderror
+                </div>
+
+                <!-- Section -->
+                <div>
+                    <x-label value="Section" />
+                    <x-select wire:model="section_id" class="w-full">
                         <option value="">Select a section</option>
                         @foreach ($sections as $section)
                             <option value="{{ $section->id }}">{{ $section->name }}</option>

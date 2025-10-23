@@ -77,5 +77,16 @@ class SellerSeeder extends Seeder
         ];
 
         Seller::insert($items);
+
+        $sellers = Seller::all();
+        foreach ($sellers as $seller) {
+          if ($seller->is_owner) {
+            $fulfillments = [1];
+          }else{
+            $fulfillments = [1, 2];
+          }
+            $seller->shops()->attach([1, 2], ['is_active' => true]);
+            $seller->fulfillments()->attach($fulfillments, ['is_active' => true]);
+        }
     }
 }
