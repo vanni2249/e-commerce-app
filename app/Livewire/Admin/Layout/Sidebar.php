@@ -17,31 +17,39 @@ class Sidebar extends Component
     public function collection()
     {
         return [
-            ['title' => 'Dashboard', 'route' => 'admin.dashboard', 'active' => 'dashboard'],
-            ['title' => 'Items', 'route' => 'admin.items.index', 'active' => 'items'],
-            ['title' => 'Products', 'route' => 'admin.products.index', 'active' => 'products'],
-            ['title' => 'Orders', 'route' => 'admin.orders.index', 'active' => 'orders'],
-            ['title' => 'Sales', 'route' => 'admin.sales.index', 'active' => 'sales'],
-            ['title' => 'Users', 'route' => 'admin.users.index', 'active' => 'users'],
-            ['title' => 'Sellers', 'route' => 'admin.sellers.index', 'active' => 'sellers'],
-            ['title' => 'Admins', 'route' => 'admin.admins.index', 'active' => 'admins'],
-            // ['title' => 'Users', 'routes' => [
-            //     [
-            //         'title' => 'Customers',
-            //         'route' => 'admin.users.index',
-            //         'active' => 'users'
+            ['title' => 'Dashboard', 'route' => 'admin/dashboard', 'active' => 'dashboard'],
+            ['title' => 'Items', 'route' => 'admin/items/retail/approved', 'active' => 'items'],
+            ['title' => 'Products', 'route' => 'admin/products', 'active' => 'products'],
+            ['title' => 'Orders', 'route' => 'admin/orders', 'active' => 'orders'],
+            ['title' => 'Sales', 'route' => 'admin/sales', 'active' => 'sales'],
+            ['title' => 'Users', 'route' => 'admin/users', 'active' => 'users'],
+            ['title' => 'Sellers', 'route' => 'admin/sellers', 'active' => 'sellers'],
+            ['title' => 'Admins', 'route' => 'admin/admins', 'active' => 'admins'],
+            // [
+            //     'title' => 'Users',
+            //     'routes' => [
+            //         [
+            //             'title' => 'Customers',
+            //             'route' => 'admin.users.index',
+            //             'active' => 'users'
+            //         ],
+            //         [
+            //             'title' => 'Sellers',
+            //             'route' => 'admin.sellers.index',
+            //             'active' => 'sellers'
+            //         ],
+            //         [
+            //             'title' => 'Admins',
+            //             'route' => 'admin.admins.index',
+            //             'active' => 'admins'
+            //         ],
             //     ],
-            //     [
-            //         'title' => 'Sellers',
-            //         'route' => 'admin.sellers.index',
-            //         'active' => 'sellers'
-            //     ],
-            //     [
-            //         'title' => 'Admins',
-            //         'route' => 'admin.admins.index',
-            //         'active' => 'admins'
-            //     ],
-            // ], 'active' => 'users', 'buttonId' => 'users-menu-button', 'mainContent' => 'users-menu-content', 'arrowRightId' => 'users-menu-arrow-right', 'arrowDownId' => 'users-menu-arrow-down'],
+            //     'active' => 'users',
+            //     'buttonId' => 'users-menu-button',
+            //     'mainContent' => 'users-menu-content',
+            //     'arrowRightId' => 'users-menu-arrow-right',
+            //     'arrowDownId' => 'users-menu-arrow-down'
+            // ],
         ];
     }
 
