@@ -3,15 +3,22 @@
 namespace App\Livewire\AdminSeller\Items;
 
 use App\Models\Item;
-use App\Traits\CreateItemNumber;
+use App\Traits\ItemNumber;
+use App\Traits\ItemUlid;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Index extends Component
 {
-    use CreateItemNumber;
+
+    use ItemUlid, ItemNumber;
+
+    public $menuCollections = [];
+
+    public $segment3 = '';
 
     public $admin;
+
     public $sellers;
 
     public $seller_id;
@@ -44,14 +51,32 @@ class Index extends Component
 
     public function mount()
     {
+        $this->segment3 = request()->segment(3);
         $this->admin = Auth::guard('admin')->check();
+        $this->menuCollections = $this->menuCollections();
         $this->seller_id = $this->admin ? null : Auth::user()->seller->id;
         $this->sections = \App\Models\Section::all();
         if ($this->admin == true) {
             $this->sellers = \App\Models\Seller::all();
-        }else{
+        } else {
             $this->setCollections();
         }
+    }
+
+    public function menuCollections()
+    {
+        return [
+            [
+                'label' => 'Inventories',
+                'url' => ($this->admin) ? 'admin.items.inventories' : 'sellers.items.inventories',
+                'active' => 'inventories',
+            ],
+            [
+                'label' => 'Catalog',
+                'url' => ($this->admin) ? 'admin.items.catalog' : 'sellers.items.catalog',
+                'active' => 'catalog',
+            ],
+        ];
     }
 
     public function handleCreateItemModal()
@@ -67,7 +92,7 @@ class Index extends Component
         $this->fulfillment_id = null;
         $this->setCollections();
     }
-    
+
     public function setCollections()
     {
         $this->seller = \App\Models\Seller::find($this->seller_id);
@@ -84,6 +109,7 @@ class Index extends Component
         ]);
 
         $item = Item::create([
+            'ulid' => $this->createItemUlid(),
             'number' => $this->createItemNumber(),
             'seller_id' => $this->admin ? $this->seller_id : Auth::user()->seller->id,
             'shop_id' => $this->shop_id,

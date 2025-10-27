@@ -1,25 +1,5 @@
-<div class="space-y-4">
-    <header class="flex justify-between items-center px-1">
-        <h1 class="text-lg font-bold">Items</h1>
-        <!-- Create item -->
-        <x-icon-button wire:click="handleCreateItemModal" icon="plus" variant="primary" />
-
-    </header>
-    <menu class="flex space-x-2 px-2">
-        @foreach ($this->shops as $shop)
-            <li class="text-xs uppercase font-bold text-gray-800">
-                <a href="#" @class([
-                    'border-b-4 pb-1 transition-all',
-                    'border-blue-500' => $shop['slug'] === $segment3,
-                    'border-gray-200' => $segment3 !== $shop['slug'],
-                    'active:border-blue-500',
-                    'hover:border-gray-300' => $segment3 !== $shop['slug'],
-                ]) wire:navigate>{{ $shop['name'] }}</a>
-            </li>
-        @endforeach
-    </menu>
-
-        <x-card>
+<div>
+    <x-card>
         <!-- Header -->
         <!-- Table -->
         <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center mb-2">
@@ -169,76 +149,4 @@
             </div>
         @endif
     </x-card>
-   
-
-    <!-- Modal to create -->
-    <x-modal name="create-item-modal" title="Create item" size="md">
-        @if ($sections)
-            <form wire:submit="store" class="space-y-4">
-                <!-- If admin is true get sellers -->
-                @if ($admin)
-                    <div>
-                        <x-label value="Seller" />
-                        <x-select wire:model.live="seller_id" class="w-full">
-                            <option value="">Select a seller</option>
-                            @foreach ($sellers as $seller)
-                                <option value="{{ $seller->id }}">{{ $seller->store_name }}</option>
-                            @endforeach
-
-                        </x-select>
-                        @error('seller_id')
-                            <x-error message="{{ $message }}" />
-                        @enderror
-                    </div>
-                @endif
-                <!-- Shops -->
-                <div>
-                    <x-label value="Shops" />
-                    <x-select :disabled="$seller_id ? false : true" wire:model="shop_id" @class(['w-full'])>
-                        <option value="">Select a shops</option>
-                        @foreach ($shops as $shop)
-                            <option value="{{ $shop->id }}">{{ $shop->name }}</option>
-                        @endforeach
-                    </x-select>
-                    @error('shop_id')
-                        <x-error message="{{ $message }}" />
-                    @enderror
-                </div>
-
-                <!-- Fulfillment -->
-                <div>
-                    <x-label value="Fulfillment" />
-                    <x-select :disabled="$seller_id ? false : true" wire:model="fulfillment_id" class="w-full">
-                        <option value="">Select a fulfillment</option>
-                        @foreach ($fulfillments as $fulfillment)
-                            <option value="{{ $fulfillment->id }}">{{ $fulfillment->name }}</option>
-                        @endforeach
-                    </x-select>
-                    @error('fulfillment_id')
-                        <x-error message="{{ $message }}" />
-                    @enderror
-                </div>
-
-                <!-- Section -->
-                <div>
-                    <x-label value="Section" />
-                    <x-select :disabled="$seller_id ? false : true" wire:model="section_id" class="w-full">
-                        <option value="">Select a section</option>
-                        @foreach ($sections as $section)
-                            <option value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
-                    </x-select>
-                    @error('section_id')
-                        <x-error message="{{ $message }}" />
-                    @enderror
-                </div>
-                <div>
-                    <x-button type="Submit" label="Create" />
-                </div>
-            </form>
-        @endif
-        @foreach ($errors->all() as $item)
-            {{ $item }}
-        @endforeach
-    </x-modal>
 </div>
