@@ -38,7 +38,6 @@ class Show extends Component
 
         $this->session_id = session()->getId();
 
-        $this->setHistory();
 
         $this->cart = $this->user ? Cart::where('type', 'cart')->where('user_id', $this->user->id)->doesntHave('order')->first() : null;
 
@@ -52,7 +51,9 @@ class Show extends Component
             'products.inventories',
             'products.sales',
             'products.variants.attribute'
-        ])->find($item);
+        ])->where('ulid', $item)->first();
+
+        $this->setHistory();
 
         $this->product = $this->item->products()->first() ?? null;
 
