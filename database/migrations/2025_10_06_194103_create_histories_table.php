@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('session_id')->nullable();
-            $table->foreignUlid('item_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('item_id')->nullable()->constrained()->onDelete('set null');
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });

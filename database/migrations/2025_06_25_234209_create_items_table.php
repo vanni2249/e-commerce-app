@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->id();
+            $table->ulid('ulid');
+            $table->string('number')->unique();
             $table->foreignId('seller_id')->nullable();
             $table->foreignId('shop_id')->nullable()->constrained('shops')->onDelete('set null');
             $table->foreignId('fulfillment_id')->nullable()->constrained('fulfillments')->onDelete('set null');
             $table->foreignId('section_id');
-            $table->string('number')->unique();
             $table->string('sku')->unique()->nullable();
             $table->boolean('is_to_customer')->default(true);
             $table->boolean('is_to_business')->default(false);
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('available_at')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->foreignId('item_status_id')->nullable()->constrained('item_statuses')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

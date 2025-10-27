@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('category_item', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
-            $table->foreignUlid('item_id');
+            $table->foreignId('item_id');
             $table->timestamps();
         });
     }

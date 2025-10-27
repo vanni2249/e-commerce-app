@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('attribute_item', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
-            $table->foreignUlid('item_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
