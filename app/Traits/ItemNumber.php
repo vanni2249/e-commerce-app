@@ -6,7 +6,7 @@ use App\Models\Item;
 use Illuminate\Support\Str;
 
 
-trait CreateItemNumber
+trait ItemNumber
 {
     /**
      * Create a registration code for the user.
