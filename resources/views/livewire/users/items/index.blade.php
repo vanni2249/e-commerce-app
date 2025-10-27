@@ -54,7 +54,7 @@
 
                     @forelse ($items as $item)
                         <div class="col-span-6 md:col-span-3 lg:col-span-3">
-                            <x-item href="{{ route('items.show', $item) }}" :item="$item" wire:navigate />
+                            <x-item href="{{ route('items.show', $item->ulid) }}" :item="$item" wire:navigate />
                         </div>
                     @empty
                         <div class="col-span-full">

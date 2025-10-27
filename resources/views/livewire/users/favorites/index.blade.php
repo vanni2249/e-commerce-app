@@ -51,7 +51,7 @@
                                     wire:click="removeItemFromFavoriteModal({{ $item }})" />
                             </div>
                         </header>
-                        <x-item :item="$item" href="{{ route('items.show', ['item' => $item]) }}" wire:navigate />
+                        <x-item :item="$item" href="{{ route('items.show', ['item' => $item->ulid]) }}" wire:navigate />
                     </div>
 
                 @empty

@@ -131,7 +131,7 @@
         <div class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar">
             @foreach ($items as $item)
                 <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
-                    <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate />
+                    <x-item href="{{ route('items.show', ['item' => $item->ulid]) }}" :item="$item" wire:navigate />
                 </div>
             @endforeach
         </div>
@@ -188,7 +188,7 @@
         <div class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar">
             @foreach ($items as $item)
                 <div class="flex-shrink-0 lg:flex-shrink-1 w-36 sm:w-40 md:w-44 lg:w-1/6">
-                    <x-item href="{{ route('items.show', ['item' => $item->id]) }}" :item="$item" wire:navigate />
+                    <x-item href="{{ route('items.show', ['item' => $item->ulid]) }}" :item="$item" wire:navigate />
                 </div>
             @endforeach
         </div>

@@ -104,7 +104,7 @@
                             <div class="col-span-8 lg:col-span-9 flex flex-col space-y-4">
                                 <header class="lg:flex lg:justify-between items-start lg:space-x-2">
                                     <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
-                                        {{ $sale->product->item->en_title }}
+                                        {{ $sale->product->item->title }}
                                     </h2>
                                     <ul class="lg:text-right mt-2 lg:mt-0 space-y-1">
                                         <li class="text-blue-800 font-semibold text-sm lg:text-base">
@@ -132,7 +132,7 @@
                                         <x-icon-button icon="ellipsis-vertical" />
                                     </x-slot>
                                     <x-slot name="content">
-                                        <x-dropdown-link href="{{ route('items.show', $sale->product->item->id) }}">
+                                        <x-dropdown-link href="{{ route('items.show', $sale->product->item->ulid) }}">
                                             View Product
                                         </x-dropdown-link>
                                         <x-dropdown-button wire:click="claimSaleModal('{{ $sale->id }}')">

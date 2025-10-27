@@ -18,7 +18,7 @@
                             <div class="col-span-9 lg:col-span-10 flex flex-col space-y-4">
                                 <header class="lg:flex lg:justify-between items-start lg:space-x-2">
                                     <h2 class="text-gray-800 text-base font-semibold line-clamp-2">
-                                        {{ $product->item->en_title }}
+                                        {{ $product->item->title }}
                                     </h2>
                                     <ul class="lg:text-right mt-2 lg:mt-0 space-y-1">
                                         <li class="text-blue-800 font-semibold text-sm lg:text-base">
