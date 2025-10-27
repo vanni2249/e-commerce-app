@@ -6,8 +6,8 @@
 
 @php
     $colors = [
-        'primary' => 'bg-indigo-300 text-white',
-        'primary-outline' => 'bg-white text-indigo-600 border border-indigo-600',
+        'primary' => 'bg-blue-600 text-white',
+        'primary-outline' => 'bg-white text-blue-600 border border-blue-600',
         'secondary' => 'bg-gray-300 text-gray-700',
         'secondary-outline' => 'bg-white text-gray-700 border border-gray-300',
         'danger' => 'bg-red-200 text-red-500',
