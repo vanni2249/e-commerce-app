@@ -30,7 +30,7 @@
             @foreach ($collection as $item)
                 @if (isset($item['route']))
                     <li>
-                        <a href="{{ route($item['route']) }}" @class([
+                        <a href="{{ url($item['route']) }}" @class([
                             'flex justify-between item-center px-4 py-2 text-gray-100 hover:bg-blue-800 hover:text-white rounded-lg',
                             'bg-blue-800' => request()->segment(2) === $item['active'],
                         ]) wire:navigate>
