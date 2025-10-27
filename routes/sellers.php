@@ -52,6 +52,8 @@ Route::prefix('/sellers')->name('sellers.')->group(function () {
 
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/', ItemIndex::class)->name('index');
+            Route::get('/catalog', ItemIndex::class)->name('catalog');
+            Route::get('/inventories', ItemIndex::class)->name('inventories');
             Route::get('/{item}', ItemShow::class)->name('show');
             Route::get('/{item}/edit', ItemEdit::class)->name('edit');
         });
