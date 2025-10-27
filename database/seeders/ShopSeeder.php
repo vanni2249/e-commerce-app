@@ -22,6 +22,7 @@ class ShopSeeder extends Seeder
                     'en' => 'Products sold individually',
                     'es' => 'Productos vendidos individualmente',
                 ],
+                'slug'=> 'retail',
             ],
             [
                 'name' => [
@@ -32,6 +33,7 @@ class ShopSeeder extends Seeder
                     'en' => 'Products sold in bulk quantities',
                     'es' => 'Productos vendidos en cantidades al por mayor',
                 ],
+                'slug'=> 'wholesale',
             ],
             [
                 'name' => [
@@ -42,6 +44,7 @@ class ShopSeeder extends Seeder
                     'en' => 'Products sold through telemarketing',
                     'es' => 'Productos vendidos a través de telemarketing',
                 ],
+                'slug'=> 'telemarketing',
             ],
         ];
 

@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Item;
-use App\Traits\CreateItemNumber;
-use Database\Factories\ItemFactory;
+use App\Traits\ItemNumber;
+use App\Traits\ItemUlid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Symfony\Component\Uid\Ulid;
@@ -12,7 +12,7 @@ use Symfony\Component\Uid\Ulid;
 class ItemSeeder extends Seeder
 {
     protected $model = Item::class;
-    use CreateItemNumber;
+    use ItemUlid, ItemNumber;
     /**
      * Run the database seeds.
      */
@@ -20,7 +20,7 @@ class ItemSeeder extends Seeder
     {
         $items = [
             [
-                'id' => Ulid::generate(),
+                'ulid' => $this->createItemUlid(),
                 'shop_id' => 1,
                 'fulfillment_id' => 1,
                 'number' => $this->createItemNumber(),
@@ -44,6 +44,7 @@ class ItemSeeder extends Seeder
                 ]),
                 'sku' => 'SPA-DOV-16OZ-' . uniqid(),
                 'is_active' => true,
+                'item_status_id' => rand(1, 6),
                 'approved_at' => now()->subDays(rand(1, 30)),
                 'approved_by' => 1,
                 'available_at' => now()->addDays(rand(1, 30)),
@@ -51,10 +52,10 @@ class ItemSeeder extends Seeder
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'id' => Ulid::generate(),
+                'ulid' => $this->createItemUlid(),
                 'shop_id' => 1,
                 'fulfillment_id' => 1,
-                'number' => $this->generateItemNumber(),
+                'number' => $this->createItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'title' => json_encode([
@@ -77,15 +78,16 @@ class ItemSeeder extends Seeder
                 'is_active' => true,
                 'approved_at' => now()->subDays(rand(1, 30)),
                 'approved_by' => 1,
-                'available_at' => now()->subDays(rand(1, 30)),            
+                'item_status_id' => rand(1, 6),
+                'available_at' => now()->subDays(rand(1, 30)),
                 'created_at' => now()->subDays(rand(1, 30)),
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'id' => Ulid::generate(),
+                'ulid' => $this->createItemUlid(),
                 'shop_id' => 1,
                 'fulfillment_id' => 1,
-                'number' => $this->generateItemNumber(),
+                'number' => $this->createItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'title' => json_encode([
@@ -106,6 +108,7 @@ class ItemSeeder extends Seeder
                 ]),
                 'sku' => 'NAIL-DOV-8OZ-' . uniqid(),
                 'is_active' => true,
+                'item_status_id' => rand(1, 6),
                 'approved_at' => now()->subDays(rand(1, 30)),
                 'approved_by' => rand(1, 3),
                 'available_at' => now()->subDays(rand(1, 30)),
@@ -113,10 +116,10 @@ class ItemSeeder extends Seeder
                 'updated_at' => now()->subDays(rand(1, 30)),
             ],      
             [
-                'id' => Ulid::generate(),
+                'ulid' => $this->createItemUlid(),
                 'shop_id' => 1,
                 'fulfillment_id' => 1,
-                'number' => $this->generateItemNumber(),
+                'number' => $this->createItemNumber(),
                 'seller_id' => rand(1, 3),
                 'section_id' => rand(1, 21),
                 'title' => json_encode([
@@ -137,6 +140,7 @@ class ItemSeeder extends Seeder
                 ]),
                 'sku' => 'NAIL-DOV-8OZ-' . uniqid(),
                 'is_active' => false,
+                'item_status_id' => 3,
                 'approved_by' => null,
                 'approved_at' => null,
                 'available_at' => null,
