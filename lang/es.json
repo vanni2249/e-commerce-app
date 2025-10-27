@@ -51,5 +51,7 @@
     "Welcome": "Bienvenido",
     "Write a Review": "Escribir una reseña",
     "Your Rating": "Tu calificación",
-    "Supplier": "Proveedor"
+    "Supplier": "Proveedor",
+    "Active": "Activo",
+    "Inactive": "Inactivo"
 }
