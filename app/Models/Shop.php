@@ -14,6 +14,7 @@ class Shop extends Model
         'name',
         'description',
         'is_active',
+        'slug',
     ];
 
     public function sellers()

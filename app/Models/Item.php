@@ -11,12 +11,12 @@ use Spatie\Translatable\HasTranslations;
 class Item extends Model
 {
     use HasFactory;
-    use HasUlids;
 
     use HasTranslations;
 
     public array $translatable = ['title', 'description', 'shipping_policy', 'return_policy'];
     protected $fillable = [
+        'ulid',
         'seller_id',
         'shop_id',
         'fulfillment_id',
@@ -30,8 +30,11 @@ class Item extends Model
         'approved_by',
         'approved_at',
         'available_at',
+        'item_status_id',
         'sku',
     ];
+
+    protected $appends = ['status'];
 
     public function seller(): BelongsTo
     {
@@ -51,6 +54,11 @@ class Item extends Model
     public function approvedBy()
     {
         return $this->belongsTo(Admin::class, 'approved_by');
+    }
+
+    public function item_status()
+    {
+        return $this->belongsTo(ItemStatus::class, 'item_status_id');
     }
 
     public function section()
@@ -90,6 +98,22 @@ class Item extends Model
             ->where('is_active', true)
             ->whereNull('deleted_at')
             ->inRandomOrder();
+    }
+
+
+    public function getStatusAttribute()
+    {
+        if ($this->approved_at !== null && $this->is_active) {
+            return [
+                'label' => __('Active'),
+                'variant' => 'success'
+            ];
+        }
+
+        return [
+            'label' => __('Inactive'),
+            'variant' => 'warning'
+        ];
     }
 
 }
