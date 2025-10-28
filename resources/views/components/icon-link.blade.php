@@ -2,10 +2,20 @@
 
 @php
     $variant = match ($variant) {
-        'light' => 'bg-gray-200 hover:bg-gray-300 text-blue-500',
-        'danger' => 'bg-red-200 hover:bg-red-300',
-        'success' => 'bg-green-200 hover:bg-green-300',
-        'info' => 'bg-blue-200 hover:bg-blue-300',
+        'primary' => 'bg-blue-500 hover:bg-blue-600 text-white',
+        'outline-primary' => 'bg-transparent border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white',
+        'secondary' => 'bg-gray-500 hover:bg-gray-600 text-white',
+        'outline-secondary' => 'bg-transparent border border-gray-500 hover:bg-gray-500 hover:text-white',
+        'success' => 'bg-green-400 text-white hover:bg-green-300',
+        'outline-success' => 'bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white',
+        'warning' => 'bg-yellow-300 text-gray-600 hover:bg-yellow-400 hover:text-white',
+        'outline-warning' => 'bg-transparent border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-white',
+        'danger' => 'bg-red-400 hover:bg-red-500 text-red-700 hover:text-white',
+        'outline-danger' => 'bg-transparent border border-red-500 text-red-600 hover:bg-red-500 hover:text-white',
+        'light' => 'bg-gray-300 hover:bg-gray-400 text-gray-500 hover:text-white',
+        'outline-light' => 'bg-transparent border border-gray-400 text-gray-500 hover:bg-gray-400 hover:text-white',
+        'info' => 'bg-blue-200 hover:bg-blue-300 text-blue-700 hover:text-white',
+        'outline-info' => 'bg-transparent border border-blue-400 text-blue-500 hover:bg-blue-400 hover:text-white',
         default => 'bg-gray-200 hover:bg-gray-300',
     };
 @endphp
