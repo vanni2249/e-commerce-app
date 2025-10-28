@@ -18,7 +18,7 @@ class Sidebar extends Component
     {
         return [
             ['title' => 'Dashboard', 'route' => 'admin/dashboard', 'active' => 'dashboard'],
-            ['title' => 'Items', 'route' => 'admin/items/retail/approved', 'active' => 'items'],
+            ['title' => 'Items', 'route' => route('admin.items.index', ['shop' => 'retail', 'status' => 'approved']), 'active' => 'items'],
             ['title' => 'Products', 'route' => 'admin/products', 'active' => 'products'],
             ['title' => 'Orders', 'route' => 'admin/orders', 'active' => 'orders'],
             ['title' => 'Sales', 'route' => 'admin/sales', 'active' => 'sales'],

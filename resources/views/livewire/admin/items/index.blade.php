@@ -1,16 +1,16 @@
 <div class="space-y-4 md:space-y-2">
     <header class="flex items-center justify-between px-1">
         <h1 class="text-lg font-bold">Items</h1>
-        <x-button wire:click="handleCreateItemModal" value="New item" />
+        <x-icon-button variant="outline-primary" wire:click="handleCreateItemModal" icon="plus" />
     </header>
     <!-- Menu's -->
     <div class="grid grid-cols-1">
         <!-- Shop Menu - Horizontal scrollable -->
-        <menu class="flex space-x-4 px-1 overflow-x-auto no-scrollbar min-w-0">
+        <menu class="flex space-x-2 px-1 overflow-x-auto no-scrollbar min-w-0">
             <div class="flex space-x-4 min-w-max">
-                @foreach (App\Models\Shop::all() as $shop)
+                @foreach (App\Models\Shop::all() as $itemShop)
                     <li class="flex-shrink-0">
-                        <a href="{{ route('admin.items.index', ['shop' => $shop->slug, 'status' => 'approved']) }}"
+                        {{-- <a href="{{ route('admin.items.index', ['shop' => $shop->slug, 'status' => 'approved']) }}"
                             @class([
                                 'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1',
                                 'hover:border-blue-600' => request()->segment(3) != $shop->slug,
@@ -19,7 +19,15 @@
                                 'border-transparent' => request()->segment(3) != $shop->slug,
                             ]) wire:navigate>
                             {{ $shop->name }}
-                        </a>
+                        </a> --}}
+                        <button @class([
+                            'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1 cursor-pointer',
+                            'hover:border-blue-600' => $shop != $itemShop->slug,
+                            'active:border-blue-600',
+                            'border-blue-600' => $shop == $itemShop->slug,
+                            'border-transparent' => $shop != $itemShop->slug,
+                        ])
+                            wire:click="setShop('{{ $itemShop->slug }}')">{{ $itemShop->name }}</button>
                     </li>
                 @endforeach
             </div>
@@ -27,27 +35,22 @@
 
         <!-- Status Menu - Horizontal scrollable -->
         <menu class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar border-y border-gray-200 py-2 min-w-0">
-            <div class="flex space-x-4 min-w-max px-1">
+            <div class="flex space-x-2 min-w-max px-1">
                 <li class="flex-shrink-0">
-                    <a href="{{ route('admin.items.index', ['shop' => $this->segments['3'], 'status' => 'all']) }}"
-                        @class([
-                            'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white flex-shrink-0 whitespace-nowrap',
-                            'bg-blue-600 text-white' => $this->segments['4'] == 'all',
-                            'bg-white text-gray-600' => $this->segments['4'] != 'all',
-                        ])>
-                        All
-                    </a>
+                    <button @class([
+                        'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white whitespace-nowrap cursor-pointer flex-shrink-0',
+                        'bg-blue-600 text-white' => $status == 'all',
+                        'bg-white text-gray-600' => $status != 'all',
+                    ]) wire:click="setStatus('all')">All</button>
                 </li>
                 @foreach ($itemStatuses as $itemStatus)
                     <li class="flex-shrink-0">
-                        <a href="{{ route('admin.items.index', ['shop' => $this->segments['3'], 'status' => $itemStatus->slug]) }}"
-                            @class([
-                                'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white whitespace-nowrap flex-shrink-0',
-                                'bg-blue-600 text-white' => $this->segments['4'] == $itemStatus->slug,
-                                'bg-white text-gray-600' => $this->segments['4'] != $itemStatus->slug,
-                            ])>
-                            {{ $itemStatus->name }}
-                        </a>
+                        <button @class([
+                            'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white whitespace-nowrap cursor-pointer flex-shrink-0',
+                            'bg-blue-600 text-white' => $status == $itemStatus->slug,
+                            'bg-white text-gray-600' => $status != $itemStatus->slug,
+                        ])
+                            wire:click="setStatus('{{ $itemStatus->slug }}')">{{ $itemStatus->name }}</button>
                     </li>
                 @endforeach
             </div>
@@ -90,7 +93,7 @@
                     <th class="p-4">Section</th>
                     <th class="p-4">Variants<br />Products</th>
                     <th class="p-4">Status</th>
-                    @if ($segments['4'] != 'draft')
+                    @if ($shop != 'draft')
                         <th class="p-4">Inventories<br>qty</th>
                         <th class="p-4">Sales<br>qty</th>
                         <th class="p-4">Stock</th>
@@ -105,7 +108,7 @@
                     <tr class="border-t border-gray-200">
                         <!-- Image -->
                         <td class="px-1 py-1">
-                            <a href="{{ route('admin.items.show', $item) }}">
+                            <a href="{{ route('admin.items.show', ['item' => $item->id, 'show' => 'sale']) }}">
                                 <img src="{{ asset('images/' . rand(1, 4) . '-512.png') }}"
                                     class="max-w-[56px] h-auto rounded" alt="">
                             </a>
@@ -140,7 +143,7 @@
                                 {{ ucfirst($item->item_status['name']) }}
                             </x-badge>
                         </td>
-                        @if ($segments['4'] != 'draft')
+                        @if ($shop != 'draft')
                             <!-- inventories -->
                             <td class="px-4 py-1">
                                 {{ $item->products->sum(fn($product) => $product->inventories->sum('quantity')) }}
@@ -170,17 +173,11 @@
                         @endif
                         <td class="text-right p-4">
                             <div class="flex items-center space-x-2">
-                                @if ($this->admin)
-                                    <x-icon-link href="{{ route('admin.items.edit', $item) }}" wire:navigate
-                                        icon="pencil" />
-                                    <x-icon-link href="{{ route('admin.items.show', $item) }}" wire:navigate
-                                        icon="eye" />
-                                @else
-                                    <x-icon-link href="{{ route('sellers.items.show', $item) }}" wire:navigate
-                                        icon="eye" />
-                                    <x-icon-link href="{{ route('sellers.items.edit', $item) }}" wire:navigate
-                                        icon="pencil" />
-                                @endif
+                                <x-icon-link href="{{ route('admin.items.edit', ['item' => $item->id]) }}"
+                                    wire:navigate icon="pencil" />
+                                <x-icon-link
+                                    href="{{ route('admin.items.show', ['item' => $item->id, 'collection' => 'sale']) }}"
+                                    wire:navigate icon="eye" />
                             </div>
                         </td>
                     </tr>
@@ -193,15 +190,15 @@
                 @endforelse
             </x-slot>
         </x-table>
-    </div>
-    <div class="px-4 pb-4">
+        <div class=" pb-4">
 
-        @if ($items->hasPages())
-            <!-- Pagination -->
-            <div class="mt-4">
-                {{ $items->links() }}
-            </div>
-        @endif
+            @if ($items->hasPages())
+                <!-- Pagination -->
+                <div class="mt-4">
+                    {{ $items->links() }}
+                </div>
+            @endif
+        </div>
     </div>
     <!-- Modal for creating a new item -->
     <x-modal name="create-item-modal" title="Create item" size="md">

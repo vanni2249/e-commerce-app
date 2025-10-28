@@ -9,6 +9,7 @@ use App\Traits\ItemNumber;
 use App\Traits\ItemUlid;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -18,6 +19,7 @@ class Index extends Component
 
     public $admin;
 
+    #[Url]
    public $segments = [];
 
     public $sellers = [];
@@ -53,14 +55,16 @@ class Index extends Component
 
     public $itemStatuses = [];
 
+    #[Url]
+    public $shop;
+
+    #[Url]
+    public $status;
+
     public function mount()
     {
         $this->admin = Auth::guard('admin')->check();
         $this->itemStatuses = ItemStatus::all();
-        $this->segments = [
-            '3' => request()->segment(3),
-            '4' => request()->segment(4),
-        ];
     }
 
     public function handleCreateItemModal()
@@ -86,6 +90,16 @@ class Index extends Component
         $this->shops = $this->seller->shops()->wherePivot('is_active', true)->get();
         $this->fulfillments = $this->seller->fulfillments()->wherePivot('is_active', true)->get();
         $this->sections = \App\Models\Section::all();
+    }
+
+    public function setShop($value)
+    {
+        $this->shop = $value;
+    }
+
+    public function setStatus($value)
+    {
+        $this->status = $value;
     }
 
     public function store()
@@ -117,14 +131,14 @@ class Index extends Component
     {
         return view('livewire.admin.items.index', [
             'items' => Item::with('seller', 'shop', 'fulfillment', 'seller.user', 'section', 'variants', 'products', 'products.inventories', 'products.sales')
-                ->when(!$this->admin, function ($query) {
-                    $query->where('seller_id', Auth::user()->seller->id);
+                // ->when(!$this->admin, function ($query) {
+                //     $query->where('seller_id', Auth::user()->seller->id);
+                // })
+                ->when($this->shop, function ($query) {
+                    $query->where('shop_id', Shop::where('slug', $this->shop)->first()->id);
                 })
-                ->when($this->segments['3'], function ($query) {
-                    $query->where('shop_id', Shop::where('slug', $this->segments['3'])->first()->id);
-                })
-                ->when($this->segments['4'] != 'all', function ($query) {
-                    $query->where('item_status_id', ItemStatus::where('slug', $this->segments['4'])->first()->id);
+                ->when($this->status != 'all', function ($query) {
+                    $query->where('item_status_id', ItemStatus::where('slug', $this->status)->first()->id);
                 })
                 ->orderBy('created_at', 'desc')
                 ->paginate($this->perPage),
