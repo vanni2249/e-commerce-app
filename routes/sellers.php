@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 use App\Livewire\Sellers\Dashboard\Index as DashboardIndex;
 
 
-use App\Livewire\AdminSeller\Items\Index as ItemIndex;
-use App\Livewire\AdminSeller\Items\Show as ItemShow;
-use App\Livewire\AdminSeller\Items\Edit as ItemEdit;
+use App\Livewire\Sellers\Items\Index as ItemIndex;
+use App\Livewire\Sellers\Items\Show as ItemShow;
+use App\Livewire\Sellers\Items\Edit as ItemEdit;
 
 use App\Livewire\AdminSeller\Products\Index as ProductIndex;
 use App\Livewire\AdminSeller\Products\Show as ProductShow;
