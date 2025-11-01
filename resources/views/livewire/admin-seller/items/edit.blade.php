@@ -5,22 +5,22 @@
     </header>
 
     <!-- Item images -->
-    <livewire:admin-seller.items.item-images :item="$item" />
+    <livewire:admin-seller.items.edit.item-images :item="$item" />
 
     <!-- Item configuration -->
-    <livewire:admin-seller.items.item-configuration :item="$item" />
+    <livewire:admin-seller.items.edit.item-configuration :item="$item" />
 
     <!-- Item title -->
-    <livewire:admin-seller.items.item-title :item="$item" />
+    <livewire:admin-seller.items.edit.item-title :item="$item" />
 
     <!-- Description -->
-    <livewire:admin-seller.items.item-description :item="$item" />
+    <livewire:admin-seller.items.edit.item-description :item="$item" />
 
     <!-- Shipping policy -->
-    <livewire:admin-seller.items.item-shipping-policy :item="$item" />
+    <livewire:admin-seller.items.edit.item-shipping-policy :item="$item" />
 
     <!-- Return policy -->
-    <livewire:admin-seller.items.item-return-policy :item="$item" />
+    <livewire:admin-seller.items.edit.item-return-policy :item="$item" />
 
     <x-card>
         <div class="grid grid-cols-6 gap-4">
@@ -184,14 +184,14 @@
     </x-card>
 
     <!-- Categories -->
-    <livewire:admin-seller.items.item-categories :item="$item" />
+    <livewire:admin-seller.items.edit.item-categories :item="$item" />
 
     <!-- Attributes & Variants -->
-    <livewire:admin-seller.items.item-attributes-variants :item="$item" />
+    <livewire:admin-seller.items.edit.item-attributes-variants :item="$item" />
     
 
     <!-- Products -->
-    <livewire:admin-seller.items.item-products :item="$item" />
+    <livewire:admin-seller.items.edit.item-products :item="$item" />
    
 
     <!-- Approve and post -->
