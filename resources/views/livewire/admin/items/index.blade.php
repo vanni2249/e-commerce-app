@@ -7,25 +7,15 @@
     <div class="grid grid-cols-1">
         <!-- Shop Menu - Horizontal scrollable -->
         <menu class="flex space-x-2 px-1 overflow-x-auto no-scrollbar min-w-0">
-            <div class="flex space-x-4 min-w-max">
+            <div class="flex space-x-2 min-w-max">
                 @foreach (App\Models\Shop::all() as $itemShop)
                     <li class="flex-shrink-0">
-                        {{-- <a href="{{ route('admin.items.index', ['shop' => $shop->slug, 'status' => 'approved']) }}"
-                            @class([
-                                'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1',
-                                'hover:border-blue-600' => request()->segment(3) != $shop->slug,
-                                'active:border-blue-600',
-                                'border-blue-600' => request()->segment(3) == $shop->slug,
-                                'border-transparent' => request()->segment(3) != $shop->slug,
-                            ]) wire:navigate>
-                            {{ $shop->name }}
-                        </a> --}}
                         <button @class([
-                            'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1 cursor-pointer',
-                            'hover:border-blue-600' => $shop != $itemShop->slug,
-                            'active:border-blue-600',
-                            'border-blue-600' => $shop == $itemShop->slug,
-                            'border-transparent' => $shop != $itemShop->slug,
+                            'block text-gray-600 py-1 px-4 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer',
+                            'bg-white hover:bg-blue-600 hover:text-white' => $shop != $itemShop->slug,
+                            // 'active:border-blue-600',
+                            // 'border-blue-600' => $shop == $itemShop->slug,
+                            'bg-blue-600 text-white' => $shop == $itemShop->slug,
                         ])
                             wire:click="setShop('{{ $itemShop->slug }}')">{{ $itemShop->name }}</button>
                     </li>
@@ -34,29 +24,29 @@
         </menu>
 
         <!-- Status Menu - Horizontal scrollable -->
-        <menu class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar border-y border-gray-200 py-2 min-w-0">
+    </div>
+    <div class="bg-white rounded-xl space-y-4 p-4">
+        <menu class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar min-w-0">
             <div class="flex space-x-2 min-w-max px-1">
                 <li class="flex-shrink-0">
                     <button @class([
-                        'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white whitespace-nowrap cursor-pointer flex-shrink-0',
-                        'bg-blue-600 text-white' => $status == 'all',
-                        'bg-white text-gray-600' => $status != 'all',
+                        'text-xs font-bold px-4 py-1 rounded-full hover:bg-gray-200 hover:text-gray-600 whitespace-nowrap cursor-pointer flex-shrink-0',
+                        'bg-gray-200 text-gray-600' => $status == 'all',
+                        'border border-gray-200 text-gray-600' => $status != 'all',
                     ]) wire:click="setStatus('all')">All</button>
                 </li>
                 @foreach ($itemStatuses as $itemStatus)
                     <li class="flex-shrink-0">
                         <button @class([
-                            'text-xs font-bold px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white whitespace-nowrap cursor-pointer flex-shrink-0',
-                            'bg-blue-600 text-white' => $status == $itemStatus->slug,
-                            'bg-white text-gray-600' => $status != $itemStatus->slug,
+                            'text-xs font-bold px-4 py-1 rounded-full hover:bg-gray-200 hover:text-gray-600 whitespace-nowrap cursor-pointer flex-shrink-0',
+                            'bg-gray-200 text-gray-600' => $status == $itemStatus->slug,
+                            'border border-gray-200 text-gray-600' => $status != $itemStatus->slug,
                         ])
                             wire:click="setStatus('{{ $itemStatus->slug }}')">{{ $itemStatus->name }}</button>
                     </li>
                 @endforeach
             </div>
         </menu>
-    </div>
-    <div class="bg-white rounded-xl space-y-4 p-4">
         <!-- Filters -->
         <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center">
             <div class="">
@@ -66,10 +56,10 @@
                 <div class="bg-gray-200 rounded-md p-1">
                     <span class="pl-2 uppercase text-xs font-bold text-gray-600 leading-tight">Mostra</span>
                     <select wire:model.live="perPage" class="mx-2 rounded-md text-sm">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                        <option value="72">72</option>
+                        <option value="96">96</option>
                     </select>
                 </div>
                 <div>
@@ -176,7 +166,7 @@
                                 <x-icon-link href="{{ route('admin.items.edit', ['item' => $item->id]) }}"
                                     wire:navigate icon="pencil" />
                                 <x-icon-link
-                                    href="{{ route('admin.items.show', ['item' => $item->id, 'collection' => 'sale']) }}"
+                                    href="{{ route('admin.items.show', ['item' => $item->id, 'collection' => 'sales']) }}"
                                     wire:navigate icon="eye" />
                             </div>
                         </td>

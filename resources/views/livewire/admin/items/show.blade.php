@@ -10,29 +10,48 @@
     </header>
     <menu class="flex space-x-4 px-1 overflow-x-auto no-scrollbar min-w-0">
         <div class="flex space-x-2 min-w-max">
-            @foreach ($menuCollections as $item)
+            @foreach ($menuCollections as $itemCollection)
                 <li class="flex-shrink-0">
-                    {{-- <a href="{{ $item['url'] }}" @class([
-                        'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1',
-                        'hover:border-blue-600' => $segments[5] != $item['slug'],
-                        'active:border-blue-600',
-                        'border-blue-600' => $segments[5] == $item['slug'],
-                        'border-transparent' => $segments[5] != $item['slug'],
-                    ]) wire:navigate>
-                        {{ $item['name'] }}
-                    </a> --}}
-                    <button wire:click="setCollection('{{ $item['slug'] }}')" @class([
-                        'block border-b-3 text-xs text-gray-800 font-bold uppercase whitespace-nowrap px-1',
-                        'hover:border-blue-600' => $collection != $item['slug'],
-                        'active:border-blue-600',
-                        'border-blue-600' => $collection == $item['slug'],
-                        'border-transparent' => $collection != $item['slug'],
-                    ])>
-                        {{ $item['name'] }}
+                    <button wire:click="setCollection('{{ $itemCollection['collection'] }}')"
+                        @class([
+                            'block text-gray-600 py-1 px-4 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer',
+                            'bg-white hover:bg-blue-600 hover:text-white' =>
+                                $collection != $itemCollection['collection'],
+                            'bg-blue-600 text-white' => $collection == $itemCollection['collection'],
+                        ])>
+                        {{ $itemCollection['name'] }}
                     </button>
                 </li>
             @endforeach
+            <li>
+                <a href="{{ route('admin.items.edit', ['item' => $item->id]) }}" @class([
+                    'block text-gray-600 py-1 px-4 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer',
+                    'bg-white hover:bg-blue-600 hover:text-white' =>
+                        $collection != $itemCollection['collection'],
+                    'bg-blue-600 text-white' => $collection == $itemCollection['collection'],
+                ])>
+                    Edit
+                </a>
+            </li>
         </div>
     </menu>
-    <x-card></x-card>
+    @switch($collection)
+        @case('sales')
+            <livewire:admin-seller.items.show.item-sales :item="$item" lazy />
+        @break
+
+        @case('inventories')
+            <livewire:admin-seller.items.show.item-inventories :item="$item" lazy />
+        @break
+
+        @case('adjustments')
+            <livewire:admin-seller.items.show.item-adjustments :item="$item" lazy />
+        @break
+
+        @case('products')
+            <livewire:admin-seller.items.show.item-products :item="$item" lazy />
+        @break
+
+        @default
+    @endswitch
 </div>

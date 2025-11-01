@@ -12,9 +12,10 @@ use Livewire\WithFileUploads;
 
 class Show extends Component
 {
-    public $segments = [];
     public $admin;
+    
     public $item;
+
     public $menuCollections = [];
 
     #[Url]
@@ -22,9 +23,6 @@ class Show extends Component
 
     public function mount($item)
     {
-        $this->segments = [
-            5 => request()->segment(5) ?? '',
-        ];
 
         $this->admin = Auth::guard('admin')->check();
         $this->item = Item::findOrFail($item);
@@ -32,9 +30,9 @@ class Show extends Component
         $this->menuCollections = $this->menuCollections();
     }
 
-    public function setCollection($slug)
+    public function setCollection($collection)
     {
-        $this->collection = $slug;
+        $this->collection = $collection;
     }
 
     public function menuCollections()
@@ -42,19 +40,24 @@ class Show extends Component
         return [
             [
 
-                'name' => __('Sale'),
+                'name' => __('Sales'),
                 'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'sale']),
-                'slug' => 'sale',
+                'collection' => 'sales',
             ],
             [
-                'name' => __('Inventory'),
-                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'inventory']),
-                'slug' => 'inventory',
+                'name' => __('Inventories'),
+                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'inventories']),
+                'collection' => 'inventories',
+            ],
+            [
+                'name' => __('Adjustments'),
+                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'adjustments']),
+                'collection' => 'adjustments',
             ],
             [
                 'name' => __('Products'),
                 'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'products']),
-                'slug' => 'products',
+                'collection' => 'products',
             ],
         ];
     }

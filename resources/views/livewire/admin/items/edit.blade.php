@@ -1,261 +1,253 @@
-<div>
-    <div class="px-4">
-        <x-card>
-            <header class="flex justify-between mb-4">
-                <h1 class="text-lg font-bold">Edit ITM-08HT748H</h1>
-            </header>
-            <form action="">
-                <div class="grid grid-cols-6 gap-4">
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Business & Seller</h2>
-                        <p class="mb-4 text-sm text-gray-600">
-                            Select the business and seller associated with this item.
-                        </p>
-                    </div>
-                    <!-- Titles -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-1">
-                                <x-label for="title" value="Business" />
-                                <x-select class="w-full">
-                                    <option value="">Select a business</option>
-                                    <option value="1">Business 1</option>
-                                    <option value="2">Business 2</option>
-                                    <option value="3">Business 3</option>
-                                </x-select>
-                            </div>
-                            <div class="col-span-1">
-                                <x-label for="title" value="Seller" />
-                                <x-select class="w-full">
-                                    <option value="">Select a seller</option>
-                                    <option value="1">Seller 1</option>
-                                    <option value="2">Seller 2</option>
-                                    <option value="3">Seller 3</option>
-                                </x-select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-full py-4"></div>
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Titles</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            The titles of the item in different languages.
-                        </p>
-                    </div>
-                    <!-- Titles -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-full lg:col-span-1">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="English" />
-                                    <span class="text-xs font-bold text-gray-600">100</span>
-                                </div>
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                            <div class="col-span-full lg:col-span-1">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="Spanish" />
-                                    <span class="text-xs font-bold text-gray-600">100</span>
-                                </div>
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Short description -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Short description</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            A brief summary of the item in different languages.
-                        </p>
-                    </div>
-                    <!-- Titles -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2 lg:col-span-1">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="English" />
-                                    <span class="text-xs font-bold text-gray-600">100</span>
-                                </div>
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                            <div class="col-span-2 lg:col-span-1">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="Spanish" />
-                                    <span class="text-xs font-bold text-gray-600">100</span>
-                                </div>
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Short description -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Long description</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            A detailed description of the item in different languages.
-                        </p>
-                    </div>
-                    <!-- Titles -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="English" />
-                                    <span class="text-xs font-bold text-gray-600">172</span>
-                                </div>
-                                <x-textarea class="w-full" />
-                            </div>
-                            <div class="col-span-2">
-                                <div class="flex justify-between items-center">
-                                    <x-label for="title" value="Spanish" />
-                                    <span class="text-xs font-bold text-gray-600">172</span>
-                                </div>
-                                <x-textarea class="w-full" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Specifics -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Specifics</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Additional details about the item.
-                        </p>
-                    </div>
-                    <!-- Titles -->
-                    <div class="col-span-full lg:col-span-4">
-                        @php
-                            $items = [
-                                ['label' => 'Condition', 'value' => 'New'],
-                                ['label' => 'Brand', 'value' => 'Apple'],
-                                ['label' => 'Model', 'value' => 'iPhone 13'],
-                                ['label' => 'Storage', 'value' => '128GB'],
-                                ['label' => 'Color', 'value' => 'Blue'],
-                                ['label' => 'Warranty', 'value' => '1 Year'],
-                            ];
+<div class="space-y-4">
+    <!-- Header -->
+    <header class="flex justify-between items-center px-1">
+        <h1 class="text-md font-bold">{{ $item->number }}</h1>
+    </header>
 
-                        @endphp
-                        <x-label for="title" value="English" class="mb-2" />
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border border-gray-200 rounded p-4">
-                            @foreach ($items as $item)
-                                <li class="flex">
-                                    <span class="text-gray-600 text-sm w-1/2">{{ $item['label'] }}: </span>
-                                    <span class="font-bold text-sm text-gray-800">{{ $item['value'] }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <x-button type="button" value="Add english Specifics" />
-                        <div class="my-4"></div>
-                        @php
-                            $items = [
-                                ['label' => 'Condición', 'value' => 'Nuevo'],
-                                ['label' => 'Marca', 'value' => 'Apple'],
-                                ['label' => 'Modelo', 'value' => 'iPhone 13'],
-                                ['label' => 'Almacenamiento', 'value' => '128GB'],
-                                ['label' => 'Color', 'value' => 'Azul'],
-                                ['label' => 'Garantía', 'value' => '1 Año'],
-                            ];
+    <!-- Item images -->
+    <livewire:admin-seller.items.edit.item-images :item="$item" />
 
-                        @endphp
-                        <x-label for="title" value="Spanish" class="mb-2" />
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border border-gray-200 rounded p-4">
-                            @foreach ($items as $item)
-                                <li class="flex">
-                                    <span class="text-gray-600 text-sm w-1/2">{{ $item['label'] }}: </span>
-                                    <span class="font-bold text-sm text-gray-800">{{ $item['value'] }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <x-button type="button" value="Add Spanish Specifics" />
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Info shipping -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Shipping Information</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Details about the item's shipping options.
-                            Default shipping information is set in the business settings.
-                            If the item is a digital product, shipping information is not required.
-                        </p>
-                    </div>
-                    <!-- Info shipping -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2">
-                                <x-label for="title" value="Shipping information" />
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Return info -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Return Information</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Details about the item's return policy.
-                            Default return information is set in the business settings.
-                            If the item is a digital product, return information is not required.
-                        </p>
-                    </div>
-                    <!-- Return info -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2">
-                                <x-label for="title" value="Return information" />
-                                <x-textarea disabled="" type="text" class="w-full" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Is active -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Status</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Set the item's status to active or inactive.
-                        </p>
-                    </div>
-                    <!-- Is active -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
+    <!-- Item configuration -->
+    <livewire:admin-seller.items.edit.item-configuration :item="$item" />
+
+    <!-- Item title -->
+    <livewire:admin-seller.items.edit.item-title :item="$item" />
+
+    <!-- Description -->
+    <livewire:admin-seller.items.edit.item-description :item="$item" />
+
+    <!-- Shipping policy -->
+    <livewire:admin-seller.items.edit.item-shipping-policy :item="$item" />
+
+    <!-- Return policy -->
+    <livewire:admin-seller.items.edit.item-return-policy :item="$item" />
+
+    <x-card>
+        <div class="grid grid-cols-6 gap-4">
+            <!-- Specifics -->
+            <div class="col-span-full lg:col-span-2">
+                <h2 class="text-md font-bold text-gray-900">Specifics</h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Additional details about the item.
+                </p>
+            </div>
+            <div class="col-span-full lg:col-span-4">
+                <header class="flex justify-between items-end mb-1">
+                    <x-label for="title" value="English" class="mb-2" />
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <x-icon-button icon="ellipsis-vertical" />
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-dropdown-link @click="$dispatch('open-modal', 'new_en_specification-modal')">
+                                Add English Specification
+                            </x-dropdown-link>
+                            <x-dropdown-link>
+                                Add specification from template
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-dropdown>
+                </header>
+                <x-table>
+                    <x-slot name="head">
+                        <tr>
+                            <th class="p-4 w-1/4">Label</th>
+                            <th class="p-4">Value</th>
+                            <th class="p-4 w-14">Action</th>
+                        </tr>
+                    </x-slot>
+                    <x-slot name="body">
+                        {{-- @forelse ((array) $en_specifications as $i => $specification)
+                            <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                <td class="p-4">
+                                    {{ $specification['label'] ?? '...' }}
+                                </td>
+                                <td class="p-4">
+                                    {{ $specification['value'] ?? '...' }}
+                                </td>
+                                <td class="p-4 text-right">
+                                    <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'
+                                        icon="delete" size="sm" />
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="p-4 text-center text-gray-600">
+                                    No specifications added yet.
+                                </td>
+                            </tr>
+                        @endforelse --}}
+                    </x-slot>
+                </x-table>
+                {{-- <br> --}}
+                {{-- <x-button @click="$dispatch('open-modal', 'new_en_specification-modal')" type="button"
+                        value="Add english Specifics" /> --}}
+                <x-modal name="new_en_specification-modal" title="Add english specification" size="lg">
+                    <form wire:submit.prevent='addEnglishSpecification'>
+                        <div class="grid grid-cols-1 gap-4">
                             <div class="col-span-1">
-                                <x-label for="title" value="Is active?" />
-                                <x-select class="w-full">
-                                    <option value="1" selected>Active</option>
-                                    <option value="0">Inactive</option>
-                                </x-select>
+                                <x-label for="label" value="Label" />
+                                <x-input wire:model.lazy='new_en_specification.label' type="text" class="w-full" />
+                                @error('new_en_specification.label')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
+                            </div>
+                            <div class="col-span-1">
+                                <x-label for="value" value="Value" />
+                                <x-input wire:model.lazy='new_en_specification.value' type="text" class="w-full" />
+                                @error('new_en_specification.value')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
                             </div>
                         </div>
-                    </div>
-                    <!-- Space -->
-                    <div class="col-span-full py-4"></div>
-                    <!-- Post date -->
-                    <div class="col-span-full lg:col-span-2">
-                        <h2 class="text-md font-bold text-gray-900">Post Date</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            The date when the item was posted.
-                        </p>
-                    </div>
-                    <!-- Post date -->
-                    <div class="col-span-full lg:col-span-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="col-span-2 lg:col-span-1">
-                                <x-label for="title" value="Post date" />
-                                <x-input disabled="" type="date" class="w-full" />
+                        <div class="mt-4 flex justify-end items-center space-x-2">
+                            <x-button type="submit" value="Add Specification" />
+                        </div>
+                    </form>
+                </x-modal>
+                <div class="my-4"></div>
+                <header class="flex justify-between items-end mb-1">
+                    <x-label for="title" value="Spanish" class="mb-2" />
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <x-icon-button icon="ellipsis-vertical" />
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-dropdown-link @click="$dispatch('open-modal', 'new_es_specification-modal')">
+                                Add Spanish Specification
+                            </x-dropdown-link>
+                            <x-dropdown-link>
+                                Add specification from template
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-dropdown>
+                </header>
+                <x-table>
+                    <x-slot name="head">
+                        <tr>
+                            <th class="p-4 w-1/4">Label</th>
+                            <th class="p-4">Value</th>
+                            <th class="p-4 w-14">Action</th>
+                        </tr>
+                    </x-slot>
+                    <x-slot name="body">
+                        {{-- @forelse ((array)$es_specifications as $i => $specification)
+                            <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                <td class="p-4">
+                                    {{ $specification['label'] ?? '...' }}
+                                </td>
+                                <td class="p-4">
+                                    {{ $specification['value'] ?? '...' }}
+                                </td>
+                                <td class="p-4 text-right">
+                                    <x-icon-button wire:click='removeEnglishSpecification({{ $i }})'
+                                        icon="delete" size="sm" />
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="p-4 text-center text-gray-600">
+                                    No specifications added yet.
+                                </td>
+                            </tr>
+                        @endforelse --}}
+                    </x-slot>
+                </x-table>
+                {{-- <br>
+                    <x-button @click="$dispatch('open-modal','new_es_specification-modal')" type="button"
+                        value="Add Spanish Specifics" /> --}}
+                <x-modal name="new_es_specification-modal" title="Add spanish specification" size="lg">
+                    <form wire:submit.prevent='addSpanishSpecification'>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="col-span-1">
+                                <x-label for="label" value="Label" />
+                                <x-input wire:model.lazy='new_es_specification.label' type="text" class="w-full" />
+                                @error('new_es_specification.label')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
                             </div>
-                            <div class="col-span-2 lg:col-span-1">
-                                <x-label for="title" value="Post time" />
-                                <x-input disabled="" type="time" class="w-full" />
+                            <div class="col-span-1">
+                                <x-label for="value" value="Value" />
+                                <x-input wire:model.lazy='new_es_specification.value' type="text" class="w-full" />
+                                @error('new_es_specification.value')
+                                    <x-error message="{{ $message }}" />
+                                @enderror
                             </div>
                         </div>
-                    </div>
-            </form>
-        </x-card>
-    </div>
+                        <div class="mt-4 flex justify-start items-center space-x-2">
+                            <x-button type="submit" value="Add Specification" />
+                        </div>
+                    </form>
+                </x-modal>
+            </div>
+        </div>
+    </x-card>
+
+    <!-- Categories -->
+    <livewire:admin-seller.items.edit.item-categories :item="$item" />
+
+    <!-- Attributes & Variants -->
+    <livewire:admin-seller.items.edit.item-attributes-variants :item="$item" />
+
+
+    <!-- Products -->
+    <livewire:admin-seller.items.edit.item-products :item="$item" />
+
+
+    <!-- Approve and post -->
+    <x-card>
+        <div class="grid grid-cols-6 gap-4">
+            <div class="col-span-full lg:col-span-2">
+                <h2 class="text-md font-bold text-gray-900">Approve item</h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Approve and post date of the item to make it visible to customers.
+                </p>
+            </div>
+            <div class="col-span-full lg:col-span-4">
+                <div class="grid grid-cols-2 gap-4">
+                    @if ($item->approved_at == null)
+                        <div class="col-span-2 lg:col-span-1">
+                            <x-label for="title" value="Approved datetime" />
+                            <div class="w-full">
+                                <x-button @click="$dispatch('open-modal', 'approved-modal')" type="button"
+                                    value="Approve item" />
+                            </div>
+                            <x-modal name="approved-modal" title="Approve item">
+                                <form wire:submit.prevent='approveItem'>
+                                    <p class="text-base text-gray-600 mb-4">
+                                        Are you sure you want to approve this item? This action cannot be
+                                        undone.
+                                    </p>
+                                    <div class="col-span-1">
+                                        <x-label for="available_at" value="Available date" />
+                                        <x-input wire:model.lazy='available_at' type="datetime-local"
+                                            class="w-full" />
+                                        @error('available_at')
+                                            <x-error message="{{ $message }}" />
+                                        @enderror
+                                    </div>
+                                    <div class="mt-4 flex items-center space-x-2">
+                                        <x-button type="submit" value="Yes, approve item" />
+                                    </div>
+                                </form>
+                            </x-modal>
+                        </div>
+                    @else
+                        <div class="col-span-2 lg:col-span-1">
+                            <x-label for="title" value="Approved by" />
+                            <x-input disabled="true" wire:model='approved_by' type="text" class="w-full" />
+                        </div>
+                        <div class="col-span-2 lg:col-span-1">
+                            <x-label for="title" value="Approved datetime" />
+                            <x-input disabled="true" wire:model='approved_at' type="datetime" class="w-full" />
+                        </div>
+                        <div class="col-span-2 lg:col-span-1">
+                            <x-label for="title" value="Available datetime" />
+                            <x-input disabled="true" wire:model='available_at' type="datetime" class="w-full" />
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </x-card>
 </div>

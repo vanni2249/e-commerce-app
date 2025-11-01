@@ -17,7 +17,7 @@ use App\Livewire\Admin\Dashboard\Index as DashboardIndex;
 use App\Livewire\Admin\Items\Index as ItemIndex;
 use App\Livewire\Admin\Items\Create as ItemCreate;
 use App\Livewire\Admin\Items\Show as ItemShow;
-use App\Livewire\AdminSeller\Items\Edit as ItemEdit;
+use App\Livewire\Admin\Items\Edit as ItemEdit;
 
 use App\Livewire\AdminSeller\Products\Index as ProductIndex;
 use App\Livewire\AdminSeller\Products\Show as ProductShow;
@@ -74,8 +74,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/', ItemIndex::class)->name('index');
-            // Route::get('/catalog', ItemIndex::class)->name('catalog');
-            // Route::get('/inventories', ItemIndex::class)->name('inventories');
             Route::get('/create', ItemCreate::class)->name('create');
             Route::get('/{item}', ItemShow::class)->name('show');
             Route::get('/{item}/edit', ItemEdit::class)->name('edit');
