@@ -4,12 +4,12 @@
     switch ($variant) {
         case 'primary':
             $classes =
-                ' bg-black border border-transparent text-white hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900';
+                ' bg-blue-600 border border-transparent text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900';
             break;
 
         case 'primary-outline':
             $classes =
-                ' bg-transparent border border-gray-700 text-black hover:bg-gray-700 hover:text-white focus:bg-gray-700 active:bg-gray-900';
+                ' bg-transparent border border-blue-700 text-blue-500 hover:bg-blue-700 hover:text-white focus:bg-blue-700 active:bg-gray-900';
             break;
 
         case 'secondary':
@@ -64,7 +64,7 @@
 
         case 'light':
             $classes =
-                ' bg-gray-200 border border-gray-200 text-gray-700 hover:bg-gray-300 hover:border-gray-300 focus:bg-gray-300 active:bg-gray-400';
+                ' bg-gray-200 border border-gray-50 text-gray-500 hover:bg-gray-200 hover:border-gray-200 focus:bg-gray-200 active:bg-gray-200';
             break;
 
         case 'light-outline':
