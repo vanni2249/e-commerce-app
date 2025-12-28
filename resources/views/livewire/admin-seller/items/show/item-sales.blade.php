@@ -1,5 +1,28 @@
 <div>
-    <x-card>
+    <div class="bg-white rounded-lg space-y-4 p-4">
+        <!-- Search & Filters -->
+        <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center">
+            <div class="">
+                <x-input wire:model.live='search' placeholder="{{ __('Search') }}" class="w-full" />
+            </div>
+            <div class="flex space-x-2">
+                <div class="bg-gray-200 rounded-md p-1">
+                    <span
+                        class="pl-2 uppercase text-xs font-bold text-gray-600 leading-tight">{{ __('Show') }}</span>
+                    <select wire:model.live="perPage" class="mx-2 text-gray-600 rounded-md text-xs">
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                        <option value="72">72</option>
+                        <option value="96">96</option>
+                    </select>
+                </div>
+                <div>
+                    <x-button @click="$dispatch('open-modal', 'filter-items-modal')"
+                        variant="light">{{ __('Filter') }}</x-button>
+                </div>
+            </div>
+        </div>
+        <!-- Table -->
         <x-table>
             <x-slot name="head">
                 <tr>
@@ -47,5 +70,5 @@
             </x-slot>
 
         </x-table>
-    </x-card>
+    </div>
 </div>
