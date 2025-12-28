@@ -9,21 +9,18 @@ use App\Traits\ItemNumber;
 use App\Traits\ItemUlid;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Lazy;
+// use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-#[Lazy()]
+// #[Lazy()]
 class Index extends Component
 {
     use ItemUlid, ItemNumber, WithPagination;
 
-    public $admin;
-
-    #[Url]
-    public $segments = [];
+    // public $admin;
 
     public $sellers = [];
 
@@ -43,19 +40,17 @@ class Index extends Component
 
     public $fulfillment_id;
 
-    public $search = '';
+    // public $search = '';
 
-    public $sortField = 'created_at';
+    // public $sortField = 'created_at';
 
-    public $sortDirection = 'desc';
+    // public $sortDirection = 'desc';
 
-    public $perPage = 24;
+    // public $perPage = 24;
 
-    public $selectedItems = [];
+    // public $selectedItems = [];
 
-    public $selectAll = false;
-
-    public $itemStatuses = [];
+    // public $selectAll = false;
 
     #[Url]
     public $shop;
@@ -63,10 +58,19 @@ class Index extends Component
     #[Url]
     public $status;
 
+    // #[Url(except: '')]
+    // public $filter_seller_id = '';
+
+    // #[Url(except: '')]
+    // public $filter_fulfillment_id = '';
+
+    // #[Url(except: '')]
+    // public $filter_section_id = '';
+
     public function mount()
     {
-        $this->admin = Auth::guard('admin')->check();
-        $this->itemStatuses = ItemStatus::all();
+        // $this->admin = Auth::guard('admin')->check();
+        // $this->itemStatuses = ItemStatus::all();
         $this->sellers = \App\Models\Seller::all();
     }
 
@@ -86,6 +90,11 @@ class Index extends Component
         }
     }
 
+    public function storeFilter()
+    {
+        $this->dispatch('close-modal', 'filter-items-modal');
+    }
+
     public function setCollections()
     {
         $this->seller = \App\Models\Seller::find($this->seller_id);
@@ -93,13 +102,14 @@ class Index extends Component
         $this->fulfillments = $this->seller->fulfillments()->wherePivot('is_active', true)->get();
         $this->sections = \App\Models\Section::all();
     }
-    
+
     public function setShop($value)
     {
-        $this->resetPage();
         $this->shop = $value;
+        // $this->dispatch('refresh-items-list', value: $value);
+        // dd();
     }
-    
+
     public function setStatus($value)
     {
         $this->resetPage();
@@ -133,24 +143,14 @@ class Index extends Component
         'page' => ['except' => 1],
     ];
 
-     public function placeholder()
+    public function placeholder()
     {
-        return view('placeholders.table-skeleton');
+        return view('placeholders.header-table-skeleton');
     }
 
     #[Layout('components.layouts.admin')]
     public function render()
     {
-        return view('livewire.admin.items.index', [
-            'items' => Item::with('seller', 'shop', 'fulfillment', 'seller.user', 'section', 'variants', 'products', 'products.inventories', 'products.sales')
-                ->when($this->shop, function ($query) {
-                    $query->where('shop_id', Shop::where('slug', $this->shop)->first()->id);
-                })
-                ->when($this->status != 'all', function ($query) {
-                    $query->where('item_status_id', ItemStatus::where('slug', $this->status)->first()->id);
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate($this->perPage),
-        ]);
+        return view('livewire.admin.items.index');
     }
 }

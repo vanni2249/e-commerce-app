@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Items;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -13,13 +14,13 @@ use Livewire\WithFileUploads;
 class Show extends Component
 {
     public $admin;
-    
+
     public $item;
 
-    public $menuCollections = [];
+    public $menu = [];
 
     #[Url]
-    public $collection;
+    public $show;
 
     public function mount($item)
     {
@@ -27,37 +28,32 @@ class Show extends Component
         $this->admin = Auth::guard('admin')->check();
         $this->item = Item::findOrFail($item);
 
-        $this->menuCollections = $this->menuCollections();
+        $this->menu = $this->menu();
     }
 
-    public function setCollection($collection)
+    public function setShow($show)
     {
-        $this->collection = $collection;
+        $this->show = $show;
     }
 
-    public function menuCollections()
+    public function menu()
     {
         return [
             [
 
                 'name' => __('Sales'),
-                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'sale']),
-                'collection' => 'sales',
+                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'sales']),
+                'slug' => 'sales',
             ],
             [
                 'name' => __('Inventories'),
-                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'inventories']),
-                'collection' => 'inventories',
-            ],
-            [
-                'name' => __('Adjustments'),
-                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'adjustments']),
-                'collection' => 'adjustments',
+                'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'inventories', 'type' => 'all']),
+                'slug' => 'inventories',
             ],
             [
                 'name' => __('Products'),
                 'url' => route('admin.items.show', ['item' => $this->item->id, 'show' => 'products']),
-                'collection' => 'products',
+                'slug' => 'products',
             ],
         ];
     }

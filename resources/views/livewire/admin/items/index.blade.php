@@ -1,7 +1,9 @@
 <div class="space-y-4 md:space-y-2">
     <header class="flex items-center justify-between px-1">
         <h1 class="text-lg font-bold">Items</h1>
-        <x-icon-button variant="outline-primary" wire:click="handleCreateItemModal" icon="plus" />
+        <x-button wire:click="handleCreateItemModal">
+            {{ __('New Item') }}
+        </x-button>
     </header>
     <!-- Menu's -->
     <div class="grid grid-cols-1">
@@ -10,52 +12,41 @@
             <div class="flex space-x-2 min-w-max">
                 @foreach (App\Models\Shop::all() as $itemShop)
                     <li class="flex-shrink-0">
-                        <button @class([
+                        {{-- <button wire:click="setShop('{{ $itemShop->slug }}')" @class([
                             'block text-gray-600 py-1 px-4 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer',
                             'bg-white hover:bg-blue-600 hover:text-white' => $shop != $itemShop->slug,
-                            // 'active:border-blue-600',
-                            // 'border-blue-600' => $shop == $itemShop->slug,
                             'bg-blue-600 text-white' => $shop == $itemShop->slug,
-                        ])
-                            wire:click="setShop('{{ $itemShop->slug }}')">{{ $itemShop->name }}</button>
+                        ])>
+                            {{ $itemShop->name }}
+                        </button> --}}
+                        <a href="{{ route('admin.items.index', ['shop' => $itemShop->slug, 'status' => 'approved']) }}"
+                            @class([
+                                'block text-gray-600 py-1 px-4 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer',
+                                'bg-white hover:bg-blue-600 hover:text-white' => $shop != $itemShop->slug,
+                                'bg-blue-600 text-white' => $shop == $itemShop->slug,
+                            ]) wire:navigate>
+                            {{ $itemShop->name }}
+                        </a>
                     </li>
                 @endforeach
             </div>
         </menu>
-
-        <!-- Status Menu - Horizontal scrollable -->
     </div>
-    <div class="bg-white rounded-xl space-y-4 p-4">
-        <menu class="flex flex-row space-x-4 pb-1 overflow-x-auto no-scrollbar min-w-0">
-            <div class="flex space-x-2 min-w-max px-1">
-                <li class="flex-shrink-0">
-                    <button @class([
-                        'text-xs font-bold px-4 py-1 rounded-full hover:bg-gray-200 hover:text-gray-600 whitespace-nowrap cursor-pointer flex-shrink-0',
-                        'bg-gray-200 text-gray-600' => $status == 'all',
-                        'border border-gray-200 text-gray-600' => $status != 'all',
-                    ]) wire:click="setStatus('all')">All</button>
-                </li>
-                @foreach ($itemStatuses as $itemStatus)
-                    <li class="flex-shrink-0">
-                        <button @class([
-                            'text-xs font-bold px-4 py-1 rounded-full hover:bg-gray-200 hover:text-gray-600 whitespace-nowrap cursor-pointer flex-shrink-0',
-                            'bg-gray-200 text-gray-600' => $status == $itemStatus->slug,
-                            'border border-gray-200 text-gray-600' => $status != $itemStatus->slug,
-                        ])
-                            wire:click="setStatus('{{ $itemStatus->slug }}')">{{ $itemStatus->name }}</button>
-                    </li>
-                @endforeach
-            </div>
-        </menu>
-        <!-- Filters -->
+
+    <!-- Search, Filter & Table -->
+
+    <livewire:admin.items.list-items :sellers="$sellers" />
+    {{-- <div class="bg-white rounded-xl space-y-4 p-4">
+        <!-- Search & Filters -->
         <div class="md:flex md:justify-between space-y-2 md:space-y-0 items-center">
             <div class="">
-                <x-input placeholder="Buscar" class="w-full" />
+                <x-input wire:model.live='search' placeholder="{{ __('Search') }}" class="w-full" />
             </div>
             <div class="flex space-x-2">
                 <div class="bg-gray-200 rounded-md p-1">
-                    <span class="pl-2 uppercase text-xs font-bold text-gray-600 leading-tight">Mostra</span>
-                    <select wire:model.live="perPage" class="mx-2 rounded-md text-sm">
+                    <span
+                        class="pl-2 uppercase text-xs font-bold text-gray-600 leading-tight">{{ __('Show') }}</span>
+                    <select wire:model.live="perPage" class="mx-2 text-gray-600 rounded-md text-xs">
                         <option value="24">24</option>
                         <option value="48">48</option>
                         <option value="72">72</option>
@@ -63,7 +54,8 @@
                     </select>
                 </div>
                 <div>
-                    <x-button variant="light">Filtro</x-button>
+                    <x-button @click="$dispatch('open-modal', 'filter-items-modal')"
+                        variant="light">{{ __('Filter') }}</x-button>
                 </div>
             </div>
         </div>
@@ -74,12 +66,10 @@
                     <th class="p-4"></th>
                     <th class="p-4">
                         Numbers
-                        @if ($admin)
-                            <br>
-                            Seller
-                        @endif
+                        <br>
+                        Shop
                     </th>
-                    <th class="p-4">Shop<br>Fulfillment</th>
+                    <th class="p-4">Seller<br>Fulfillment</th>
                     <th class="p-4">Section</th>
                     <th class="p-4">Variants<br />Products</th>
                     <th class="p-4">Status</th>
@@ -106,14 +96,12 @@
                         <!-- Id -->
                         <td class="px-4 py-1">
                             <span>{{ $item->number }}</span>
-                            @if ($admin)
-                                <br>
-                                <span>{{ $item->seller->store_name ?? '...' }}</span>
-                            @endif
+                            <br>
+                            <span>{{ $item->shop->name }}</span>
                         </td>
                         <!-- Shop & Fulfillment -->
                         <td class="px-4 py-1">
-                            <span>{{ $item->shop->name }}</span>
+                            <span>{{ $item->seller->store_name ?? '...' }}</span>
                             <br>
                             <span>{{ $item->fulfillment->name }}</span>
                         </td>
@@ -189,7 +177,7 @@
                 </div>
             @endif
         </div>
-    </div>
+    </div> --}}
     <!-- Modal for creating a new item -->
     <x-modal name="create-item-modal" title="Create item" size="md">
         <form wire:submit="store" class="space-y-4">
@@ -253,4 +241,53 @@
             </div>
         </form>
     </x-modal>
+
+    <!-- Modal filter items -->
+    {{-- <x-modal name="filter-items-modal" title="Filter items" size="sm">
+        <form wire:submit.prevent='storeFilter' class="space-y-4">
+            <!-- Sellers -->
+            <div class="w-full">
+                <x-label for="seller" value="Seller" />
+                <x-select wire:model="filter_seller_id" class="w-full">
+                    <option value="">All</option>
+                    @foreach ($sellers as $seller)
+                        <option value="{{ $seller->id }}">{{ $seller->store_name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <!-- Fulfillments -->
+            <div class="w-full">
+                <x-label for="fulfillment" value="Fulfillment" />
+                <x-select wire:model="filter_fulfillment_id" class="w-full">
+                    <option value="">All</option>
+                    @foreach (App\Models\Fulfillment::all() as $seller)
+                        <option value="{{ $seller->id }}">{{ $seller->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <!-- Sections -->
+            <div class="w-full">
+                <x-label for="section" value="Section" />
+                <x-select wire:model="filter_section_id" class="w-full">
+                    <option value="">All</option>
+                    @foreach (App\Models\Section::all() as $section)
+                        <option value="{{ $section->id }}">{{ $section->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <!-- Status -->
+            <div class="w-full">
+                <x-label for="status" value="Status" />
+                <x-select wire:model="status" class="w-full">
+                    <option value="all">All</option>
+                    @foreach (App\Models\ItemStatus::all() as $itemStatus)
+                        <option value="{{ $itemStatus->slug }}">{{ $itemStatus->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div>
+                <x-button type="submit" value="{{ __('Filter') }}" />
+            </div>
+        </form>
+    </x-modal> --}}
 </div>
