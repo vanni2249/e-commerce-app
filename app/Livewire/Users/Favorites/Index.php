@@ -154,7 +154,7 @@ class Index extends Component
         $this->dispatch('close-modal', 'delete-favorite-modal');
     }
 
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.favorites.index', [

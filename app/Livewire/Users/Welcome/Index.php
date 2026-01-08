@@ -12,7 +12,7 @@ class Index extends Component
     public function mount()
     {
     }
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.welcome.index', [

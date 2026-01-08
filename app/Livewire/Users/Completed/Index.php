@@ -20,7 +20,7 @@ class Index extends Component
         $this->order = Order::with('sales','sales.product','sales.product.item','address', 'address.city')->findOrFail($this->order_id);
     }
 
-    #[Layout('components.layouts.customer')] 
+    #[Layout('layouts.user')] 
     public function render()
     {
         return view('livewire.users.completed.index',[

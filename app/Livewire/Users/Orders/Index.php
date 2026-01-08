@@ -107,7 +107,7 @@ class Index extends Component
         $this->dispatch('open-modal', 'filter-orders');
     }
 
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.orders.index', [

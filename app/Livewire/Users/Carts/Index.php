@@ -89,7 +89,7 @@ class Index extends Component
 
     }
 
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.carts.index', [

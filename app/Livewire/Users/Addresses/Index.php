@@ -176,7 +176,7 @@ class Index extends Component
         $this->dispatch('close-modal', 'remove-address-modal');
     }
 
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.addresses.index', [

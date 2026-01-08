@@ -231,7 +231,7 @@ class Show extends Component
         $this->dispatch('close-modal', 'remove-item-favorite-modal');
     }
 
-    #[Layout('components.layouts.customer')]
+    #[Layout('layouts.user')]
     public function render()
     {
         return view('livewire.users.items.show', [

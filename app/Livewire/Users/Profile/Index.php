@@ -62,7 +62,7 @@ class Index extends Component
         session()->flash('message.change-password', 'Password changed successfully.');
     }
 
-    #[Layout('components.layouts.customer')] 
+    #[Layout('layouts.user')] 
     public function render()
     {
         return view('livewire.users.profile.index');
