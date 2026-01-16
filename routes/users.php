@@ -2,16 +2,8 @@
 
 use App\Http\Middleware\AuthUser;
 use App\Http\Middleware\GuestAdmin;
-use App\Http\Middleware\GuestSeller;
-use App\Http\Middleware\GuestUser;
 use App\Http\Middleware\VisitorMiddleware;
-use App\Models\Business;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-use App\Livewire\Users\Businesses\Register as BusinessRegister;
-use App\Livewire\Users\ThankYou\Index as ThankYou;
 
 use App\Livewire\Users\Welcome\Index as WelcomeIndex;
 use App\Livewire\Users\Items\Index as ItemsIndex;
@@ -26,27 +18,7 @@ use App\Livewire\Users\Addresses\Index as AddressesIndex;
 use App\Livewire\Users\Profile\Index as ProfileIndex;
 
 
-Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
-    // Set application language guest users
-    Route::get('/language/{locale}', function (string $locale) {
-        if (!in_array($locale, ['en', 'es'])) {
-            abort(400);
-        }
-
-        // Set the locale immediately for this request
-        app()->setLocale($locale);
-
-        // Store the locale in session to persist across requests
-        session()->put('locale', $locale);
-        
-        // Redirect back to the previous page
-        // if there is no previous page, redirect to home
-        $previousUrl = url()->previous();
-        if ($previousUrl === url()->current() || $previousUrl === null) {
-            return redirect('/')->with('success', 'Language changed to ' . $locale);
-        }
-        return redirect($previousUrl)->with('success', 'Language changed to ' . $locale);
-    });
+Route::middleware([GuestAdmin::class])->group(function () {
 
     Route::get('/', WelcomeIndex::class)->middleware(VisitorMiddleware::class)->name('welcome');
 
@@ -56,32 +28,7 @@ Route::middleware([GuestAdmin::class, GuestSeller::class])->group(function () {
     })->middleware(VisitorMiddleware::class);
 
 
-    Route::middleware([GuestUser::class, VisitorMiddleware::class])->group(function () {
-        Route::get('/login', function () {
-            return view('users.auth.login');
-        })->name('login');
-
-        Route::get('/register', function () {
-            return view('users.auth.register');
-        })->name('register');
-
-        Route::get('/register/business', BusinessRegister::class)->name('register.business');
-
-        Route::get('/thank-you', ThankYou::class)->withoutMiddleware([VisitorMiddleware::class])->name('thankyou');
-
-    });
-
     Route::middleware([AuthUser::class, VisitorMiddleware::class])->group(function () {
-
-        Route::get('/logout', function (Request $request) {
-            // Logic for logging out the user
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return redirect('/thank-you');
-        })->name('logout');
-
         Route::get('/carts', CartIndex::class)->name('cart');
         Route::get('/checkouts', CheckoutIndex::class)->name('checkout');
         Route::get('/completed/orders/{order}', CompletedIndex::class)->name('completed');

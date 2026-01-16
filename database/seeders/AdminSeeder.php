@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Traits\AdminNumber;
+use App\Traits\AdminUlid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +13,7 @@ use Illuminate\Support\Str;
 
 class AdminSeeder extends Seeder
 {
-    use \App\Traits\AdminNumber;
+    use AdminUlid,AdminNumber;
     /**
      * Run the database seeds.
      */
@@ -19,8 +21,11 @@ class AdminSeeder extends Seeder
     {
         $items = [
           [
+            'ulid' => $this->createAdminUlid(),
             'number' => $this->createAdminNumber(),
-            'name' => 'Giovanni Colon',
+            'name' => 'Giovanni',
+            'lastname' => 'Colon',
+            'username' => 'vanni2249',
             'email' => 'vanni2249@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),

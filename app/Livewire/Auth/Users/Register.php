@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Livewire\Users\Auth;
+namespace App\Livewire\Auth\Users;
 
 use App\Models\User;
+use App\Traits\UserNumber;
+use App\Traits\UserUlid;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Register extends Component
 {
+    use UserUlid, UserNumber;
     public string $name = '';
 
     public string $email = '';
@@ -33,7 +37,8 @@ class Register extends Component
             'terms' => ['accepted'],
         ]);
 
-        $validated['number'] = app(\App\Traits\UserNumber::class)->createUserNumber();
+        $validated['ulid'] = $this->createUserUlid();
+        $validated['number'] = $this->createUserNumber();
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -47,6 +52,7 @@ class Register extends Component
 
         $this->redirect(route('welcome', absolute: false), navigate: true);
     }
+    #[Layout('components.layouts.auth')]
     public function render()
     {
         return view('livewire.users.auth.register');

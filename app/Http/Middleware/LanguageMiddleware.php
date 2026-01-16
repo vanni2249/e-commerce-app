@@ -48,7 +48,7 @@ class LanguageMiddleware
         
         // Set Laravel's application locale
         app()->setLocale($locale);
-        
+
         // Set fallback locale for Spatie Translatable
         config(['app.fallback_locale' => $defaultLocale]);
         

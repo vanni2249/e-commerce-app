@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Auth;
+namespace App\Livewire\Auth\Users;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 
 use Livewire\Component;
@@ -31,7 +32,17 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::guard('admin')->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        // Get user before login attempt to log IP address
+        $user = \App\Models\User::where('email', $this->email)->first();
+
+        // If user is_active is false return error
+        if ($user && ! $user->is_active) {
+            throw ValidationException::withMessages([
+                'email' => __('Your account is disabled. Please contact support.'),
+            ]);
+        }   
+
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -42,7 +53,7 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('welcome', absolute: false), navigate: true);
     }
 
     /**
@@ -73,8 +84,10 @@ class Login extends Component
     {
         return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
     }
+
+    #[Layout('components.layouts.auth')]
     public function render()
     {
-        return view('livewire.admin.auth.login');
+        return view('livewire.users.auth.login');
     }
 }

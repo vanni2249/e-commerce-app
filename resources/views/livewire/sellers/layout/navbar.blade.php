@@ -73,7 +73,7 @@
                             </span>
                         </div>
                         <x-dropdown-link href="">Profile</x-dropdown-link>
-                        <x-dropdown-link href="{{ route('sellers.logout') }}">Logout</x-dropdown-link>
+                        <x-dropdown-link href="{{ route('logout',['redirectRoute'=>'sellers.login']) }}">Logout</x-dropdown-link>
                     </x-slot:content>
                 </x-dropdown>
             </div>

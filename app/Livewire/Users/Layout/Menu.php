@@ -6,6 +6,10 @@ use Livewire\Component;
 
 class Menu extends Component
 {
+    // public function mount()
+    // {
+    //     // dd(session()->all());
+    // }
     public function services()
     {
         return [
@@ -34,7 +38,7 @@ class Menu extends Component
             ],
             [
                 'value' => __('Logout'),
-                'url' => route('logout'),
+                'url' => route('logout',['redirectRoute'=>'thank-you']),
             ],
         ];
     }

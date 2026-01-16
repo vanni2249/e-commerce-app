@@ -8,15 +8,15 @@
         </div>
         <form wire:submit="login">
             <div class="mt-4">
-                <x-label for="email" class="mt-4" value="Email" />
-                <x-input wire:model="email" class="w-full" type="email" placeholder="Enter your email" autofocus />
-                @error('email')
+                <x-label for="username" class="mt-4" value="Username" />
+                <x-input wire:model="username" class="w-full" type="username" placeholder="Enter your username" autofocus />
+                @error('username')
                     <x-error message="{{ $message }}" />
                 @enderror
             </div>
             <div class="mt-2">
-                <x-label for="email" class="mt-4" value="Password" />
-                <x-input wire:model="password" class="w-full" type="password" placeholder="Enter your email" />
+                <x-label for="password" class="mt-4" value="Password" />
+                <x-input wire:model="password" class="w-full" type="password" placeholder="Enter your password" />
                 @error('password')
                     <x-error message="{{ $message }}" />
                 @enderror

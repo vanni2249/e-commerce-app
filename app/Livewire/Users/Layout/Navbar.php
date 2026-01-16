@@ -122,7 +122,7 @@ class Navbar extends Component
             ],
             [
                 'value' => 'Logout',
-                'url' => route('logout'),
+                'url' => route('logout',['redirectRoute'=>'thank-you']),
             ],
         ];
     }

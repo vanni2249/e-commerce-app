@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Traits\UserNumber;
+use App\Traits\UserUlid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +12,7 @@ use App\Models\User;
 
 class UserSeeder extends Seeder
 {
-    use \App\Traits\UserNumber;
+    use UserNumber, UserUlid;
     /**
      * Run the database seeds.
      */
@@ -18,6 +20,7 @@ class UserSeeder extends Seeder
     {
         $items = [
           [
+            'ulid' => $this->createUserUlid(),
             'number' => $this->createUserNumber(),
             'name' => 'Giovanni Colon',
             'email' => 'vanni2249@gmail.com',
@@ -29,6 +32,7 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
           ],
           [
+            'ulid' => $this->createUserUlid(),
             'number' => $this->createUserNumber(),
             'name' => 'Angel M. Colon',
             'email' => 'colon.angel1@gmail.com',
@@ -40,6 +44,7 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
           ],
           [
+            'ulid' => $this->createUserUlid(),
             'number' => $this->createUserNumber(),
             'name' => 'Angel F. Colon',
             'email' => 'fabian4126@gmail.com',
@@ -51,6 +56,7 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
           ],
           [
+            'ulid' => $this->createUserUlid(),
             'number' => $this->createUserNumber(),
             'name' => 'Kariani A Colon Santiago',
             'email' => 'kariani@gmail.com',

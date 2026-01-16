@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Sellers\Auth;
+namespace App\Livewire\Auth\Sellers;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 
 use Livewire\Component;
@@ -84,6 +85,7 @@ class Login extends Component
         return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
     }
 
+    #[Layout('components.layouts.auth')]
     public function render()
     {
         return view('livewire.sellers.auth.login');
