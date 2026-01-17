@@ -30,7 +30,7 @@ class Show extends Component
         $this->dispatch('close-modal', 'enable-user-modal');
     }
 
-    #[Layout('layouts.admin-sidebar')] 
+    #[Layout('layouts.admin')] 
     public function render()
     {
         return view('livewire.admin.users.show', [

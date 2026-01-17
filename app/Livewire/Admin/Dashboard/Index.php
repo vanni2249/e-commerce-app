@@ -75,7 +75,7 @@ class Index extends Component
     }
 
     // #[On('reload-charts')]
-    #[Layout('layouts.admin-sidebar')]
+    #[Layout('layouts.admin')]
     public function render()
     {
         return view('livewire.admin.dashboard.index', [

@@ -19,7 +19,7 @@ class Index extends Component
         $this->admin = Auth::guard('admin')->check();
     }
 
-    #[Layout('admin-sidebar')]
+    #[Layout('layouts.admin')]
     public function render()
     {
         return view('livewire.admin-seller.products.index',[
