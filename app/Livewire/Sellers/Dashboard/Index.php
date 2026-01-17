@@ -73,8 +73,7 @@ class Index extends Component
         return [1200, 1900, 3000, 5000, 2300, 3400, 4200, 1900, 3000, 5000, 2300, 3400, 4200];
     }
 
-
-    #[Layout('components.layouts.seller')] 
+    #[Layout('layouts.seller')] 
     public function render()
     {
         return view('livewire.sellers.dashboard.index', [

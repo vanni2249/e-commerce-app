@@ -15,7 +15,7 @@ class Show extends Component
         $this->admin = Admin::findOrFail($admin);
     }
 
-    #[Layout('components.layouts.admin')] 
+    #[Layout('layouts.admin-sidebar')] 
     public function render()
     {
         return view('livewire.admin.admins.show');

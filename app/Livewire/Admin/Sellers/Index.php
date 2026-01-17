@@ -13,7 +13,7 @@ class Index extends Component
     public $search = '';
     public $perPage = 10;
 
-    #[Layout('components.layouts.admin')]
+    #[Layout('layouts.admin-sidebar')]
     public function render()
     {
         return view('livewire.admin.sellers.index', [

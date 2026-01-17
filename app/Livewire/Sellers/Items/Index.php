@@ -123,7 +123,7 @@ class Index extends Component
         return $this->redirect('/admin/items/' . $item->id . '/edit', navigate: true);
     }
 
-    #[Layout('components.layouts.seller')]
+    #[Layout('layouts.seller')]
     public function render()
     {
         return view('livewire.sellers.items.index', [

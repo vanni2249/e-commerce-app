@@ -27,7 +27,7 @@ class Show extends Component
         $this->dispatch('close-modal', 'verify-seller-modal');
     }
 
-    #[Layout('components.layouts.admin')] 
+    #[Layout('layouts.admin-sidebar')] 
     public function render()
     {
         return view('livewire.admin.sellers.show');

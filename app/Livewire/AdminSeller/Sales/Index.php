@@ -4,6 +4,7 @@ namespace App\Livewire\AdminSeller\Sales;
 
 use App\Models\Sale;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Index extends Component
@@ -19,6 +20,7 @@ class Index extends Component
         $this->admin = Auth::guard('admin')->check();
     }
 
+    #[Layout('layouts.admin-sidebar')]
     public function render()
     {
         return view('livewire.admin-seller.sales.index',[
@@ -31,7 +33,6 @@ class Index extends Component
                     $query->where('number', 'like', '%' . $this->search . '%');
             })
             ->with(['product', 'order', 'product.item'])->paginate($this->perPage)
-        ])
-        ->layout($this->admin ? 'components.layouts.admin' : 'components.layouts.seller');
+        ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\AdminSeller\Products\Inventories;
 
 use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Show extends Component
@@ -95,9 +96,9 @@ class Show extends Component
         $this->dispatch('close-modal', 'receive-inventory-modal');
     }
 
+    #[Layout('layouts.admin')]
     public function render()
     {
-        return view('livewire.admin-seller.products.inventories.show')
-            ->layout($this->admin ? 'components.layouts.admin' : 'components.layouts.seller');
+        return view('livewire.admin-seller.products.inventories.show');
     }
 }

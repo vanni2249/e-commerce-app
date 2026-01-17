@@ -4,6 +4,7 @@ namespace App\Livewire\AdminSeller\Orders;
 
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Show extends Component
@@ -36,6 +37,8 @@ class Show extends Component
             ['label' => 'Created At', 'value' => $this->order->created_at->format('Y-m-d H:i:s')],
         ];
     }
+
+    #[Layout('layouts.admin-sidebar')]
     public function render()
     {
         return view('livewire.admin-seller.orders.show',[
@@ -49,7 +52,6 @@ class Show extends Component
                     $query->where('number', 'like', '%' . $this->search . '%');
             })
             ->with(['product', 'product.item'])->get()
-        ])
-        ->layout($this->admin ? 'components.layouts.admin' : 'components.layouts.seller');
+        ]);
     }
 }

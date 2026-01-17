@@ -133,7 +133,7 @@ class Edit extends Component
         $this->dispatch('close-modal', 'available-at-modal');
     }
 
-    #[Layout('components.layouts.admin')]
+    #[Layout('layouts.admin-sidebar')]
     public function render()
     {
         return view('livewire.admin.items.edit');

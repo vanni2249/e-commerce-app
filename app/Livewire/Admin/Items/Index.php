@@ -148,7 +148,7 @@ class Index extends Component
         return view('placeholders.header-table-skeleton');
     }
 
-    #[Layout('components.layouts.admin')]
+    #[Layout('layouts.admin-sidebar')]
     public function render()
     {
         return view('livewire.admin.items.index');

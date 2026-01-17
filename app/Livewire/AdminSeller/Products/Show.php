@@ -4,6 +4,7 @@ namespace App\Livewire\AdminSeller\Products;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Show extends Component
@@ -31,9 +32,9 @@ class Show extends Component
         ];
     }
 
+    #[Layout('admin-sidebar')]
     public function render()
     {
-        return view('livewire.admin-seller.products.show')
-            ->layout($this->admin ? 'components.layouts.admin' : 'components.layouts.seller');
+        return view('livewire.admin-seller.products.show');
     }
 }

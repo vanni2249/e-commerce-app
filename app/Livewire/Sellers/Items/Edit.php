@@ -34,7 +34,7 @@ class Edit extends Component
 
     }
 
-    #[Layout('components.layouts.seller')]
+    #[Layout('layouts.seller')]
     public function render()
     {
         return view('livewire.sellers.items.edit');
